@@ -321,7 +321,14 @@ p{margin:0}
 .film__btn i svg{margin-left:3px}
 .film__btn b{display:block;font:400 italic 24px/1.1 var(--f-display);color:#F3EEE4}
 .film__btn small{font:400 11px/1.4 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(243,238,228,.65)}
-.film.on .film__btn{opacity:0;pointer-events:none}
+/* полноэкранный плеер тура */
+.vmodal{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.vmodal__bg{position:absolute;inset:0;background:rgba(6,4,5,.88);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.vmodal__box{position:relative;height:min(88vh,calc(100vw * 16 / 9 - 32px));aspect-ratio:9/16;max-width:100%;border-radius:22px;overflow:hidden;border:1px solid rgba(243,238,228,.18);background:#000;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.vmodal__box video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.vmodal__x{all:unset;box-sizing:border-box;position:fixed;top:max(18px,env(safe-area-inset-top,0px));right:max(18px,env(safe-area-inset-right,0px));width:48px;height:48px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:#F3EEE4;background:rgba(20,16,18,.7);border:1px solid rgba(243,238,228,.25);z-index:2}
+.vmodal__x:hover{background:var(--gold);color:#13060B}
+.vmodal__x:focus-visible{outline:1px solid var(--gold);outline-offset:3px}
 .spaces{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,1.4vw,18px)}
 .space{position:relative;margin:0;aspect-ratio:4/5;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:var(--bg-2) center/cover no-repeat;-webkit-mask-image:-webkit-radial-gradient(#fff,#000)}
 .space video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.02);transition:transform 1.4s var(--ease)}
@@ -740,8 +747,7 @@ p{margin:0}
       </div>
       <div class="venue">
         <figure class="film" id="venueFilm" data-reveal hidden>
-          <video playsinline preload="none"></video>
-          <button class="film__btn" type="button" aria-label="Смотреть тур по площадке">
+          <button class="film__btn" type="button" aria-label="Смотреть тур по площадке" aria-haspopup="dialog">
             <i aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M5 2.5v13l10.5-6.5z"/></svg></i>
             <span><b>Тур по площадке</b><small id="filmLen"></small></span>
           </button>
@@ -849,6 +855,13 @@ p{margin:0}
 </footer>
 
 <div class="cur" aria-hidden="true"></div><div class="cur-dot" aria-hidden="true"></div>
+
+<!-- Плеер тура по площадке -->
+<div class="vmodal" id="vmodal" role="dialog" aria-modal="true" aria-label="Тур по площадке" hidden>
+  <div class="vmodal__bg" data-close></div>
+  <div class="vmodal__box"><video id="vmodalVideo" playsinline controls preload="none"></video></div>
+  <button class="vmodal__x" type="button" data-close aria-label="Закрыть видео"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
+</div>
 
 <script src="content.js"></script>
 <script src="assets/gsap.min.js"></script>
@@ -972,7 +985,7 @@ safe('content',()=>{
   if(lg.privacyUrl) $('#privacyLink').innerHTML=' и с <a href="'+esc(lg.privacyUrl)+'" target="_blank" rel="noopener">политикой конфиденциальности</a>';
   if(lg.operator) $('#footWhen').textContent+=' · '+lg.operator;
   // площадка
-  const spaces=C.venueSpaces||[], film=C.venueFilm;
+  const spaces=C.venueSpaces||[], film=C.venueTour;
   if(ev.venue){
     const q=ev.venue.match(/^(.*?)\s*(«.*»)$/);
     $('#venueTitle').innerHTML=q?esc(q[1])+' <em>'+esc(q[2])+'</em>':esc(ev.venue);
@@ -1001,11 +1014,15 @@ safe('content',()=>{
     if(RM) loops.forEach(v=>v.parentElement.addEventListener('click',()=>{ v.paused?v.play().catch(()=>{}):v.pause() }));
     const ca=$('#copyAddr'); if(ca) ca.addEventListener('click',()=>{ const t=(ev.venue?ev.venue+', ':'')+(ev.city||'Москва')+', '+ev.venueAddress;
       (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{ca.querySelector('span').textContent='Адрес скопирован'}).catch(()=>{ca.querySelector('span').textContent=t}); });
-    // фильм-тур: постер, по клику — проигрывание с панелью управления
-    if(film){ const f=$('#venueFilm'), v=f.querySelector('video');
-      f.style.backgroundImage="url('"+film.poster+"')"; v.poster=film.poster; v.src=film.src; $('#filmLen').textContent=film.duration||'';
-      f.querySelector('.film__btn').addEventListener('click',()=>{ f.classList.add('on'); v.controls=true; v.play().catch(()=>{}); });
-      v.addEventListener('ended',()=>{ f.classList.remove('on'); v.controls=false; v.currentTime=0; });
+    // тур с Гульнарой: карточка с обложкой, по клику — полноэкранный плеер со звуком
+    if(film){ const f=$('#venueFilm'), m=$('#vmodal'), v=$('#vmodalVideo'), btn=f.querySelector('.film__btn');
+      f.style.backgroundImage="url('"+film.cover+"')"; v.poster=film.poster; $('#filmLen').textContent=film.duration||'';
+      const close=()=>{ v.pause(); m.hidden=true; document.documentElement.style.overflow=''; if(lenis) lenis.start(); btn.focus(); };
+      btn.addEventListener('click',()=>{ if(!v.src) v.src=film.src; m.hidden=false; document.documentElement.style.overflow='hidden';
+        if(lenis) lenis.stop(); v.muted=false; v.play().catch(()=>{}); m.querySelector('.vmodal__x').focus(); });
+      $$('[data-close]',m).forEach(el=>el.addEventListener('click',close));
+      document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!m.hidden) close(); });
+      v.addEventListener('ended',close);
       f.hidden=false; }
     $('#venue').hidden=false;
   }

@@ -12,8 +12,8 @@ window.CONTENT = {
     mapUrl: "https://maps.google.com/maps/place//data=!4m2!3m1!1s0x46b53583a00afb89:0x25440bd13bd7b328",
   },
 
-  // Фильм-тур по площадке (собран скриптом video_build.py).
-  venueFilm: { src: "assets/venue-film.mp4", poster: "assets/venue-film.jpg", duration: "0:27" },
+  // Тур по площадке с голосом Гульнары (собран скриптом tour_build.py): обложка карточки, кадр плеера, файл.
+  venueTour: { src: "assets/venue-tour.mp4", poster: "assets/venue-tour.jpg", cover: "assets/venue-film.jpg", duration: "Ведёт Гульнара Мишкина · 1:33" },
 
   // Пространства площадки: короткие беззвучные петли. Пусто — блок «Площадка» скрыт.
   venueSpaces: [
