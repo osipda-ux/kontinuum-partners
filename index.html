@@ -216,6 +216,18 @@ p{margin:0}
 .gain__i p{color:var(--ink-2)}
 @media (max-width:900px){.gain{grid-template-columns:1fr}.gain__i:nth-child(odd){border-right:0}.gain__i:nth-child(even){padding-left:0}.gain__i{grid-template-columns:1fr}}
 
+/* освещение: логотипы СМИ и ТВ */
+.media{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:24px}
+.mslot{min-height:132px;border:1px solid var(--line);border-radius:22px;display:grid;place-items:center;align-content:center;gap:12px;padding:18px;text-align:center;background:var(--bg-2);transition:border-color .5s var(--ease)}
+.mslot:hover{border-color:var(--line-2)}
+.mslot i{width:34px;height:34px;border-radius:50%;border:1px dashed var(--line-2);display:grid;place-items:center;color:var(--ink-3)}
+.mslot span{font:400 10px/1.4 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+.mslot--on{text-decoration:none}
+.mslot--on img{max-height:48px;max-width:80%;object-fit:contain;filter:grayscale(1) brightness(1.7);opacity:.85;transition:filter .5s,opacity .5s}
+.mslot--on:hover img{filter:none;opacity:1}
+.mslot--on span{color:var(--ink-2)}
+@media (max-width:900px){.media{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 /* панели */
 .panels{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:32px;align-items:start}
 .plist{grid-column:1/7;list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
@@ -251,14 +263,15 @@ p{margin:0}
 .bar{grid-column:5/13;display:grid;gap:14px}
 .bar__track{display:flex;gap:4px;height:84px}
 .seg{position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:10px 10px;border:1px solid var(--line-2);min-width:0;overflow:hidden}
-.seg b{font:400 18px/1 var(--f-display)}
+.seg b{font:400 18px/1 var(--f-display);font-variant-numeric:lining-nums}
 .seg span{font:400 10px/1.2 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .seg--anchor{flex:15;background:linear-gradient(135deg,rgba(140,203,176,.22),rgba(140,203,176,.05));border-color:var(--accent)}
-.seg--x{flex:7}
+.seg--x{flex:10}
+.seg--x:first-child{background:linear-gradient(135deg,rgba(140,203,176,.18),rgba(140,203,176,.04))}
 .seg--open{flex:10;border-style:dashed;background:repeating-linear-gradient(135deg,transparent 0 6px,var(--line) 6px 7px)}
 .seg .fill{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--accent);transform-origin:left;transform:scaleX(0)}
 .bar__legend{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font:400 11px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
-@media (max-width:980px){.format__t,.bar{grid-column:1/-1}.bar__track{height:auto;flex-wrap:wrap}.seg{min-height:72px}.seg--anchor{flex:1 1 100%}.seg--x{flex:1 1 calc(25% - 4px)}.seg--open{flex:1 1 calc(50% - 4px)}}
+@media (max-width:980px){.format__t,.bar{grid-column:1/-1}.bar__track{height:auto;flex-wrap:wrap}.seg{min-height:72px}.seg span{white-space:normal}.seg--x,.seg--open{flex:1 1 calc(33.333% - 3px)}}
 .fifth{margin-top:clamp(72px,8vw,120px);position:relative;border:1px solid var(--line-2);padding:clamp(28px,4vw,64px);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px 32px;overflow:hidden;isolation:isolate}
 .fifth::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(60% 120% at 100% 0%,rgba(220,224,228,.08),transparent 60%)}
 .fifth .eyebrow{grid-column:1/-1}
@@ -297,15 +310,38 @@ p{margin:0}
 .eve__list p{color:var(--ink-2)}
 @media (max-width:980px){.eve__grid .lead,.eve__list{grid-column:1/-1}.eve__list li{grid-template-columns:1fr;gap:8px}}
 
-/* площадка: видео в круглых масках */
-.venue{display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,40px)}
-.vidw{margin:0;display:grid;gap:14px;justify-items:center;width:clamp(150px,22vw,280px)}
-.vid{all:unset;box-sizing:border-box;position:relative;width:100%;aspect-ratio:1;border-radius:50%;overflow:hidden;cursor:pointer;border:1px solid var(--line-2);background:var(--bg-2);-webkit-mask-image:-webkit-radial-gradient(#fff,#000)}
-.vid:focus-visible{outline:1px solid var(--accent);outline-offset:6px}
-.vid video{width:100%;height:100%;object-fit:cover;display:block}
-.vid i{position:absolute;inset:auto 0 18px;margin:auto;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--bg) 60%,transparent);border:1px solid var(--line-2);transition:opacity .4s}
-.vid.on i{opacity:0}
-.vidw figcaption{font:400 11px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);text-align:center}
+/* площадка: фильм-тур слева, карточки пространств справа */
+.venue{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(16px,2vw,28px);align-items:start}
+.film{position:sticky;top:100px;margin:0;aspect-ratio:4/5;border-radius:28px;overflow:hidden;border:1px solid var(--line-2);background:#000 center/cover no-repeat;-webkit-mask-image:-webkit-radial-gradient(#fff,#000)}
+.film video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.film__btn{all:unset;box-sizing:border-box;position:absolute;left:20px;right:20px;bottom:20px;display:flex;align-items:center;gap:16px;padding:12px 18px 12px 12px;border-radius:999px;cursor:pointer;background:rgba(10,8,9,.55);border:1px solid rgba(243,238,228,.22);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.film__btn:hover{transform:translateY(-2px)}
+.film__btn:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
+.film__btn i{width:52px;height:52px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:#13060B}
+.film__btn i svg{margin-left:3px}
+.film__btn b{display:block;font:400 italic 24px/1.1 var(--f-display);color:#F3EEE4}
+.film__btn small{font:400 11px/1.4 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(243,238,228,.65)}
+.film.on .film__btn{opacity:0;pointer-events:none}
+.spaces{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,1.4vw,18px)}
+.space{position:relative;margin:0;aspect-ratio:4/5;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:var(--bg-2) center/cover no-repeat;-webkit-mask-image:-webkit-radial-gradient(#fff,#000)}
+.space video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.02);transition:transform 1.4s var(--ease)}
+.space:hover video{transform:scale(1.07)}
+.space figcaption{position:absolute;inset:auto 0 0 0;padding:72px 20px 20px;background:linear-gradient(transparent,rgba(8,6,7,.86));display:grid;gap:6px}
+.space figcaption span{font:400 10px/1.3 var(--f-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.space figcaption b{font:400 italic clamp(22px,1.9vw,30px)/1.05 var(--f-display);color:#F3EEE4}
+.space figcaption p{font-size:13px;line-height:1.45;color:rgba(243,238,228,.72)}
+.addr{display:flex;flex-direction:column;justify-content:space-between;gap:20px;padding:clamp(20px,2vw,28px);border:1px solid var(--line-2);border-radius:24px;aspect-ratio:4/5;background:radial-gradient(90% 70% at 100% 0%,rgba(201,169,110,.18),transparent 60%),var(--bg-2)}
+.addr b{display:block;font:300 clamp(28px,2.6vw,40px)/1.05 var(--f-display)}
+.addr p{color:var(--ink-2);margin-top:12px}
+.addr .btn{--h:46px;padding:0 20px;width:100%}
+.addr__btns{display:grid;gap:10px}
+@media (max-width:980px){
+  .venue{grid-template-columns:minmax(0,1fr)}
+  .film{position:relative;top:0;max-width:520px;width:100%}
+  .spaces{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:calc(-1 * max(var(--gutter),env(safe-area-inset-left,0px)));padding-inline:max(var(--gutter),env(safe-area-inset-left,0px));scrollbar-width:none}
+  .spaces::-webkit-scrollbar{display:none}
+  .space,.addr{flex:0 0 72%;scroll-snap-align:center}
+}
 .logos__chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
 
 /* пакеты */
@@ -427,6 +463,7 @@ p{margin:0}
     <nav class="nav__links" aria-label="Разделы">
       <a href="#event">Событие</a>
       <a href="#authors">Авторы</a>
+      <a href="#media">Медиа</a>
       <a href="#panels">Панели</a>
       <a href="#evening">Вечер</a>
       <a href="#packages">Форматы</a>
@@ -458,7 +495,7 @@ p{margin:0}
       <div class="facts">
         <div class="fact"><b data-count="100">100</b><span>лидеров индустрии</span></div>
         <div class="fact"><b data-count="350">350</b><span>гостей в зале</span></div>
-        <div class="fact"><b>4 + 1</b><span>панели и медиа&shy;дискуссия</span></div>
+        <div class="fact"><b>4</b><span>блока: 3 панели и медиа&shy;дискуссия</span></div>
         <div class="fact"><b>2</b><span>части: день и вечер</span></div>
         <div class="count" aria-live="off">
           <span class="mono" style="color:var(--ink-3)">До открытия</span>
@@ -490,7 +527,7 @@ p{margin:0}
           <div class="scene__k"><p class="eyebrow">День · Конференция</p><span class="mono" style="color:var(--ink-3)">Часть 1</span></div>
           <div>
             <h3>Наука <em>долголетия</em> на одной сцене</h3>
-            <p>Презентация 12 направлений международного проекта «Жизнь 300+» в четырёх панелях и медиадискуссии. Доказательная база, инновации, биохакинг, психология.</p>
+            <p>Презентация 12 направлений международного проекта «Жизнь 300+» в трёх панелях и медиадискуссии. Доказательная база, инновации, биохакинг, психология.</p>
           </div>
         </article>
         <article class="scene scene--night" data-reveal>
@@ -604,12 +641,25 @@ p{margin:0}
     </div>
   </section>
 
+  <!-- ОСВЕЩЕНИЕ -->
+  <section id="media" data-shape="clusters">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow" data-reveal>Освещение события</p>
+        <h2 data-reveal>Где выйдет <em>«Континуум»</em></h2>
+        <p class="lead" data-reveal>Событие снимают и освещают телеканалы, деловые издания и блогеры. Выступления спикеров и бренды партнёров попадают в эфиры, сюжеты и публикации.</p>
+      </div>
+      <div class="media" id="mediaList" data-reveal></div>
+      <p class="eco__note" id="mediaNote" data-reveal>Медиапартнёры объявляются по мере подтверждения.</p>
+    </div>
+  </section>
+
   <!-- ПАНЕЛИ -->
   <section id="panels" data-shape="clusters">
     <div class="wrap">
       <div class="head">
         <p class="eyebrow" data-reveal>Архитектура смыслов</p>
-        <h2 data-reveal>Четыре панели <em>и одна дискуссия</em></h2>
+        <h2 data-reveal>Три панели <em>и медиадискуссия</em></h2>
         <p class="lead" data-reveal>Конференция идёт от фундаментальной биологии к технологиям будущего. Найдите направление, в котором вы или ваш бренд лучшие.</p>
       </div>
       <div class="panels">
@@ -621,23 +671,23 @@ p{margin:0}
         <div class="format__t" data-reveal>
           <p class="eyebrow">Как устроена панель</p>
           <h3 style="margin-top:22px">Пять экспертов <em>на сцене</em></h3>
-          <p>Якорный спикер задаёт тему, четыре эксперта развивают её, потом начинается дискуссия. Зал задаёт вопросы и участвует в разговоре.</p>
+          <p>Каждый спикер говорит 10 минут, затем 10 минут зал задаёт вопросы. Гости участвуют в разговоре с экспертами на сцене.</p>
         </div>
         <div class="bar" data-reveal>
           <div class="bar__track" id="bar">
-            <div class="seg seg--anchor"><b>15 мин</b><span>Якорный спикер</span><i class="fill"></i></div>
-            <div class="seg seg--x"><b>7</b><span>Эксперт</span><i class="fill"></i></div>
-            <div class="seg seg--x"><b>7</b><span>Эксперт</span><i class="fill"></i></div>
-            <div class="seg seg--x"><b>7</b><span>Эксперт</span><i class="fill"></i></div>
-            <div class="seg seg--x"><b>7</b><span>Эксперт</span><i class="fill"></i></div>
-            <div class="seg seg--open"><b>Дискуссия</b><span>и вопросы зала</span></div>
+            <div class="seg seg--x"><b>10 мин</b><span>Спикер 1</span><i class="fill"></i></div>
+            <div class="seg seg--x"><b>10</b><span>Спикер 2</span><i class="fill"></i></div>
+            <div class="seg seg--x"><b>10</b><span>Спикер 3</span><i class="fill"></i></div>
+            <div class="seg seg--x"><b>10</b><span>Спикер 4</span><i class="fill"></i></div>
+            <div class="seg seg--x"><b>10</b><span>Спикер 5</span><i class="fill"></i></div>
+            <div class="seg seg--x seg--open"><b>10</b><span>Вопросы зала</span><i class="fill"></i></div>
           </div>
-          <div class="bar__legend"><span>Выступления в масштабе времени</span><span>Дискуссия без жёсткого хронометража</span></div>
+          <div class="bar__legend"><span>Шкала в масштабе времени</span><span>Час на каждую панель</span></div>
         </div>
       </div>
 
       <article class="fifth" data-reveal>
-        <p class="eyebrow">Специальный блок · Панельная дискуссия</p>
+        <p class="eyebrow">Блок 4 · Панельная дискуссия</p>
         <h3>Будущее индустрии долголетия: <em>медиа, законы, инвестиции</em></h3>
         <p>Некоммерческая дискуссия о том, по каким правилам будет расти рынок долголетия. На сцене люди, которые влияют на эти правила.</p>
         <ul>
@@ -680,15 +730,24 @@ p{margin:0}
     </div>
   </section>
 
-  <!-- ПЛОЩАДКА: появляется, когда в content.js есть видео -->
+  <!-- ПЛОЩАДКА: фильм-тур и пространства из content.js -->
   <section id="venue" data-shape="spot" hidden>
     <div class="wrap">
       <div class="head">
-        <p class="eyebrow">Площадка</p>
-        <h2>Где всё <em>случится</em></h2>
-        <p class="lead" id="venueLead">Зал, сцена и пространство для партнёров. Нажмите на видео, чтобы посмотреть со звуком.</p>
+        <p class="eyebrow" data-reveal>Площадка</p>
+        <h2 data-reveal id="venueTitle">Где всё <em>случится</em></h2>
+        <p class="lead" data-reveal id="venueLead">Весь день проходит в одном месте: конференция в большом зале, обед, VIP-кофе-брейк, закрытый ужин и выпускной.</p>
       </div>
-      <div class="venue" id="venueList"></div>
+      <div class="venue">
+        <figure class="film" id="venueFilm" data-reveal hidden>
+          <video playsinline preload="none"></video>
+          <button class="film__btn" type="button" aria-label="Смотреть тур по площадке">
+            <i aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M5 2.5v13l10.5-6.5z"/></svg></i>
+            <span><b>Тур по площадке</b><small id="filmLen"></small></span>
+          </button>
+        </figure>
+        <div class="spaces" id="venueSpaces"></div>
+      </div>
     </div>
   </section>
 
@@ -705,11 +764,11 @@ p{margin:0}
           <header><h3>Спикерам</h3><span class="mono" style="color:var(--ink-3)">3 формата</span></header>
           <div class="pack">
             <div class="pack__h"><b>Экспертный слот</b><span class="tag">1 VIP-билет</span></div>
-            <ul><li>Выступление на сцене 7 минут и участие в дискуссии</li><li>Упоминание в интервью о мероприятии в деловом СМИ</li><li>Биография на сайте</li></ul>
+            <ul><li>Выступление на сцене 10 минут и ответы на вопросы зала</li><li>Упоминание в интервью о мероприятии в деловом СМИ</li><li>Биография на сайте</li></ul>
           </div>
           <div class="pack">
             <div class="pack__h"><b>Якорный спикер</b><span class="tag">2 VIP-билета</span></div>
-            <ul><li>Отдельный доклад 15 минут в начале блока</li><li>Брендинг блока на слайдах</li><li>Статья в СМИ и упоминание в пресс-релизе</li><li>Закрытый ужин</li></ul>
+            <ul><li>Открывающее выступление блока</li><li>Брендинг блока на слайдах</li><li>Статья в СМИ и упоминание в пресс-релизе</li><li>Закрытый ужин</li></ul>
           </div>
           <div class="pack">
             <div class="pack__h"><b>PR-Максимум</b><span class="tag">4 VIP-билета</span></div>
@@ -734,7 +793,7 @@ p{margin:0}
       </div>
       <div class="custom" data-reveal>
         <h3>Не нашли своё <em>направление?</em></h3>
-        <p>Индустрия долголетия шире четырёх панелей. Если ваша экспертиза, продукт или технология на стыке направлений, мы соберём формат под вас: от отдельной тематической сессии до коллаборации с проектом «Жизнь 300+».</p>
+        <p>Индустрия долголетия шире трёх направлений. Если ваша экспертиза, продукт или технология на стыке направлений, мы соберём формат под вас: от отдельной тематической сессии до коллаборации с проектом «Жизнь 300+».</p>
         <a class="btn" href="#contact" data-magnet><span>Предложить формат</span></a>
       </div>
     </div>
@@ -877,7 +936,17 @@ safe('content',()=>{
     return p.url?'<a class="slot slot--on" href="'+esc(p.url)+'" target="_blank" rel="noopener">'+inner+'</a>':'<div class="slot slot--on">'+inner+'</div>';
   }).join('');
   // логотипы
-  const groups=[['partner','Партнёры'],['clinic','Клиники'],['brand','Бренды'],['media','СМИ'],['tv','ТВ-каналы']];
+  // СМИ и ТВ показываются в блоке «Освещение», здесь только партнёры, клиники и бренды
+  const groups=[['partner','Партнёры'],['clinic','Клиники'],['brand','Бренды']];
+  const press=(C.logos||[]).filter(l=>l.group==='media'||l.group==='tv');
+  if(press.length){
+    $('#mediaList').innerHTML=press.map(l=>{ const inner='<img src="'+esc(l.logo)+'" alt="'+esc(l.name)+'" loading="lazy"><span>'+esc(l.name)+'</span>';
+      return l.url?'<a class="mslot mslot--on" href="'+esc(l.url)+'" target="_blank" rel="noopener">'+inner+'</a>':'<div class="mslot mslot--on">'+inner+'</div>'; }).join('');
+    $('#mediaNote').textContent='Список медиапартнёров пополняется.';
+  } else {
+    const plus='<i aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor"><path d="M6 1v10M1 6h10"/></svg></i>';
+    $('#mediaList').innerHTML=['Телеканал','Деловое издание','Журнал','Онлайн-медиа','Блогеры'].map(t=>'<div class="mslot">'+plus+'<span>'+t+'</span></div>').join('');
+  }
   const allLogos=C.logos||[];
   // пока партнёров нет — короткий список, кого ждём, а не ряды пустых ячеек
   if(!allLogos.length) $('#logos').innerHTML='<div class="logos__row"><span>Ждём в партнёрах</span><ul class="logos__chips">'+groups.map(g=>'<li class="chip">'+g[1]+'</li>').join('')+'</ul></div>';
@@ -903,37 +972,58 @@ safe('content',()=>{
   if(lg.privacyUrl) $('#privacyLink').innerHTML=' и с <a href="'+esc(lg.privacyUrl)+'" target="_blank" rel="noopener">политикой конфиденциальности</a>';
   if(lg.operator) $('#footWhen').textContent+=' · '+lg.operator;
   // площадка
-  const vids=C.venueVideos||[];
-  if(ev.venue) $('#venueLead').textContent=ev.venue+(ev.venueAddress?', '+ev.venueAddress:'')+'. Нажмите на видео, чтобы посмотреть со звуком.';
-  if(vids.length){
-    $('#venueList').innerHTML=vids.map(v=>'<figure class="vidw"><button class="vid" type="button" aria-label="Смотреть видео: '+esc(v.caption||'площадка')+'"><video preload="none" playsinline loop'+(v.poster?' poster="'+esc(v.poster)+'"':'')+'><source src="'+esc(v.src)+'"></video><i><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M3 1.5v11l9-5.5z"/></svg></i></button>'+(v.caption?'<figcaption>'+esc(v.caption)+'</figcaption>':'')+'</figure>').join('');
-    $$('.vid').forEach(b=>b.addEventListener('click',()=>{ const v=b.querySelector('video');
-      $$('.vid video').forEach(o=>{ if(o!==v){o.pause(); o.parentElement.classList.remove('on')} });
-      if(v.paused){ v.muted=false; v.play().catch(()=>{}); b.classList.add('on') } else { v.pause(); b.classList.remove('on') } }));
+  const spaces=C.venueSpaces||[], film=C.venueFilm;
+  if(ev.venue){
+    const q=ev.venue.match(/^(.*?)\s*(«.*»)$/);
+    $('#venueTitle').innerHTML=q?esc(q[1])+' <em>'+esc(q[2])+'</em>':esc(ev.venue);
+  }
+  if(spaces.length||film){
+    // карточки пространств: беззвучные петли, играют только пока видны
+    $('#venueSpaces').innerHTML=spaces.map(s=>'<figure class="space" style="background-image:url(\''+esc(s.poster)+'\')"><video muted playsinline loop preload="none" poster="'+esc(s.poster)+'"><source src="'+esc(s.src)+'" type="video/mp4"></video><figcaption><span>'+esc(s.label)+'</span><b>'+esc(s.title)+'</b>'+(s.text?'<p>'+esc(s.text)+'</p>':'')+'</figcaption></figure>').join('')+
+      (ev.venueAddress?'<div class="addr"><div><span class="mono" style="color:var(--gold)">Адрес</span><b style="margin-top:14px">'+esc(ev.city||'Москва')+'</b><p>'+esc(ev.venueAddress)+'</p></div><div class="addr__btns">'+
+        (ev.mapUrl?'<a class="btn btn--fill" href="'+esc(ev.mapUrl)+'" target="_blank" rel="noopener"><span>Открыть на карте</span></a>':'')+
+        '<button class="btn" type="button" id="copyAddr"><span>Скопировать адрес</span></button></div></div>':'');
+    const loops=$$('.space video');
+    const play=v=>{ v.muted=true; const p=v.play(); if(p) p.catch(()=>{}); };
+    if(hasG && !RM && typeof ScrollTrigger!=='undefined'){
+      gsap.registerPlugin(ScrollTrigger);
+      // refreshPriority:-1 — считать после закреплённой заставки «закат», которая сдвигает всё ниже
+      loops.forEach(v=>ScrollTrigger.create({trigger:v.parentElement,start:'top 90%',end:'bottom 10%',refreshPriority:-1,
+        onEnter:()=>play(v),onEnterBack:()=>play(v),onLeave:()=>v.pause(),onLeaveBack:()=>v.pause()}));
+    } else if('IntersectionObserver' in window && !RM){
+      const io=new IntersectionObserver(es=>es.forEach(e=>{ const v=e.target; if(e.isIntersecting){ v.play().catch(()=>{}) } else v.pause(); }),{threshold:.35});
+      loops.forEach(v=>io.observe(v));
+    }
+    if(RM) loops.forEach(v=>v.parentElement.addEventListener('click',()=>{ v.paused?v.play().catch(()=>{}):v.pause() }));
+    const ca=$('#copyAddr'); if(ca) ca.addEventListener('click',()=>{ const t=(ev.venue?ev.venue+', ':'')+(ev.city||'Москва')+', '+ev.venueAddress;
+      (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{ca.querySelector('span').textContent='Адрес скопирован'}).catch(()=>{ca.querySelector('span').textContent=t}); });
+    // фильм-тур: постер, по клику — проигрывание с панелью управления
+    if(film){ const f=$('#venueFilm'), v=f.querySelector('video');
+      f.style.backgroundImage="url('"+film.poster+"')"; v.poster=film.poster; v.src=film.src; $('#filmLen').textContent=film.duration||'';
+      f.querySelector('.film__btn').addEventListener('click',()=>{ f.classList.add('on'); v.controls=true; v.play().catch(()=>{}); });
+      v.addEventListener('ended',()=>{ f.classList.remove('on'); v.controls=false; v.currentTime=0; });
+      f.hidden=false; }
     $('#venue').hidden=false;
   }
 });
 
 /* ── Панели ── */
 const PANELS=[
-  {n:'Блок 1',t:'Фундамент',s:'Генетика и нутрициология',lead:'Из чего мы сделаны и как поддерживать химию организма на уровне клетки. База для долголетия.',who:[
+  {n:'Блок 1',t:'Фундамент и тело',s:'Генетика, нутрициология, биохакинг',lead:'Из чего мы сделаны и как укрепить тело: от химии клетки до доказательной медицины и технологий.',who:[
     ['Генетики и эпигенетики','ДНК-тесты, управление экспрессией генов, биомаркеры старения'],
-    ['Исследователи микробиома','Гастроэнтерологи и учёные, изучающие «второй мозг» и иммунитет'],
-    ['Нутрициологи и диетологи','Персональные протоколы питания, anti-age и спортивная нутрициология'],
+    ['Микробиом и нутрициология','«Второй мозг», персональные протоколы питания, anti-age и спортивная нутрициология'],
     ['Лаборатории и диагностика','Комплексные чекапы, анализы на дефициты, превентивная диагностика'],
-    ['Бренды и производители','Премиальные БАДы, витамины, нутрицевтики, суперфуды, детокс-программы']]},
-  {n:'Блок 2',t:'Архитектура тела',s:'Биохакинг и доказательная медицина',lead:'Как укрепить физический каркас и обновить тело с помощью доказательной медицины и технологий.',who:[
     ['Телесные терапевты','Остеопаты, мануальные терапевты, биомеханика, висцеральная терапия, фасции'],
     ['Эндокринологи и гинекологи','Гормональный баланс, щитовидная железа, женское здоровье, менопауза'],
     ['Неврологи и сомнологи','Здоровье мозга, нейропластичность, профилактика деменции, качество сна'],
     ['Клиники клеточного омоложения','NAD+, экзосомы, стволовые клетки, IV-терапия'],
-    ['Производители BioTech','Трекеры сна, криокамеры, гипербарические камеры, физиотерапия']]},
-  {n:'Блок 3',t:'Психика и сознание',s:'Энергия, подсознание, деньги',lead:'Связь души и тела: как мысли, травмы и энергия влияют на здоровье и деньги.',who:[
+    ['Бренды и BioTech','БАДы, нутрицевтики, суперфуды, детокс, трекеры сна, криокамеры, гипербарические камеры']]},
+  {n:'Блок 2',t:'Психика и сознание',s:'Энергия, подсознание, деньги',lead:'Связь души и тела: как мысли, травмы и энергия влияют на здоровье и деньги.',who:[
     ['Психотерапевты и психосоматологи','Психосоматика болезней, тревожность, хронический стресс'],
     ['Мастера глубинной работы','Расстановки, родовые и детские травмы, программы подсознания'],
     ['Психологи денег и бизнес-коучи','Денежные сценарии, установки бедности, выгорание'],
     ['Эксперты по энергии и сознанию','Физика сознания, медитация, цигун, дыхательные практики']]},
-  {n:'Блок 4',t:'За гранью возможного',s:'Технологии и инновации',lead:'То, что вчера казалось фантастикой, сегодня становится клинической практикой.',who:[
+  {n:'Блок 3',t:'За гранью возможного',s:'Технологии и инновации',lead:'То, что вчера казалось фантастикой, сегодня становится клинической практикой.',who:[
     ['Биотех-стартапы и лаборатории','Биопечать органов, генная терапия, редактирование генома (CRISPR)'],
     ['Нейротехнологии и IT-медицина','Нейроинтерфейсы, ИИ-диагностика, цифровые двойники'],
     ['Футурологи и визионеры','Будущее медицины, этика бессмертия, симбиоз человека и ИИ'],
@@ -1074,7 +1164,7 @@ safe('gl',()=>{
   if(!LITE) for(let i=0;i<N;i++) S.ribbon[i*3+1]+=1.15;
   // четыре направления + кольцо медиа-блока
   S.clusters=fill(i=>{ if(Math.random()<.14){ const a=Math.random()*Math.PI*2; return [Math.cos(a)*4.6+J(.08), Math.sin(a)*1.9+J(.08), Math.sin(a*2)*.4] }
-    const k=i%4, C=[[-3.1,.7],[-1.05,-.55],[1.05,.6],[3.1,-.5]][k]; const n=i/N, ph=Math.acos(1-2*((i*7919)%N)/N), th=Math.PI*(1+Math.sqrt(5))*i; const r=.82*(.85+Math.random()*.15);
+    const k=i%3, C=[[-2.7,.55],[0,-.5],[2.7,.5]][k]; const n=i/N, ph=Math.acos(1-2*((i*7919)%N)/N), th=Math.PI*(1+Math.sqrt(5))*i; const r=.82*(.85+Math.random()*.15);
     return [C[0]+r*Math.sin(ph)*Math.cos(th), C[1]+r*Math.cos(ph), r*Math.sin(ph)*Math.sin(th)-2.6]; });
   // луч прожектора и золотая пыль
   S.spot=fill(i=>{ if(Math.random()<.2){ const a=Math.random()*Math.PI*2, r=Math.sqrt(Math.random())*3.4; return [r*Math.cos(a), -2.9+J(.06), r*Math.sin(a)*.5] }
