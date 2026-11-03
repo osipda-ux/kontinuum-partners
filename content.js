@@ -13,7 +13,7 @@ window.CONTENT = {
   },
 
   // Фильм-тур по площадке (собран скриптом video_build.py).
-  venueFilm: { src: "assets/venue-film.mp4", poster: "assets/venue-film.jpg", duration: "0:38" },
+  venueFilm: { src: "assets/venue-film.mp4", poster: "assets/venue-film.jpg", duration: "0:27" },
 
   // Пространства площадки: короткие беззвучные петли. Пусто — блок «Площадка» скрыт.
   venueSpaces: [
