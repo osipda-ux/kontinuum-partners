@@ -48,6 +48,7 @@ window.CONTENT = {
 
   // Подтверждённые партнёры. Логотип лучше в SVG или PNG на прозрачном фоне.
   // group: "media" и "tv" — в блок «Где выйдет „Континуум“»; "clinic" | "brand" | "partner" — в «Экосистему».
-  // { name: "Название", logo: "assets/logo-name.svg", group: "media", url: "https://..." }
+  // role — подпись под логотипом, как на крупных форумах: «Генеральный партнёр», «Партнёр по диагностике».
+  // { name: "Название", logo: "assets/logo-name.svg", group: "media", role: "Информационный партнёр", url: "https://..." }
   logos: [],
 };
