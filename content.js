@@ -28,6 +28,7 @@ window.CONTENT = {
   contact: {
     personName: "Гульнара Мишкина",       // Заменить на стратегического директора, когда он появится.
     personRole: "Автор и продюсер проекта",
+    personPhoto: "assets/gulnara-face.webp",
     telegram: "GulyaMishkina",            // без @
     whatsapp: "",                         // номер в формате 79991234567; пусто — кнопка скрыта
     formEndpoint: "",                     // адрес приёма заявок (Formspree, бот и т. п.); пусто — заявка уходит в Telegram
@@ -50,5 +51,7 @@ window.CONTENT = {
   // group: "media" и "tv" — в блок «Где выйдет „Континуум“»; "clinic" | "brand" | "partner" — в «Экосистему».
   // role — подпись под логотипом, как на крупных форумах: «Генеральный партнёр», «Партнёр по диагностике».
   // { name: "Название", logo: "assets/logo-name.svg", group: "media", role: "Информационный партнёр", url: "https://..." }
-  logos: [],
+  logos: [
+    { name: "Music Box Gold", logo: "assets/logo-musicbox-gold.png", group: "tv", role: "Телеканал" },
+  ],
 };

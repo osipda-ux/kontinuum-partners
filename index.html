@@ -522,6 +522,57 @@ section.band{background:var(--bg-2);border-block:1px solid var(--line)}
   .eyebrow{font-size:12px}
   .foot{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 }
+
+/* ── Читаемость, шаг 2: плотный шрифт, белые вводные, маркер на главном, пункты на карточках ── */
+:root{--ink-2:#E3EBE7}
+body{font-weight:500}
+h1,h2,h3{font-weight:500}
+.hero h1{font-weight:400}
+.lead{color:var(--ink);font-weight:500}
+.head > .lead{border-left:2px solid var(--accent);padding-left:20px}
+mark.hl{background:linear-gradient(transparent 56%,rgba(232,205,149,.42) 56%);color:var(--ink);font-weight:700;padding:0 .06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.manifesto{font-weight:500}
+.manifesto .w{opacity:.45}
+.author__role{font-weight:500}
+/* пункты «что вы получаете» и вечера — каждый на своей карточке */
+.gain{gap:16px;border-top:0}
+.gain .gain__i{border:1px solid var(--line-2);border-radius:24px;padding:clamp(22px,2.6vw,36px);background:rgba(255,255,255,.045)}
+.eve__list{border-top:0;display:grid;gap:12px}
+.eve__list li{border:1px solid var(--line-2);border-radius:22px;padding:22px 24px;background:rgba(255,255,255,.04)}
+.pack li,.who span,.scene p,.gain__i p,.eve__list p,.custom p,.why p,.format__t p{color:var(--ink-2)}
+
+/* фото с форума в блоке авторов */
+.stage{grid-column:1/-1;margin:clamp(40px,5vw,72px) 0 0;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(20px,3vw,48px);align-items:center;padding:clamp(16px,2vw,24px);border:1px solid var(--line-2);border-radius:28px;background:rgba(255,255,255,.04)}
+.stage img{width:100%;height:auto;border-radius:20px;display:block}
+.stage figcaption{display:grid;gap:14px}
+.stage b{font:500 clamp(26px,2.6vw,40px)/1.15 var(--f-display)}
+.stage p{color:var(--ink-2);font-size:17px;max-width:44ch}
+
+/* блок «Тело говорит» */
+.show{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:clamp(14px,1.6vw,22px)}
+.trailer{position:relative;margin:0;aspect-ratio:16/9;border-radius:28px;overflow:hidden;border:1px solid var(--line-2);background:#000 url('assets/show-trailer.jpg') center/cover no-repeat;-webkit-mask-image:-webkit-radial-gradient(#fff,#000)}
+.trailer__loop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.trailer .film__btn{right:auto;max-width:calc(100% - 40px)}
+.show__side{display:flex;flex-direction:column;gap:18px;padding:clamp(22px,2.4vw,34px);border:1px solid var(--line-2);border-radius:28px;background:rgba(255,255,255,.04)}
+.show__facts{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.show__facts li{display:flex;align-items:baseline;gap:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.show__facts b{font:400 clamp(48px,4.6vw,72px)/1 var(--f-display);color:var(--accent);font-variant-numeric:lining-nums;min-width:2.2ch}
+.show__facts span{font-size:18px;font-weight:600}
+.show__quote{margin:auto 0 0;font:italic 500 clamp(26px,2.2vw,34px)/1.15 var(--f-display);color:var(--ink)}
+.show__quote cite{display:block;margin-top:10px;font:500 11px/1.3 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:var(--ink-3)}
+.show__carpet{aspect-ratio:4/5}
+.show__set{aspect-ratio:auto;min-height:100%}
+.show .space{grid-column:auto}
+@media (min-width:821px){.show__carpet{grid-column:2;grid-row:2}.show__set{grid-column:1;grid-row:2}}
+@media (max-width:820px){.show{grid-template-columns:minmax(0,1fr)}.show__set{aspect-ratio:16/9;min-height:0}.stage{grid-template-columns:minmax(0,1fr)}}
+
+/* горизонтальный плеер для трейлера */
+.vmodal__box.wide{height:auto;width:min(1200px,100%);aspect-ratio:16/9}
+@media (max-width:980px){
+  .head > .lead{padding-left:16px}
+  .lead{font-size:19px;line-height:1.55}
+  body{font-size:17.5px}
+}
 </style>
 
 <div class="vignette" aria-hidden="true"></div>
@@ -626,7 +677,7 @@ section.band{background:var(--bg-2);border-block:1px solid var(--line)}
       <div class="head">
         <p class="eyebrow" data-reveal>Авторы проекта</p>
         <h2 data-reveal>Два человека, <em>одна идея</em></h2>
-        <p class="lead" data-reveal>«Континуум» вырос из многолетней совместной работы двух экспертов. Они соединили науку, психологию и большое телевидение, чтобы в России изменилось отношение к здоровью.</p>
+        <p class="lead" data-reveal>«Континуум» вырос из многолетней совместной работы двух экспертов. Они <mark class="hl">соединили науку, психологию и большое телевидение</mark>, чтобы в России изменилось отношение к здоровью.</p>
       </div>
       <div class="authors">
         <article class="author" data-reveal>
@@ -657,6 +708,14 @@ section.band{background:var(--bg-2);border-block:1px solid var(--line)}
           </ul>
           <p class="author__role">Чувствует тело глубже, чем сам человек, и возвращает в него. Бережно находит ключ там, где копится напряжение, и помогает снова почувствовать себя живым.</p>
         </article>
+        <figure class="stage" data-reveal>
+          <img src="assets/gulnara-forum.webp" alt="Гульнара Мишкина на сцене международного форума" width="720" height="900" loading="lazy" decoding="async">
+          <figcaption>
+            <span class="mono" style="color:var(--accent)">На сцене</span>
+            <b>Гульнара Мишкина среди спикеров международного форума о здоровье и благополучии человека</b>
+            <p>Опыт больших площадок, переговоров с партнёрами и работы с прессой стоит и за «Континуумом».</p>
+          </figcaption>
+        </figure>
         <div class="why" data-reveal>
           <h3>Почему <em>«Континуум»</em></h3>
           <p>Долголетие не складывается из одной практики. Оно появляется там, где вместе работают <b>научная база, работа с подсознанием, телесные практики и медийная сила телевидения</b>. «Континуум» значит «непрерывность»: мы связываем эти части в одну систему и приглашаем вас стать её частью.</p>
@@ -698,19 +757,19 @@ section.band{background:var(--bg-2);border-block:1px solid var(--line)}
       <div class="gain">
         <article class="gain__i" data-reveal>
           <b data-count="350">350</b>
-          <div><h3>Зал без случайных людей</h3><p>Владельцы бизнеса, топ-менеджеры, инвесторы, врачи и лидеры мнений. Люди, которые уже вкладывают в здоровье, красоту и долголетие.</p></div>
+          <div><h3>Зал без случайных людей</h3><p>Владельцы бизнеса, топ-менеджеры, инвесторы, врачи и лидеры мнений. Люди, которые <mark class="hl">уже вкладывают в здоровье, красоту и долголетие</mark>.</p></div>
         </article>
         <article class="gain__i" data-reveal>
           <b>ТВ</b>
-          <div><h3>Медиа федерального уровня</h3><p>Профильные СМИ, деловые издания и блогеры-миллионники. PR-поддержка спикеров, интеграция в телесъёмку, публикации в партнёрских журналах.</p></div>
+          <div><h3>Медиа федерального уровня</h3><p>Профильные СМИ, деловые издания и блогеры-миллионники. <mark class="hl">PR-поддержка спикеров, интеграция в телесъёмку</mark>, публикации в партнёрских журналах.</p></div>
         </article>
         <article class="gain__i" data-reveal>
           <b>№1</b>
-          <div><h3>Статус эксперта</h3><p>Сцена «Континуума» закрепляет за вами место первого эксперта в своём направлении. Ваша позиция звучит там, где складывается индустрия.</p></div>
+          <div><h3>Статус эксперта</h3><p>Сцена «Континуума» закрепляет за вами <mark class="hl">место первого эксперта</mark> в своём направлении. Ваша позиция звучит там, где складывается индустрия.</p></div>
         </article>
         <article class="gain__i" data-reveal>
           <b data-count="20">20<small>%</small></b>
-          <div><h3>Доход с вашей аудитории</h3><p>В стоимость билетов заложен партнёрский процент. Вы получаете личную ссылку, приглашаете свою аудиторию, пациентов и клиентов и получаете до 20% с продаж.</p></div>
+          <div><h3>Доход с вашей аудитории</h3><p>В стоимость билетов заложен партнёрский процент. Вы получаете личную ссылку, приглашаете свою аудиторию, пациентов и клиентов и получаете <mark class="hl">до 20% с продаж</mark>.</p></div>
         </article>
       </div>
     </div>
@@ -722,7 +781,7 @@ section.band{background:var(--bg-2);border-block:1px solid var(--line)}
       <div class="head">
         <p class="eyebrow" data-reveal>Освещение события</p>
         <h2 data-reveal>Где выйдет <em>«Континуум»</em></h2>
-        <p class="lead" data-reveal>Событие снимают и освещают телеканалы, деловые издания и блогеры. Выступления спикеров и бренды партнёров попадают в эфиры, сюжеты и публикации.</p>
+        <p class="lead" data-reveal>Событие снимают и освещают телеканалы, деловые издания и блогеры. Выступления спикеров и бренды партнёров <mark class="hl">попадают в эфиры, сюжеты и публикации</mark>.</p>
       </div>
       <div class="media" id="mediaList" data-reveal></div>
       <p class="eco__note" id="mediaNote" data-reveal>Медиапартнёры объявляются по мере подтверждения.</p>
@@ -780,12 +839,49 @@ section.band{background:var(--bg-2);border-block:1px solid var(--line)}
       <p class="eyebrow" data-reveal>Вечер · Интеграция в большое шоу</p>
       <h2 class="eve__title" data-reveal>Выпускной <em>«Тело говорит»</em></h2>
       <div class="eve__grid">
-        <p class="lead" data-reveal>Светская премьера второго сезона ТВ-реалити. Событие транслируется в медиапространстве, и ваш бренд или эксперт может стать его частью.</p>
+        <p class="lead" data-reveal>Светская премьера второго сезона ТВ-реалити. Событие транслируется в медиапространстве, и <mark class="hl">ваш бренд или эксперт может стать его частью</mark>.</p>
         <ul class="eve__list">
           <li data-reveal><h3>Красная дорожка и&nbsp;интервью</h3><p>Ваш эксперт или бренд становится частью звёздного интервью.</p></li>
           <li data-reveal><h3>Своя номинация</h3><p>Учредите приз, например «Приз от клиники Х», и вручите его на главной сцене перед камерами.</p></li>
           <li data-reveal><h3>After-party</h3><p>Закрытый нетворкинг с экспертами, звёздами и инвесторами в неформальной обстановке.</p></li>
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ТЕЛО ГОВОРИТ: о реалити, вокруг которого строится вечер -->
+  <section id="show" class="band" data-shape="spot">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow" data-reveal>Трансформационное реалити-шоу</p>
+        <h2 data-reveal>«Тело говорит» <em>реальные люди, реальные истории</em></h2>
+        <p class="lead" data-reveal>Вечер «Континуума» посвящён выпускному второго сезона. <mark class="hl">Никаких постановочных кадров</mark>: только правда, живые эмоции и истории трансформации героев.</p>
+      </div>
+      <div class="show">
+        <figure class="trailer" data-reveal>
+          <video class="trailer__loop" muted playsinline loop preload="none" poster="assets/show-trailer.jpg"><source src="assets/show-teaser.mp4" type="video/mp4"></video>
+          <button class="film__btn" type="button" id="trailerBtn" aria-haspopup="dialog" aria-label="Смотреть трейлер шоу «Тело говорит»">
+            <i aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><path d="M5 2.5v13l10.5-6.5z"/></svg></i>
+            <span><b>Трейлер шоу</b><small>Со звуком · 1:18</small></span>
+          </button>
+        </figure>
+        <aside class="show__side" data-reveal>
+          <p class="mono" style="color:var(--accent)">Сезон в цифрах</p>
+          <ul class="show__facts">
+            <li><b>8</b><span>участников</span></li>
+            <li><b>20+</b><span>экспертов</span></li>
+            <li><b>6</b><span>месяцев</span></li>
+          </ul>
+          <blockquote class="show__quote">«Позволь себе быть собой»<cite>из трейлера шоу</cite></blockquote>
+        </aside>
+        <figure class="space show__carpet" data-reveal style="background-image:url('assets/show-carpet.jpg')">
+          <video muted playsinline loop preload="none" poster="assets/show-carpet.jpg"><source src="assets/show-carpet.mp4" type="video/mp4"></video>
+          <figcaption><span>Вечер</span><b>Красная дорожка</b><p>Так шоу встречает своих героев и гостей.</p></figcaption>
+        </figure>
+        <figure class="space show__set" data-reveal style="background-image:url('assets/show-set.jpg')">
+          <video muted playsinline loop preload="none" poster="assets/show-set.jpg"><source src="assets/show-set.mp4" type="video/mp4"></video>
+          <figcaption><span>Съёмки</span><b>Живые эмоции без постановки</b><p>Эксперты работают с героями прямо в кадре.</p></figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -796,7 +892,7 @@ section.band{background:var(--bg-2);border-block:1px solid var(--line)}
       <div class="head">
         <p class="eyebrow" data-reveal>Площадка</p>
         <h2 data-reveal id="venueTitle">Где всё <em>случится</em></h2>
-        <p class="lead" data-reveal id="venueLead">Весь день проходит в одном месте: конференция в большом зале, обед, VIP-кофе-брейк, закрытый ужин и выпускной.</p>
+        <p class="lead" data-reveal id="venueLead"><mark class="hl">Весь день проходит в одном месте</mark>: конференция в большом зале, обед, VIP-кофе-брейк, закрытый ужин и выпускной.</p>
       </div>
       <div class="venue">
         <figure class="film" id="venueFilm" data-reveal hidden>
@@ -816,7 +912,7 @@ section.band{background:var(--bg-2);border-block:1px solid var(--line)}
       <div class="head">
         <p class="eyebrow" data-reveal>Форматы участия</p>
         <h2 data-reveal>Пакеты для спикеров <em>и брендов</em></h2>
-        <p class="lead" data-reveal>Условия и инвестиции обсуждаем лично, под ваши задачи. VIP-гости сидят в первых рядах за отдельными столами.</p>
+        <p class="lead" data-reveal>Условия и инвестиции <mark class="hl">обсуждаем лично</mark>, под ваши задачи. VIP-гости сидят в первых рядах за отдельными столами.</p>
       </div>
       <div class="packs">
         <div class="pcol" data-reveal>
@@ -865,7 +961,7 @@ section.band{background:var(--bg-2);border-block:1px solid var(--line)}
         <div class="tat__l">
           <p class="eyebrow" data-reveal>Тет-а-тет</p>
           <h2 data-reveal>Лучшие сделки рождаются <em>в&nbsp;прямом диалоге</em></h2>
-          <p class="lead" data-reveal>Этот сайт уже часть нашего разговора. Мы не рассылаем шаблонные презентации и ведём переговоры лично. Оставьте заявку: мы свяжемся с вами, ответим на вопросы и предложим подходящий формат.</p>
+          <p class="lead" data-reveal>Этот сайт уже часть нашего разговора. Мы не рассылаем шаблонные презентации и ведём переговоры лично. <mark class="hl">Оставьте заявку</mark>: мы свяжемся с вами, ответим на вопросы и предложим подходящий формат.</p>
           <div class="person" data-reveal>
             <img id="personImg" src="assets/gulnara.webp" alt="" width="72" height="72">
             <div style="display:grid;gap:12px">
@@ -928,7 +1024,7 @@ section.band{background:var(--bg-2);border-block:1px solid var(--line)}
   <button class="vmodal__x" type="button" data-close aria-label="Закрыть видео"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
 </div>
 
-<script src="content.js"></script>
+<script src="content.js?v=2026-11-05"></script>
 <script src="assets/gsap.min.js"></script>
 <script src="assets/ScrollTrigger.min.js"></script>
 <script src="assets/lenis.min.js"></script>
@@ -1000,6 +1096,19 @@ function heroIn(){ safe('heroIn',()=>{
 /* ── Буквы заголовка ── */
 safe('split',()=>{ $$('.split').forEach(el=>{ const t=el.textContent; el.innerHTML=[...t].map(ch=>'<span class="m"><span class="ch">'+esc(ch)+'</span></span>').join(''); }); });
 
+/* ── Полноэкранный плеер: тур по площадке (вертикальный) и трейлер шоу (горизонтальный) ── */
+const player=(()=>{
+  const m=$('#vmodal'), v=$('#vmodalVideo'), box=m.querySelector('.vmodal__box'); let back=null;
+  const close=()=>{ v.pause(); m.hidden=true; document.documentElement.style.overflow=''; if(lenis) lenis.start(); if(back) back.focus({preventScroll:true}); };
+  $$('[data-close]',m).forEach(el=>el.addEventListener('click',close));
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!m.hidden) close(); });
+  v.addEventListener('ended',close);
+  return { open(src,poster,wide,from){ back=from||null; box.classList.toggle('wide',!!wide);
+    if(v.getAttribute('src')!==src){ v.src=src; v.poster=poster||''; }
+    m.hidden=false; document.documentElement.style.overflow='hidden'; if(lenis) lenis.stop();
+    v.muted=false; v.play().catch(()=>{}); m.querySelector('.vmodal__x').focus(); } };
+})();
+
 /* ── Данные из content.js ── */
 safe('content',()=>{
   const ev=C.event||{}, ct=C.contact||{}, se=C.seats||{};
@@ -1019,7 +1128,9 @@ safe('content',()=>{
   const press=(C.logos||[]).filter(l=>l.group==='media'||l.group==='tv');
   if(press.length){
     $('#mediaList').innerHTML=press.map(l=>{ const inner='<img src="'+esc(l.logo)+'" alt="'+esc(l.name)+'" loading="lazy"><span>'+esc(l.role||l.name)+'</span>';
-      return l.url?'<a class="mslot mslot--on" href="'+esc(l.url)+'" target="_blank" rel="noopener">'+inner+'</a>':'<div class="mslot mslot--on">'+inner+'</div>'; }).join('');
+      return l.url?'<a class="mslot mslot--on" href="'+esc(l.url)+'" target="_blank" rel="noopener">'+inner+'</a>':'<div class="mslot mslot--on">'+inner+'</div>'; }).join('')+
+      // оставшиеся места до пяти — пустые ячейки по типам медиа
+      ['Деловое издание','Журнал','Онлайн-медиа','Блогеры'].slice(0,Math.max(0,5-press.length)).map(t=>'<div class="mslot"><i aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor"><path d="M6 1v10M1 6h10"/></svg></i><span>'+t+'</span></div>').join('');
     $('#mediaNote').textContent='Список медиапартнёров пополняется.';
   } else {
     const plus='<i aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor"><path d="M6 1v10M1 6h10"/></svg></i>';
@@ -1061,12 +1172,14 @@ safe('content',()=>{
       (ev.venueAddress?'<div class="addr"><div><span class="mono" style="color:var(--gold)">Адрес</span><b style="margin-top:14px">'+esc(ev.city||'Москва')+'</b><p>'+esc(ev.venueAddress)+'</p></div><div class="addr__btns">'+
         (ev.mapUrl?'<a class="btn btn--fill" href="'+esc(ev.mapUrl)+'" target="_blank" rel="noopener"><span>Открыть на карте</span></a>':'')+
         '<button class="btn" type="button" id="copyAddr"><span>Скопировать адрес</span></button></div></div>':'');
-    const loops=$$('.space video');
+    // беззвучные петли площадки и шоу, а также золотая заставка на обложке трейлера
+    const loops=$$('.space video, .trailer__loop');
     const play=v=>{ v.muted=true; const p=v.play(); if(p) p.catch(()=>{}); };
     if(LITE && !RM && 'IntersectionObserver' in window){
-      // телефон: карточки в горизонтальной ленте, играет и грузится только та, что видна
-      const io=new IntersectionObserver(es=>es.forEach(e=>{ e.isIntersecting?play(e.target):e.target.pause() }),{root:$('#venueSpaces'),threshold:.6});
-      loops.forEach(v=>io.observe(v));
+      // телефон: в горизонтальной ленте площадки играет только видимая карточка, остальные видео — пока на экране
+      const cb=es=>es.forEach(e=>{ e.isIntersecting?play(e.target):e.target.pause() });
+      const inRow=new IntersectionObserver(cb,{root:$('#venueSpaces'),threshold:.6}), onPage=new IntersectionObserver(cb,{threshold:.35});
+      loops.forEach(v=>(v.closest('#venueSpaces')?inRow:onPage).observe(v));
     } else if(hasG && !RM && typeof ScrollTrigger!=='undefined'){
       gsap.registerPlugin(ScrollTrigger);
       // refreshPriority:-1 — считать после закреплённой заставки «закат», которая сдвигает всё ниже
@@ -1079,15 +1192,12 @@ safe('content',()=>{
     if(RM) loops.forEach(v=>v.parentElement.addEventListener('click',()=>{ v.paused?v.play().catch(()=>{}):v.pause() }));
     const ca=$('#copyAddr'); if(ca) ca.addEventListener('click',()=>{ const t=(ev.venue?ev.venue+', ':'')+(ev.city||'Москва')+', '+ev.venueAddress;
       (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{ca.querySelector('span').textContent='Адрес скопирован'}).catch(()=>{ca.querySelector('span').textContent=t}); });
+    // трейлер шоу — в горизонтальном плеере
+    const tb=$('#trailerBtn'); if(tb) tb.addEventListener('click',()=>player.open('assets/show-trailer.mp4','assets/show-trailer.jpg',true,tb));
     // тур с Гульнарой: карточка с обложкой, по клику — полноэкранный плеер со звуком
-    if(film){ const f=$('#venueFilm'), m=$('#vmodal'), v=$('#vmodalVideo'), btn=f.querySelector('.film__btn');
-      f.style.backgroundImage="url('"+film.cover+"')"; v.poster=film.poster; $('#filmLen').textContent=film.duration||'';
-      const close=()=>{ v.pause(); m.hidden=true; document.documentElement.style.overflow=''; if(lenis) lenis.start(); btn.focus(); };
-      btn.addEventListener('click',()=>{ if(!v.src) v.src=film.src; m.hidden=false; document.documentElement.style.overflow='hidden';
-        if(lenis) lenis.stop(); v.muted=false; v.play().catch(()=>{}); m.querySelector('.vmodal__x').focus(); });
-      $$('[data-close]',m).forEach(el=>el.addEventListener('click',close));
-      document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!m.hidden) close(); });
-      v.addEventListener('ended',close);
+    if(film){ const f=$('#venueFilm'), btn=f.querySelector('.film__btn');
+      f.style.backgroundImage="url('"+film.cover+"')"; $('#filmLen').textContent=film.duration||'';
+      btn.addEventListener('click',()=>player.open(film.src,film.poster,false,btn));
       f.hidden=false; }
     $('#venue').hidden=false;
   }
