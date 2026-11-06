@@ -13,7 +13,7 @@ window.CONTENT = {
   },
 
   // Тур по площадке с голосом Гульнары (собран скриптом tour_build.py): обложка карточки, кадр плеера, файл.
-  venueTour: { src: "assets/venue-tour.mp4", poster: "assets/venue-tour.jpg", cover: "assets/venue-film.jpg", duration: "Ведёт Гульнара Мишкина · 1:33" },
+  venueTour: { src: "assets/venue-tour.mp4", poster: "assets/venue-tour.jpg", cover: "assets/venue-film.jpg", duration: "С Гульнарой Мишкиной · 1:33" },
 
   // Пространства площадки: короткие беззвучные петли. Пусто — блок «Площадка» скрыт.
   venueSpaces: [
@@ -68,8 +68,10 @@ window.CONTENT = {
   tv: {
     platforms: ["Яндекс Плюс", "Кинопоиск", "Okko", "Смарт ТВ", "Wink", "Kion", "Спутник"],
     episodes: [
-      { title: "Кинопремьера", note: "С Региной Тодоренко, Екатериной Шпицей, Сергеем Жуковым", parts: [
-        "https://disk.yandex.ru/i/szb2Zre-qERNmA", "https://disk.yandex.ru/i/BKn-SmSYLHzWgQ", "https://disk.yandex.ru/i/OvY-ewVFxGhnYQ"] },
+      { title: "Премьеры со звёздами", note: "Регина Тодоренко, Екатерина Шпица, Сергей Жуков и другие", parts: [
+        { label: "Премьера", url: "https://disk.yandex.ru/i/szb2Zre-qERNmA" },
+        { label: "«Руки вверх»", url: "https://disk.yandex.ru/i/BKn-SmSYLHzWgQ" },
+        { label: "«Со второго взгляда»", url: "https://disk.yandex.ru/i/OvY-ewVFxGhnYQ" }] },
       { title: "Фестиваль бьюти-индустрии на ВДНХ", url: "https://disk.yandex.ru/i/lfu9SekSmx553Q" },
       { title: "День рождения Женского бизнес-клуба", url: "https://disk.yandex.ru/i/1ZwE8q8zL2pkFg" },
       { title: "Бьюти-форум в Барвихе", url: "https://disk.yandex.ru/i/Ydy31qn6AhO2Aw" },

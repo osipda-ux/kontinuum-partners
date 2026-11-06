@@ -1893,7 +1893,7 @@ safe('form',()=>{
   $('#tvPlatforms').innerHTML = (tv.platforms || []).map(p => '<li>' + esc(p) + '</li>').join('');
   const arrow = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 12L12 4M6 4h6v6"/></svg>';
   $('#tvEpisodes').innerHTML = (tv.episodes || []).map(e => {
-    const parts = e.parts ? '<span class="eps__parts">' + e.parts.map((u, i) => '<a href="' + esc(u) + '" target="_blank" rel="noopener">Часть ' + (i + 1) + arrow + '</a>').join('') + '</span>' : '';
+    const parts = e.parts ? '<span class="eps__parts">' + e.parts.map((u, i) => { const href = u.url || u, label = u.label || ('Часть ' + (i + 1)); return '<a href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(label) + arrow + '</a>'; }).join('') + '</span>' : '';
     const head = e.url ? '<a class="eps__t" href="' + esc(e.url) + '" target="_blank" rel="noopener">' + esc(e.title) + arrow + '</a>' : '<span class="eps__t">' + esc(e.title) + '</span>';
     return '<li>' + head + (e.note ? '<small>' + esc(e.note) + '</small>' : '') + parts + '</li>';
   }).join('');
