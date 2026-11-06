@@ -1285,7 +1285,7 @@ safe('preloader',()=>{
 function heroIn(){ safe('heroIn',()=>{
   if(!hasG||RM) return;
   gsap.from('.hero h1 .ch',{yPercent:110,duration:1.4,ease:'expo.out',stagger:.055,delay:.55});
-  gsap.from(['.hero__top','.hero__sub','.hero__side','.facts'],{y:30,opacity:.0,duration:1.2,ease:'expo.out',stagger:.1,delay:.9});
+  gsap.from($$('.hero__top,.hero__sub,.hero__date,.hero__side,.facts'),{y:30,opacity:.0,duration:1.2,ease:'expo.out',stagger:.1,delay:.9});
 });}
 
 /* ── Буквы заголовка ── */
@@ -1472,7 +1472,7 @@ safe('countdown',()=>{
 });
 
 /* ── Палитра «день → вечер» ── */
-const DAY={bg:'#03130E',bg2:'#051B15',accent:'#E8CD95',cta:'#F3EEE4',glow:[24,150,110,.22],p1:'#8FE0BE',p2:'#F3EEE4'};
+const DAY=Object.assign({bg:'#03130E',bg2:'#051B15',accent:'#E8CD95',cta:'#F3EEE4',glow:[24,150,110,.22],p1:'#8FE0BE',p2:'#F3EEE4'},(window.PAGE&&window.PAGE.day)||{});
 const NIGHT={bg:'#13060B',bg2:'#210E18',accent:'#D8B77A',cta:'#C9A96E',glow:[201,169,110,.18],p1:'#C9A96E',p2:'#9E3446'};
 const hx=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
 const mixHex=(a,b,k)=>{const A=hx(a),B=hx(b);return 'rgb('+A.map((v,i)=>Math.round(v+(B[i]-v)*k)).join(',')+')'};
