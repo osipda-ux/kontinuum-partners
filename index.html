@@ -1204,7 +1204,7 @@ section.band{background:linear-gradient(180deg,transparent,color-mix(in srgb,var
   <button class="vmodal__x" type="button" data-close aria-label="Закрыть видео"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
 </div>
 
-<script src="content.js?v=2026-11-05"></script>
+<script src="content.js?v=2026-11-06"></script>
 <script src="assets/gsap.min.js"></script>
 <script src="assets/ScrollTrigger.min.js"></script>
 <script src="assets/lenis.min.js"></script>
@@ -1293,11 +1293,11 @@ const player=(()=>{
 safe('content',()=>{
   const ev=C.event||{}, ct=C.contact||{}, se=C.seats||{};
   const when='5 декабря 2026 · '+(ev.city||'Москва')+(ev.venue?' · '+ev.venue:'');
-  $('#heroWhen').textContent=when;
-  $('#footWhen').textContent=when+' · Проект «Жизнь 300+»';
+  const setT=(sel,t)=>{ const e=$(sel); if(e) e.textContent=t; };
+  setT('#heroWhen',when); setT('#footWhen',when+' · Проект «Жизнь 300+»');
   // люди
   const ppl=(C.people||[]).slice(); const slots=Math.max(4,Math.ceil(ppl.length/4)*4);
-  $('#people').innerHTML=Array.from({length:slots},(_,i)=>{ const p=ppl[i];
+  if($('#people')) $('#people').innerHTML=Array.from({length:slots},(_,i)=>{ const p=ppl[i];
     if(!p) return '<div class="slot"><span>Имя объявим</span></div>';
     const inner=(p.photo?'<img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'" loading="lazy">':'')+'<div class="slot__t"><b>'+esc(p.name)+'</b><span>'+esc(p.role||'')+'</span></div>';
     return p.url?'<a class="slot slot--on" href="'+esc(p.url)+'" target="_blank" rel="noopener">'+inner+'</a>':'<div class="slot slot--on">'+inner+'</div>';
@@ -1306,7 +1306,8 @@ safe('content',()=>{
   // СМИ и ТВ показываются в блоке «Освещение», здесь только партнёры, клиники и бренды
   const groups=[['partner','Партнёры'],['clinic','Клиники'],['brand','Бренды']];
   const press=(C.logos||[]).filter(l=>l.group==='media'||l.group==='tv');
-  if(press.length){
+  if(!$('#mediaList')){}
+  else if(press.length){
     $('#mediaList').innerHTML=press.map(l=>{ const inner='<img src="'+esc(l.logo)+'" alt="'+esc(l.name)+'" loading="lazy"><span>'+esc(l.role||l.name)+'</span>';
       return l.url?'<a class="mslot mslot--on" href="'+esc(l.url)+'" target="_blank" rel="noopener">'+inner+'</a>':'<div class="mslot mslot--on">'+inner+'</div>'; }).join('')+
       // оставшиеся места до пяти — пустые ячейки по типам медиа
@@ -1318,7 +1319,8 @@ safe('content',()=>{
   }
   const allLogos=C.logos||[];
   // пока партнёров нет — короткий список, кого ждём, а не ряды пустых ячеек
-  if(!allLogos.length) $('#logos').innerHTML='<div class="logos__row"><span>Ждём в партнёрах</span><ul class="logos__chips">'+groups.map(g=>'<li class="chip">'+g[1]+'</li>').join('')+'</ul></div>';
+  if(!$('#logos')){}
+  else if(!allLogos.length) $('#logos').innerHTML='<div class="logos__row"><span>Ждём в партнёрах</span><ul class="logos__chips">'+groups.map(g=>'<li class="chip">'+g[1]+'</li>').join('')+'</ul></div>';
   else $('#logos').innerHTML=groups.filter(([g])=>allLogos.some(l=>l.group===g)).map(([g,label])=>{ const items=allLogos.filter(l=>l.group===g); const n=Math.ceil(items.length/4)*4;
     return '<div class="logos__row"><span>'+label+'</span><div class="logos__set">'+Array.from({length:n},(_,i)=>{const l=items[i];
       if(!l) return '<div class="lg" aria-hidden="true"></div>';
@@ -1327,8 +1329,7 @@ safe('content',()=>{
   }).join('');
   // места
   const seat=(left,total)=> (left!=null&&total!=null&&left<total)?('Осталось '+left+' из '+total):('Всего '+(total||left)+' мест'+(((total||left)%10>=2&&(total||left)%10<=4)?'а':''));
-  $('#seatTables').textContent=seat(se.tables,se.tablesTotal);
-  $('#seatTv').textContent=seat(se.tv,se.tvTotal);
+  setT('#seatTables',seat(se.tables,se.tablesTotal)); setT('#seatTv',seat(se.tv,se.tvTotal));
   // контакт
   $('#personName').textContent=ct.personName||''; $('#personRole').textContent=ct.personRole||'';
   if(ct.personPhoto) $('#personImg').src=ct.personPhoto;
@@ -1339,7 +1340,7 @@ safe('content',()=>{
   // юридическое
   const lg=C.legal||{};
   if(lg.privacyUrl) $('#privacyLink').innerHTML=' и с <a href="'+esc(lg.privacyUrl)+'" target="_blank" rel="noopener">политикой конфиденциальности</a>';
-  if(lg.operator) $('#footWhen').textContent+=' · '+lg.operator;
+  if(lg.operator&&$('#footWhen')) $('#footWhen').textContent+=' · '+lg.operator;
   // площадка
   const spaces=C.venueSpaces||[], film=C.venueTour;
   if(ev.venue){
@@ -1385,7 +1386,8 @@ safe('content',()=>{
 });
 
 /* ── Панели ── */
-const PANELS=[
+const PG=window.PAGE||{};
+const PANELS=PG.panels||[
   {n:'Блок 1',t:'Фундамент и тело',s:'Генетика, нутрициология, биохакинг',lead:'Из чего мы сделаны и как укрепить тело: от химии клетки до доказательной медицины и технологий.',who:[
     ['Генетики и эпигенетики','ДНК-тесты, управление экспрессией генов, биомаркеры старения'],
     ['Микробиом и нутрициология','«Второй мозг», персональные протоколы питания, anti-age и спортивная нутрициология'],
@@ -1419,15 +1421,15 @@ safe('panels',()=>{
     '<div class="pcard__top"><span class="pcard__n">'+esc(p.n)+'</span><span class="pcard__k">'+esc(p.s)+'</span></div>'+
     '<h3>'+esc(p.t)+'</h3><p class="pcard__lead">'+esc(p.lead)+'</p>'+
     '<ul class="pcard__tags">'+p.who.map(w=>'<li>'+esc(w[0])+'</li>').join('')+'</ul>'+
-    '<button class="btn btn--fill pcard__btn" type="button" data-i="'+i+'" aria-haspopup="dialog"><span>'+(p.special?'Подробнее о дискуссии':'Кого мы ждём')+'</span>'+arrow+'</button></article>').join('');
+    '<button class="btn btn--fill pcard__btn" type="button" data-i="'+i+'" aria-haspopup="dialog"><span>'+(p.special?(PG.btnSpecial||'Подробнее о дискуссии'):(PG.btn||'Кого мы ждём'))+'</span>'+arrow+'</button></article>').join('');
   const sh=$('#sheet'), body=$('#sheetBody'); let opener=null;
   function open(i){ const p=PANELS[i]; opener=document.activeElement;
     body.innerHTML='<div class="pcard__top" style="justify-content:flex-start"><span class="pcard__n">'+esc(p.n)+'</span><span class="pcard__k">'+esc(p.s)+'</span></div><h3 id="sheetTitle">'+esc(p.t)+'</h3><p class="sheet__lead">'+esc(p.lead)+'</p>'+
-      '<p class="eyebrow" style="margin:28px 0 8px">'+(p.special?'Кто на сцене':'Кого мы ждём')+'</p><ul class="who">'+p.who.map(w=>'<li><b>'+esc(w[0])+'</b><span>'+esc(w[1])+'</span></li>').join('')+'</ul>'+
-      '<a class="btn btn--fill sheet__cta" href="#contact" data-block="'+esc(p.n+' · '+p.t)+'"><span>Обсудить участие в этом блоке</span>'+arrow+'</a>';
+      '<p class="eyebrow" style="margin:28px 0 8px">'+(p.special?'Кто на сцене':(PG.whoTitle||'Кого мы ждём'))+'</p><ul class="who">'+p.who.map(w=>'<li><b>'+esc(w[0])+'</b><span>'+esc(w[1])+'</span></li>').join('')+'</ul>'+
+      '<a class="btn btn--fill sheet__cta" href="#contact" data-block="'+esc(p.n+' · '+p.t)+'"><span>'+(PG.sheetCta||'Обсудить участие в этом блоке')+'</span>'+arrow+'</a>';
     sh.hidden=false; document.documentElement.style.overflow='hidden'; if(lenis) lenis.stop();
     requestAnimationFrame(()=>sh.classList.add('on')); sh.querySelector('.sheet__x').focus();
-    body.querySelector('.sheet__cta').addEventListener('click',e=>{ e.preventDefault(); const st=$('#f-status'); if(st&&!st.value) st.value=e.currentTarget.dataset.block; close(); setTimeout(()=>{ const c=$('#contact'); lenis?lenis.scrollTo(c,{offset:-20,duration:1.4}):c.scrollIntoView({behavior:'smooth'}); },60); });
+    body.querySelector('.sheet__cta').addEventListener('click',e=>{ e.preventDefault(); const st=$('#f-status'); if(st&&!st.value&&st.tagName!=='SELECT') st.value=e.currentTarget.dataset.block; close(); setTimeout(()=>{ const c=$(PG.sheetTarget||'#contact'); lenis?lenis.scrollTo(c,{offset:-20,duration:1.4}):c.scrollIntoView({behavior:'smooth'}); },60); });
   }
   function close(){ sh.classList.remove('on'); document.documentElement.style.overflow=''; if(lenis) lenis.start(); setTimeout(()=>{ sh.hidden=true; },RM?0:450); if(opener) opener.focus({preventScroll:true}); }
   $$('.pcard__btn').forEach(b=>b.addEventListener('click',()=>open(+b.dataset.i)));
@@ -1437,7 +1439,7 @@ safe('panels',()=>{
 
 /* ── Телефон: кнопка заявки внизу экрана — после первого экрана и до блока заявки ── */
 safe('mcta',()=>{
-  const b=$('#mcta'), hero=$('.hero'), contact=$('#contact');
+  const b=$('#mcta'), hero=$('.hero'), contact=$((window.PAGE&&PAGE.mctaStop)||'#contact');
   if(!LITE){ b.remove(); return; }
   const upd=()=>{ const past=hero.getBoundingClientRect().bottom<80, atForm=contact.getBoundingClientRect().top<innerHeight*.9;
     b.classList.toggle('on',past&&!atForm); };
@@ -1610,7 +1612,7 @@ safe('form',()=>{
   const f=$('#form'), ct=C.contact||{};
   const req=[['#f-name','Напишите, как к вам обращаться'],['#f-phone','Укажите телефон для связи']];
   function msg(){ const v=id=>$(id).value.trim();
-    return 'Здравствуйте! Хочу обсудить участие в «Континууме».\n\nИмя: '+v('#f-name')+'\nТелефон: '+v('#f-phone')+(v('#f-email')?'\nE-mail: '+v('#f-email'):'')+(v('#f-status')?'\nСтатус / проект: '+v('#f-status'):''); }
+    return (PG.msgIntro||'Здравствуйте! Хочу обсудить участие в «Континууме».')+'\n\nИмя: '+v('#f-name')+'\nТелефон: '+v('#f-phone')+(v('#f-email')?'\nE-mail: '+v('#f-email'):'')+(v('#f-status')?'\n'+($('#f-status').dataset.label||'Статус / проект')+': '+v('#f-status'):''); }
   f.addEventListener('submit',async e=>{
     e.preventDefault(); let ok=true;
     req.forEach(([id,t])=>{const el=$(id), w=el.closest('.field'); const bad=!el.value.trim(); w.classList.toggle('err',bad); w.querySelector('small').textContent=bad?t:''; if(bad) ok=false;});

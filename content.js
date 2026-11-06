@@ -54,4 +54,39 @@ window.CONTENT = {
   logos: [
     { name: "Music Box Gold", logo: "assets/logo-musicbox-gold.png", group: "tv", role: "Телеканал" },
   ],
+
+  /* ── Только для лендинга билетов (tickets.html) ── */
+
+  // Цены. Пусто — на сайте «Стоимость сообщим по заявке». Пример: "25 000 ₽".
+  // link — ссылка на оплату; пусто — кнопка ведёт к форме заявки.
+  tickets: {
+    standard: { price: "", oldPrice: "", link: "" },
+    vip:      { price: "", oldPrice: "", link: "", seatsTotal: 106, seatsLeft: null },
+  },
+
+  // Телеканал, который снимает событие.
+  tv: {
+    platforms: ["Яндекс Плюс", "Кинопоиск", "Okko", "Смарт ТВ", "Wink", "Kion", "Спутник"],
+    episodes: [
+      { title: "Кинопремьера", note: "С Региной Тодоренко, Екатериной Шпицей, Сергеем Жуковым", parts: [
+        "https://disk.yandex.ru/i/szb2Zre-qERNmA", "https://disk.yandex.ru/i/BKn-SmSYLHzWgQ", "https://disk.yandex.ru/i/OvY-ewVFxGhnYQ"] },
+      { title: "Фестиваль бьюти-индустрии на ВДНХ", url: "https://disk.yandex.ru/i/lfu9SekSmx553Q" },
+      { title: "День рождения Женского бизнес-клуба", url: "https://disk.yandex.ru/i/1ZwE8q8zL2pkFg" },
+      { title: "Бьюти-форум в Барвихе", url: "https://disk.yandex.ru/i/Ydy31qn6AhO2Aw" },
+      { title: "Премьера «Руки вверх»", url: "https://disk.yandex.ru/i/mW-US_GmOWni0w" },
+      { title: "Премия-бал «ГЕТ Курс»", url: "https://disk.yandex.ru/i/RZYfAIuiQacLEg" },
+      { title: "«Московская неделя моды» в Манеже", url: "https://disk.yandex.ru/i/_1lqArs6I20Qiw" },
+      { title: "Премьера «Любовь со второго взгляда»", url: "https://disk.yandex.ru/i/E_-tveTU-BiAXw" },
+    ],
+  },
+
+  // Артисты вечера. Пример: { name: "Имя", role: "Певица", photo: "assets/artist.webp" }
+  artists: [],
+
+  // Команда. Имена и фото добавить, когда будут; пока показываются роли.
+  team: [
+    { role: "Главный режиссёр",        text: "Визуальный масштаб, свет и динамика сцены.",                     name: "", photo: "" },
+    { role: "Операторы-постановщики",  text: "Кинематографичная картинка трансляции и записи.",              name: "", photo: "" },
+    { role: "Режиссёр монтажа",        text: "Лучшие моменты в итоговом фильме и репортажах.",               name: "", photo: "" },
+  ],
 };
