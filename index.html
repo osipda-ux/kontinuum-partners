@@ -753,6 +753,35 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
 @media (max-width:980px){
   .hero__sub{position:relative;z-index:1}
 }
+
+/* ═══ Ключевые спикеры ═══
+   Фото слева, имя крупно, роль, 3–4 факта, цитата. Без фото — инициалы в той же рамке. */
+.speakers{display:grid;gap:clamp(14px,1.6vw,22px)}
+.spk{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(20px,2.6vw,40px);padding:clamp(16px,1.6vw,22px);border-radius:var(--r);border:1px solid rgba(231,240,236,.16);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012));align-items:start}
+.spk--lead{border-color:rgba(232,205,149,.5);background:radial-gradient(80% 60% at 100% 0%,rgba(232,205,149,.12),transparent 62%),linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012))}
+.spk__ph{position:relative;aspect-ratio:4/5;border-radius:calc(var(--r) - 4px);overflow:hidden;background:radial-gradient(70% 55% at 50% 30%,rgba(232,205,149,.14),transparent 70%),rgba(255,255,255,.03);display:grid;place-items:center}
+.spk__ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%;filter:saturate(.9) contrast(1.03)}
+.spk__ini{font:500 clamp(56px,6vw,96px)/1 var(--f-display);color:var(--accent);letter-spacing:.02em;opacity:.85}
+.spk__b{display:grid;gap:14px;align-content:start;padding-block:clamp(6px,1vw,14px)}
+.spk__n{font-size:clamp(32px,3.2vw,50px);line-height:1}
+.spk__n span{color:var(--accent)}
+.spk__r{font-size:clamp(17px,1.25vw,18.5px);line-height:1.55;color:var(--ink);max-width:46ch}
+.spk__f{list-style:none;margin:6px 0 0;padding:0;display:grid;border-top:1px solid var(--line)}
+.spk__f li{position:relative;padding:11px 0 11px 22px;border-bottom:1px solid var(--line);color:var(--ink-2);font-size:16px;line-height:1.45}
+.spk__f li::before{content:"";position:absolute;left:0;top:1.15em;width:10px;height:1px;background:var(--accent)}
+.spk__q{margin:6px 0 0;font:500 clamp(20px,1.7vw,26px)/1.25 var(--f-display);color:var(--ink)}
+.spk__q cite{display:block;margin-top:8px;font:600 13px/1.4 var(--f-body);font-style:normal;letter-spacing:.04em;color:var(--ink-3)}
+@media (max-width:760px){
+  .spk{grid-template-columns:minmax(0,1fr)}
+  .spk__ph{aspect-ratio:1/1}
+  .spk__ph img{object-position:50% 12%}
+}
+
+.hero__spk{display:block;margin-top:4px;max-width:46ch;font-size:16.5px;line-height:1.45;color:var(--ink-2);text-decoration:none;width:fit-content}
+.hero__spk span{color:var(--ink-3)}
+.hero__spk b{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:rgba(232,205,149,.5);text-underline-offset:.25em}
+.hero__spk svg{display:inline-block;vertical-align:-2px;margin-left:6px;width:16px;height:16px;color:var(--accent);transition:transform .3s var(--ease-out)}
+@media (hover:hover){.hero__spk:hover b{text-decoration-color:var(--accent)}.hero__spk:hover svg{transform:translateX(4px)}}
 </style>
 
 <div class="vignette" aria-hidden="true"></div>
@@ -768,6 +797,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
     <nav class="nav__links" aria-label="Разделы">
       <a href="#event">Событие</a>
       <a href="#authors">Авторы</a>
+      <a href="#ecosystem">Спикеры</a>
       <a href="#media">Медиа</a>
       <a href="#panels">Панели</a>
       <a href="#evening">Вечер</a>
@@ -795,6 +825,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 8h12M9 3l5 5-5 5"/></svg></a>
             <a class="btn" href="#packages" data-magnet><span>Форматы участия</span></a>
           </div>
+          <a class="hero__spk" id="heroSpk" href="#ecosystem" hidden></a>
         </div>
       </div>
       <div class="facts">
@@ -914,6 +945,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
           <p>лидеров индустрии здорового образа жизни, долголетия и оздоровления. Врачи с мировыми именами, звёздные эксперты, клиники и бренды.</p>
         </div>
         <div class="eco__grid">
+          <div class="speakers" id="speakers" hidden></div>
           <div data-reveal>
             <div class="people" id="people"></div>
           </div>
@@ -1219,7 +1251,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
   <button class="vmodal__x" type="button" data-close aria-label="Закрыть видео"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
 </div>
 
-<script src="content.js?v=2026-11-06"></script>
+<script src="content.js?v=2026-11-08"></script>
 <script src="assets/gsap.min.js"></script>
 <script src="assets/ScrollTrigger.min.js"></script>
 <script src="assets/lenis.min.js"></script>
@@ -1311,7 +1343,26 @@ safe('content',()=>{
   const setT=(sel,t)=>{ const e=$(sel); if(e) e.textContent=t; };
   setT('#heroWhen',when); setT('#footWhen',when+' · Проект «Жизнь 300+»');
   // люди
-  const ppl=(C.people||[]).slice(); const slots=Math.max(4,Math.ceil(ppl.length/4)*4);
+  const spk=C.speakers||[];
+  if($('#speakers')){
+    const initials=n=>String(n).split(/\s+/).map(w=>w[0]||'').join('').slice(0,2);
+    $('#speakers').innerHTML=spk.map((s,i)=>{ const parts=String(s.name).split(' ');
+      return '<article class="spk'+(i===0?' spk--lead':'')+'" data-reveal>'+
+        '<div class="spk__ph">'+(s.photo?'<img src="'+esc(s.photo)+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async">':'<span class="spk__ini" aria-hidden="true">'+esc(initials(s.name))+'</span>')+'</div>'+
+        '<div class="spk__b"><h3 class="spk__n">'+esc(parts[0])+(parts.length>1?' <span>'+esc(parts.slice(1).join(' '))+'</span>':'')+'</h3>'+
+        (s.role?'<p class="spk__r">'+esc(s.role)+'</p>':'')+
+        ((s.facts||[]).length?'<ul class="spk__f">'+s.facts.map(f=>'<li>'+esc(f)+'</li>').join('')+'</ul>':'')+
+        (s.quote?'<blockquote class="spk__q">'+esc(s.quote)+(s.quoteBy?'<cite>'+esc(s.quoteBy)+'</cite>':'')+'</blockquote>':'')+
+        '</div></article>'; }).join('');
+    $('#speakers').hidden=!spk.length;
+  }
+  if($('#heroSpk')&&spk.length){
+    $('#heroSpk').innerHTML='<span>Среди спикеров</span> '+spk.slice(0,3).map(s=>'<b>'+esc(s.name)+'</b>').join(', ')+' и&nbsp;другие'+
+      '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5"/></svg>';
+    $('#heroSpk').hidden=false;
+  }
+  const ppl=(C.people||[]).slice(); const slots=ppl.length?Math.ceil(ppl.length/4)*4:(spk.length?0:4);
+  if(!slots&&$('#people')) $('#people').parentElement.hidden=true;
   if($('#people')) $('#people').innerHTML=Array.from({length:slots},(_,i)=>{ const p=ppl[i];
     if(!p) return '<div class="slot"><span>Имя объявим</span></div>';
     const inner=(p.photo?'<img src="'+esc(p.photo)+'" alt="'+esc(p.name)+'" loading="lazy">':'')+'<div class="slot__t"><b>'+esc(p.name)+'</b><span>'+esc(p.role||'')+'</span></div>';
