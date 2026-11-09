@@ -1251,7 +1251,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
   <button class="vmodal__x" type="button" data-close aria-label="Закрыть видео"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
 </div>
 
-<script src="content.js?v=10c0155bc1"></script>
+<script src="content.js?v=e1cda85896"></script>
 <script src="assets/gsap.min.js"></script>
 <script src="assets/ScrollTrigger.min.js"></script>
 <script src="assets/lenis.min.js"></script>
@@ -1506,7 +1506,7 @@ safe('panels',()=>{
 /* ── Телефон: кнопка заявки внизу экрана — после первого экрана и до блока заявки ── */
 safe('mcta',()=>{
   const b=$('#mcta'), hero=$('.hero'), contact=$((window.PAGE&&PAGE.mctaStop)||'#contact');
-  if(!LITE){ b.remove(); return; }
+  if(!LITE&&!(window.PAGE&&PAGE.mctaDesktop)){ b.remove(); return; }
   const upd=()=>{ const past=hero.getBoundingClientRect().bottom<80, atForm=contact.getBoundingClientRect().top<innerHeight*.9;
     b.classList.toggle('on',past&&!atForm); };
   addEventListener('scroll',upd,{passive:true}); addEventListener('resize',upd); upd();
