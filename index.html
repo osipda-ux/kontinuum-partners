@@ -778,6 +778,40 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
   .spk__ph img{object-position:50% 12%}
 }
 
+/* ═══ Спикеры: короткий список (имя + строка) и панель с регалиями — на обоих сайтах ═══ */
+.spkl{display:grid;gap:10px}
+.spkl__t{font:500 clamp(24px,2vw,30px)/1.1 var(--f-display);color:var(--ink)}
+.spkl__t span{color:var(--accent);font-variant-numeric:lining-nums}
+.spkl ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.spkl__b{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 6px;border-bottom:1px solid var(--line);transition:background-color .25s var(--ease-out)}
+.spkl__b:focus-visible{outline:1px solid var(--accent);outline-offset:2px}
+.spkl__ph{width:56px;height:56px;border-radius:50%;overflow:hidden;display:grid;place-items:center;border:1px solid rgba(232,205,149,.4);background:rgba(255,255,255,.04);font:500 20px/1 var(--f-display);color:var(--accent)}
+.spkl__ph img{width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+.spkl__tx{display:grid;gap:4px;min-width:0}
+.spkl__tx b{font:500 clamp(21px,1.6vw,25px)/1.1 var(--f-display);color:var(--ink)}
+.spkl__tx b span{color:var(--accent)}
+.spkl__tx small{font-size:15px;line-height:1.45;color:var(--ink-2)}
+.spkl__go{display:inline-flex;align-items:center;gap:8px;font:600 13.5px/1 var(--f-body);font-style:normal;color:var(--accent);white-space:nowrap}
+.spkl__go svg{width:13px;height:13px;transition:transform .25s var(--ease-out)}
+@media (hover:hover){.spkl__b:hover{background:rgba(232,205,149,.05)}.spkl__b:hover .spkl__go svg{transform:translateX(3px)}}
+@media (max-width:560px){.spkl__b{grid-template-columns:48px minmax(0,1fr);gap:12px}.spkl__ph{width:48px;height:48px}.spkl__go{grid-column:2}}
+
+.spkd__top{display:grid;grid-template-columns:clamp(110px,26%,170px) minmax(0,1fr);gap:clamp(16px,2.4vw,26px);align-items:end}
+.spkd__ph{display:grid;place-items:center;aspect-ratio:4/5;border-radius:calc(var(--r) - 4px);overflow:hidden;border:1px solid rgba(232,205,149,.4);background:rgba(255,255,255,.04);font:500 44px/1 var(--f-display);color:var(--accent)}
+.spkd__ph img{width:100%;height:100%;object-fit:cover;object-position:50% 15%}
+.spkd h3{margin:0 0 10px;font-size:clamp(34px,4.4vw,52px);line-height:1}
+.spkd h3 span{color:var(--accent)}
+.spkd__legend{font-size:16px;line-height:1.5;color:var(--ink-2)}
+.spkd .sheet__lead{margin-top:24px}
+.spkd__h{margin:26px 0 6px;font:600 13px/1.3 var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.spkd .spk__f li{font-size:16.5px;color:var(--ink)}
+.spkd .spk__q{margin-top:22px}
+.spkd__next{all:unset;box-sizing:border-box;width:100%;cursor:pointer;margin-top:14px;padding:16px 4px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:center;border-top:1px solid var(--line)}
+.spkd__next span{font:600 12.5px/1.3 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.spkd__next b{grid-row:2;font:500 22px/1.15 var(--f-display);color:var(--ink)}
+.spkd__next svg{grid-row:1/3;grid-column:2;width:16px;height:16px;color:var(--accent)}
+.spkd__next:focus-visible{outline:1px solid var(--accent);outline-offset:2px}
+
 .hero__spk{display:block;margin-top:4px;max-width:46ch;font-size:16.5px;line-height:1.45;color:var(--ink-2);text-decoration:none;width:fit-content}
 .hero__spk span{color:var(--ink-3)}
 .hero__spk b{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:rgba(232,205,149,.5);text-underline-offset:.25em}
@@ -1234,6 +1268,13 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
 <div class="cur" aria-hidden="true"></div><div class="cur-dot" aria-hidden="true"></div>
 
 <!-- Подробности блока конференции -->
+<div class="sheet spkd" id="spkSheet" role="dialog" aria-modal="true" aria-labelledby="spkTitle" hidden>
+  <div class="sheet__bg" data-kclose></div>
+  <div class="sheet__panel">
+    <button class="sheet__x" type="button" data-kclose aria-label="Закрыть"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
+    <div id="spkBody"></div>
+  </div>
+</div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
   <div class="sheet__bg" data-sclose></div>
   <div class="sheet__panel">
@@ -1345,18 +1386,46 @@ safe('content',()=>{
   setT('#heroWhen',when); setT('#footWhen',when+' · Проект «Жизнь 300+»');
   // люди
   const spk=C.speakers||[];
-  if($('#speakers')){
-    const initials=n=>String(n).split(/\s+/).map(w=>w[0]||'').join('').slice(0,2);
-    $('#speakers').innerHTML=spk.map((s,i)=>{ const parts=String(s.name).split(' ');
-      return '<article class="spk'+(i===0?' spk--lead':'')+'" data-reveal>'+
-        '<div class="spk__ph">'+(s.photo?'<img src="'+esc(s.photo)+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async">':'<span class="spk__ini" aria-hidden="true">'+esc(initials(s.name))+'</span>')+'</div>'+
-        '<div class="spk__b"><h3 class="spk__n">'+esc(parts[0])+(parts.length>1?' <span>'+esc(parts.slice(1).join(' '))+'</span>':'')+'</h3>'+
-        (s.legend?'<p class="spk__l">'+esc(s.legend)+'</p>':'')+
-        (s.role?'<p class="spk__r">'+esc(s.role)+'</p>':'')+
-        ((s.facts||[]).length?'<ul class="spk__f">'+s.facts.map(f=>'<li>'+esc(f)+'</li>').join('')+'</ul>':'')+
+  // спикеры: коротким списком (имя + одна строка), полные регалии — в панели по нажатию.
+  // Любая кнопка с data-spk="номер" открывает панель (на сайте участников — ещё и портреты в «Легендах»).
+  const nm=s=>{ const p=String(s.name).split(' '); return esc(p[0])+(p.length>1?' <span>'+esc(p.slice(1).join(' '))+'</span>':''); };
+  const ini=s=>esc(String(s.name).split(/\s+/).map(w=>w[0]||'').join('').slice(0,2));
+  const arw='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5"/></svg>';
+  const box=$('#speakers');
+  if(box&&spk.length){
+    box.className='spkl'; box.hidden=false; box.setAttribute('data-reveal','');
+    box.innerHTML='<p class="spkl__t">Спикеры <span>'+spk.length+'</span></p><ul>'+spk.map((s,i)=>
+      '<li><button class="spkl__b" type="button" data-spk="'+i+'" aria-haspopup="dialog">'+
+      '<span class="spkl__ph">'+(s.photo?'<img src="'+esc(s.photo)+'" alt="" loading="lazy" decoding="async">':ini(s))+'</span>'+
+      '<span class="spkl__tx"><b>'+nm(s)+'</b>'+(s.legend||s.role?'<small>'+esc(s.legend||s.role)+'</small>':'')+'</span>'+
+      '<i class="spkl__go">Регалии'+arw+'</i></button></li>').join('')+'</ul>';
+  }
+  const kd=$('#spkSheet'), kb=$('#spkBody'); let kOpener=null;
+  if(kd&&spk.length){
+    const PGs=window.PAGE||{}, CTA=PGs.spkCta||'Обсудить участие', TGT=PGs.spkTarget||'#contact';
+    const kOpen=i=>{ const s=spk[i]; if(!s) return; const nx=spk[(i+1)%spk.length];
+      if(kd.hidden) kOpener=document.activeElement;
+      kb.innerHTML='<div class="spkd__top"><span class="spkd__ph">'+(s.photo?'<img src="'+esc(s.photo)+'" alt="'+esc(s.name)+'">':'<span>'+ini(s)+'</span>')+'</span>'+
+        '<div><h3 id="spkTitle">'+nm(s)+'</h3>'+(s.legend?'<p class="spkd__legend">'+esc(s.legend)+'</p>':'')+'</div></div>'+
+        (s.role?'<p class="sheet__lead">'+esc(s.role)+'</p>':'')+
+        ((s.facts||[]).length?'<p class="spkd__h">Регалии</p><ul class="spk__f">'+s.facts.map(f=>'<li>'+esc(f)+'</li>').join('')+'</ul>':'')+
         (s.quote&&!String(s.legend||'').includes(s.quote)?'<blockquote class="spk__q">'+esc(s.quote)+(s.quoteBy?'<cite>'+esc(s.quoteBy)+'</cite>':'')+'</blockquote>':'')+
-        '</div></article>'; }).join('');
-    $('#speakers').hidden=!spk.length;
+        '<a class="btn btn--fill sheet__cta" href="'+esc(TGT)+'"><span>'+esc(CTA)+'</span>'+arw+'</a>'+
+        (spk.length>1?'<button class="spkd__next" type="button" data-spk="'+((i+1)%spk.length)+'"><span>Следующий спикер</span><b>'+esc(nx.name)+'</b>'+arw+'</button>':'');
+      kb.parentElement.scrollTop=0;
+      if(kd.hidden){ kd.hidden=false; document.documentElement.style.overflow='hidden'; if(lenis) lenis.stop(); requestAnimationFrame(()=>kd.classList.add('on')); }
+      kd.querySelector('.sheet__x').focus(); };
+    const kClose=go=>{ kd.classList.remove('on'); document.documentElement.style.overflow=''; if(lenis) lenis.start();
+      setTimeout(()=>{ kd.hidden=true; },RM?0:450);
+      if(go){ const t=$(go); if(t) setTimeout(()=>lenis?lenis.scrollTo(t,{offset:-20,duration:1.4}):t.scrollIntoView({behavior:'smooth'}),60); }
+      else if(kOpener) kOpener.focus({preventScroll:true}); };
+    document.addEventListener('click',e=>{
+      const b=e.target.closest('[data-spk]'); if(b){ kOpen(+b.dataset.spk); return; }
+      if(kd.hidden) return;
+      if(e.target.closest('[data-kclose]')) kClose();
+      else if(e.target.closest('#spkBody .sheet__cta')){ e.preventDefault(); kClose(TGT); }
+    });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!kd.hidden) kClose(); });
   }
   if($('#heroSpk')&&spk.length){
     $('#heroSpk').innerHTML='<span>Среди спикеров</span> '+spk.slice(0,3).map(s=>'<b>'+esc(s.name)+'</b>').join(', ')+' и&nbsp;другие'+
