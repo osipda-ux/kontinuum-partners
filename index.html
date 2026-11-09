@@ -778,7 +778,27 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
   .spk__ph img{object-position:50% 12%}
 }
 
-/* ═══ Спикеры: короткий список (имя + строка) и панель с регалиями — на обоих сайтах ═══ */
+/* ═══ Спикеры: крупные портреты и панель с регалиями — на обоих сайтах ═══ */
+/* крупные портреты спикеров (сайт партнёров) */
+.spg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(36px,3.4vw,52px) clamp(18px,2.2vw,32px);margin:clamp(30px,3.6vw,52px) 0 clamp(64px,7vw,110px)}
+.spg__c{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:10px;align-content:start;color:var(--ink)}
+.spg__c:focus-visible{outline:1px solid var(--accent);outline-offset:6px;border-radius:var(--r)}
+.spg__ph{display:block;aspect-ratio:4/5;border-radius:var(--r);overflow:hidden;border:1px solid rgba(232,205,149,.42);background:#04150F;margin-bottom:8px}
+.spg__ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 15%;transition:transform .8s var(--ease-out)}
+.spg__ini{display:grid;place-items:center;height:100%;font:500 clamp(56px,6vw,96px)/1 var(--f-display);color:var(--accent)}
+.spg__n{font:500 clamp(26px,2.3vw,36px)/1.05 var(--f-display)}
+.spg__n span{color:var(--accent)}
+.spg__l{font-size:16px;line-height:1.5;color:var(--ink-2)}
+.spg__go{display:inline-flex;align-items:center;gap:8px;margin-top:2px;font:600 14px/1 var(--f-body);font-style:normal;color:var(--accent)}
+.spg__go svg{width:14px;height:14px;transition:transform .25s var(--ease-out)}
+.spg__join{display:grid;align-content:space-between;gap:18px;min-height:100%;padding:clamp(22px,2.4vw,34px);border-radius:var(--r);border:1px dashed rgba(232,205,149,.5);background:radial-gradient(80% 60% at 50% 0%,rgba(201,169,110,.14),transparent 70%);text-decoration:none;color:var(--ink)}
+.spg__join b{font:500 clamp(28px,2.6vw,40px)/1.08 var(--f-display);font-weight:500}
+.spg__join span{font-size:16.5px;line-height:1.5;color:var(--ink-2);max-width:26ch}
+.spg__join i{display:inline-flex;align-items:center;gap:8px;font:600 14px/1 var(--f-body);font-style:normal;color:var(--accent)}
+.spg__join i svg{width:14px;height:14px}
+@media (hover:hover){.spg__c:hover .spg__ph img{transform:scale(1.04)}.spg__c:hover .spg__go svg{transform:translateX(3px)}.spg__join:hover{border-style:solid}}
+@media (max-width:980px){.spg{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.spg{gap:30px 14px}.spg__n{font-size:23px}.spg__l{font-size:14.5px;line-height:1.45}.spg__join span{font-size:15px}.spg__join b{font-size:25px}}
 .spkl{display:grid;gap:10px}
 .spkl__t{font:500 clamp(24px,2vw,30px)/1.1 var(--f-display);color:var(--ink)}
 .spkl__t span{color:var(--accent);font-variant-numeric:lining-nums}
@@ -974,13 +994,13 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
       <div class="head">
         <h2 data-reveal>Кто будет <em>рядом с вами</em></h2>
       </div>
+      <div class="speakers" id="speakers" hidden></div>
       <div class="eco">
         <div class="eco__count" data-reveal>
           <b data-count="100">100</b>
           <p>лидеров индустрии здорового образа жизни, долголетия и оздоровления. Врачи с мировыми именами, звёздные эксперты, клиники и бренды.</p>
         </div>
         <div class="eco__grid">
-          <div class="speakers" id="speakers" hidden></div>
           <div data-reveal>
             <div class="people" id="people"></div>
           </div>
@@ -1391,15 +1411,17 @@ safe('content',()=>{
   const nm=s=>{ const p=String(s.name).split(' '); return esc(p[0])+(p.length>1?' <span>'+esc(p.slice(1).join(' '))+'</span>':''); };
   const ini=s=>esc(String(s.name).split(/\s+/).map(w=>w[0]||'').join('').slice(0,2));
   const arw='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5"/></svg>';
-  const box=$('#speakers');
-  if(box&&spk.length){
-    box.className='spkl'; box.hidden=false; box.setAttribute('data-reveal','');
-    box.innerHTML='<p class="spkl__t">Спикеры <span>'+spk.length+'</span></p><ul>'+spk.map((s,i)=>
-      '<li><button class="spkl__b" type="button" data-spk="'+i+'" aria-haspopup="dialog">'+
-      '<span class="spkl__ph">'+(s.photo?'<img src="'+esc(s.photo)+'" alt="" loading="lazy" decoding="async">':ini(s))+'</span>'+
-      '<span class="spkl__tx"><b>'+nm(s)+'</b>'+(s.legend||s.role?'<small>'+esc(s.legend||s.role)+'</small>':'')+'</span>'+
-      '<i class="spkl__go">Регалии'+arw+'</i></button></li>').join('')+'</ul>';
-  }
+  // крупные портреты: фото 4:5, имя, главная строка, «Регалии». На сайте участников эту роль играют «Легенды» (PAGE.spkList:false).
+  const box=$('#speakers'), PGx=window.PAGE||{};
+  if(box&&spk.length&&PGx.spkList!==false){
+    box.className='spg'; box.hidden=false;
+    box.innerHTML=spk.map((s,i)=>
+      '<button class="spg__c" type="button" data-spk="'+i+'" aria-haspopup="dialog" data-reveal>'+
+      '<span class="spg__ph">'+(s.photo?'<img src="'+esc(s.photo)+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async">':'<span class="spg__ini">'+ini(s)+'</span>')+'</span>'+
+      '<b class="spg__n">'+nm(s)+'</b>'+(s.legend||s.role?'<span class="spg__l">'+esc(s.legend||s.role)+'</span>':'')+
+      '<i class="spg__go">Регалии'+arw+'</i></button>').join('')+
+      (PGx.spkJoin===false?'':'<a class="spg__join" href="#contact" data-reveal><b>Станьте спикером «Континуума»</b><span>Расскажите о себе — подберём панель и формат выступления.</span><i>Подать заявку'+arw+'</i></a>');
+  } else if(box) box.hidden=true;
   const kd=$('#spkSheet'), kb=$('#spkBody'); let kOpener=null;
   if(kd&&spk.length){
     const PGs=window.PAGE||{}, CTA=PGs.spkCta||'Обсудить участие', TGT=PGs.spkTarget||'#contact';
