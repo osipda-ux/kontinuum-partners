@@ -765,6 +765,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
 .spk__b{display:grid;gap:14px;align-content:start;padding-block:clamp(6px,1vw,14px)}
 .spk__n{font-size:clamp(32px,3.2vw,50px);line-height:1}
 .spk__n span{color:var(--accent)}
+.spk__l{font-size:clamp(16px,1.15vw,17.5px);line-height:1.5;color:var(--accent);max-width:46ch}
 .spk__r{font-size:clamp(17px,1.25vw,18.5px);line-height:1.55;color:var(--ink);max-width:46ch}
 .spk__f{list-style:none;margin:6px 0 0;padding:0;display:grid;border-top:1px solid var(--line)}
 .spk__f li{position:relative;padding:11px 0 11px 22px;border-bottom:1px solid var(--line);color:var(--ink-2);font-size:16px;line-height:1.45}
@@ -1251,7 +1252,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
   <button class="vmodal__x" type="button" data-close aria-label="Закрыть видео"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
 </div>
 
-<script src="content.js?v=e1cda85896"></script>
+<script src="content.js?v=32a4392dff"></script>
 <script src="assets/gsap.min.js"></script>
 <script src="assets/ScrollTrigger.min.js"></script>
 <script src="assets/lenis.min.js"></script>
@@ -1350,9 +1351,10 @@ safe('content',()=>{
       return '<article class="spk'+(i===0?' spk--lead':'')+'" data-reveal>'+
         '<div class="spk__ph">'+(s.photo?'<img src="'+esc(s.photo)+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async">':'<span class="spk__ini" aria-hidden="true">'+esc(initials(s.name))+'</span>')+'</div>'+
         '<div class="spk__b"><h3 class="spk__n">'+esc(parts[0])+(parts.length>1?' <span>'+esc(parts.slice(1).join(' '))+'</span>':'')+'</h3>'+
+        (s.legend?'<p class="spk__l">'+esc(s.legend)+'</p>':'')+
         (s.role?'<p class="spk__r">'+esc(s.role)+'</p>':'')+
         ((s.facts||[]).length?'<ul class="spk__f">'+s.facts.map(f=>'<li>'+esc(f)+'</li>').join('')+'</ul>':'')+
-        (s.quote?'<blockquote class="spk__q">'+esc(s.quote)+(s.quoteBy?'<cite>'+esc(s.quoteBy)+'</cite>':'')+'</blockquote>':'')+
+        (s.quote&&!String(s.legend||'').includes(s.quote)?'<blockquote class="spk__q">'+esc(s.quote)+(s.quoteBy?'<cite>'+esc(s.quoteBy)+'</cite>':'')+'</blockquote>':'')+
         '</div></article>'; }).join('');
     $('#speakers').hidden=!spk.length;
   }
