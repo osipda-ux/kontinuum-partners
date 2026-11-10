@@ -32,7 +32,7 @@ window.CONTENT = {
     telegram: "GulyaMishkina",            // без @
     whatsapp: "",                         // номер в формате 79991234567; пусто — кнопка скрыта
     formEndpoint: "",                     // адрес приёма заявок (Formspree, бот и т. п.); пусто — заявка уходит в Telegram
-    buyersEndpoint: "",                   // веб-приложение Google Apps Script таблицы «Континуум — покупатели билетов» (страница spasibo.html)
+    buyersEndpoint: "https://script.google.com/macros/s/AKfycbw-0IfkuSBzokWkpXSn9m9TpmMLJj9Zuly8zoW7_9TaUvrFmoJV48nLUQEohuoJv0vX/exec",                   // веб-приложение Google Apps Script таблицы «Континуум — покупатели билетов» (страница spasibo.html)
   },
 
   // Для формы по закону о персональных данных (152-ФЗ) нужны оператор и политика.
