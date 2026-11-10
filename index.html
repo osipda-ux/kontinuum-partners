@@ -369,6 +369,7 @@ p{margin:0}
 .done p{color:var(--ink-2)}
 .done textarea{width:100%;min-height:150px;background:transparent;border:1px solid var(--line);color:var(--ink-2);font:400 13px/1.5 var(--f-mono);padding:12px;resize:vertical}
 .done__btns{display:flex;gap:10px;flex-wrap:wrap}
+.is-ref .person,.is-ref .done__btns{display:none!important}
 .final{margin-top:clamp(72px,9vw,140px);font:300 italic clamp(30px,4.2vw,68px)/1.08 var(--f-display);max-width:20ch}
 .final span{color:var(--gold)}
 @media (max-width:980px){.tat__l,.form{grid-column:1/-1}}
@@ -1336,7 +1337,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
   <button class="vmodal__x" type="button" data-close aria-label="Закрыть видео"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
 </div>
 
-<script src="content.js?v=53ad988892"></script>
+<script src="content.js?v=ce627e52fb"></script>
 <script src="assets/gsap.min.js"></script>
 <script src="assets/ScrollTrigger.min.js"></script>
 <script src="assets/lenis.min.js"></script>
@@ -1420,6 +1421,12 @@ const player=(()=>{
     m.hidden=false; document.documentElement.style.overflow='hidden'; if(lenis) lenis.stop();
     v.muted=false; v.play().catch(()=>{}); m.querySelector('.vmodal__x').focus(); } };
 })();
+
+/* ── Ссылка агента (?ref=код): запоминаем на 60 дней, убираем контакты организаторов, метим заявки и оплату ── */
+window.KREF=(()=>{ try{ const now=Date.now(), q=new URLSearchParams(location.search).get('ref');
+  if(q){ const c=q.toLowerCase().replace(/[^a-z0-9-]/g,'').slice(0,40); if(c){ localStorage.setItem('kontinuum_ref',JSON.stringify({c:c,t:now})); return c; } }
+  const s=JSON.parse(localStorage.getItem('kontinuum_ref')||'null'); if(s&&s.c&&now-s.t<60*864e5) return s.c; }catch(_){} return ''; })();
+if(window.KREF) document.documentElement.classList.add('is-ref');
 
 /* ── Данные из content.js ── */
 safe('content',()=>{
@@ -1633,6 +1640,14 @@ safe('panels',()=>{
   document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!sh.hidden) close(); });
 });
 
+/* ── Оплата по ссылке агента: код агента уходит в Продамус (_param_agent) и в лист «Переходы» ── */
+safe('payref',()=>{ document.addEventListener('click',e=>{
+  const a=e.target.closest&&e.target.closest('a[href*="payform.ru"]'); if(!a||!window.KREF) return;
+  try{ const u=new URL(a.href); if(!u.searchParams.get('_param_agent')){ u.searchParams.set('_param_agent',window.KREF); a.href=u.toString(); } }catch(_){}
+  const ep=(C.contact||{}).buyersEndpoint;
+  if(ep&&navigator.sendBeacon) navigator.sendBeacon(ep,new URLSearchParams({source:'click',agent:window.KREF,pack:a.dataset.format||'',sum:a.dataset.sum||''}));
+},true); });
+
 /* ── Телефон: кнопка заявки внизу экрана — после первого экрана и до блока заявки ── */
 safe('mcta',()=>{
   const b=$('#mcta'), hero=$('.hero'), contact=$((window.PAGE&&PAGE.mctaStop)||'#contact');
@@ -1817,7 +1832,11 @@ safe('form',()=>{
     if(!ok) return;
     const text=msg(); $('#doneMsg').value=text;
     let sent=false;
-    if(ct.formEndpoint){ try{ const r=await fetch(ct.formEndpoint,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name:$('#f-name').value,phone:$('#f-phone').value,email:$('#f-email').value,status:$('#f-status').value,message:text})}); sent=r.ok; }catch(_){} }
+    const ep=ct.buyersEndpoint||'';
+    if(ep){ const b=new URLSearchParams({source:'lead',site:PG.site||'Партнёры',name:$('#f-name').value.trim(),phone:$('#f-phone').value.trim(),email:$('#f-email').value.trim(),status:$('#f-status').value.trim(),agent:window.KREF||''});
+      sent=!!(navigator.sendBeacon&&navigator.sendBeacon(ep,b));
+      if(!sent){ try{ await fetch(ep,{method:'POST',mode:'no-cors',body:b,keepalive:true}); sent=true; }catch(_){} } }
+    else if(ct.formEndpoint){ try{ const r=await fetch(ct.formEndpoint,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name:$('#f-name').value,phone:$('#f-phone').value,email:$('#f-email').value,status:$('#f-status').value,message:text})}); sent=r.ok; }catch(_){} }
     if(sent){ $('#doneMsg').hidden=true; $('.done__btns').hidden=true; $('#formDone h3').innerHTML='Заявка <em>отправлена</em>'; $('#doneText').textContent='Спасибо. Мы свяжемся с вами в ближайшее время.'; }
     else { try{ await navigator.clipboard.writeText(text); }catch(_){ $('#doneText').textContent='Скопируйте текст ниже, откройте чат и отправьте его одним сообщением.'; } }
     $('#formFields').hidden=true; $('#formDone').hidden=false;
