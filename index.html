@@ -163,9 +163,9 @@ p{margin:0}
 .portrait__frame::after{content:"";position:absolute;inset:10px;z-index:2;border:1px solid var(--line);border-radius:23px;pointer-events:none}
 .author:hover .portrait__frame{border-color:var(--accent)}
 .portrait svg.orbit{position:absolute;inset:-3% -2% auto;width:104%;height:auto;opacity:.55;pointer-events:none;z-index:1}
-.portrait img{position:absolute;left:0;right:0;bottom:-4%;margin-inline:auto;width:auto;height:94%;max-width:none;object-fit:contain;object-position:50% 100%;filter:grayscale(.35) contrast(1.04) brightness(.96);transition:filter 1s var(--ease);-webkit-mask-image:linear-gradient(to bottom,#000 80%,transparent 100%);mask-image:linear-gradient(to bottom,#000 80%,transparent 100%);will-change:transform}
+.portrait img{position:absolute;left:0;right:0;bottom:-4%;margin-inline:auto;width:auto;height:94%;max-width:none;object-fit:contain;object-position:50% 100%;filter:saturate(1.12) contrast(1.04) brightness(1.03);transition:filter 1s var(--ease);-webkit-mask-image:linear-gradient(to bottom,#000 80%,transparent 100%);mask-image:linear-gradient(to bottom,#000 80%,transparent 100%);will-change:transform}
 .author:nth-child(2) .portrait img{height:92%;-webkit-mask-image:linear-gradient(to right,transparent,#000 18%,#000 82%,transparent),linear-gradient(to bottom,#000 80%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 18%,#000 82%,transparent),linear-gradient(to bottom,#000 80%,transparent);mask-composite:intersect}
-.author:hover .portrait img{filter:grayscale(0) contrast(1.02)}
+.author:hover .portrait img{filter:saturate(1.18) contrast(1.05) brightness(1.04)}
 .author__name{font:300 clamp(40px,4.6vw,76px)/.95 var(--f-display)}
 .author__name span{display:block;font-style:italic;color:var(--accent)}
 .regalia{list-style:none;margin:0;padding:0;display:grid;border-top:1px solid var(--line)}
@@ -667,7 +667,7 @@ section.band{border-block:0}
   .scene:hover::before{transform:none}
   .space:hover video{transform:scale(1.02)}
   .film__btn:hover{transform:none}
-  .author:hover .portrait img{filter:grayscale(.35) contrast(1.04) brightness(.96)}
+  .author:hover .portrait img{filter:saturate(1.12) contrast(1.04) brightness(1.03)}
 }
 @media (max-width:980px){
   h2{font-size:clamp(38px,10vw,60px)}
@@ -779,43 +779,45 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
 }
 
 /* ═══ Спикеры: крупные портреты и панель с регалиями — на обоих сайтах ═══ */
-/* крупные портреты спикеров (сайт партнёров) */
-.spg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(36px,3.4vw,52px) clamp(18px,2.2vw,32px);margin:clamp(30px,3.6vw,52px) 0 clamp(64px,7vw,110px)}
-.spg__c{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:10px;align-content:start;color:var(--ink)}
-.spg__c:focus-visible{outline:1px solid var(--accent);outline-offset:6px;border-radius:var(--r)}
-.spg__ph{display:block;aspect-ratio:4/5;border-radius:var(--r);overflow:hidden;border:1px solid rgba(232,205,149,.42);background:#04150F;margin-bottom:8px}
-.spg__ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 15%;transition:transform .8s var(--ease-out)}
-.spg__ini{display:grid;place-items:center;height:100%;font:500 clamp(56px,6vw,96px)/1 var(--f-display);color:var(--accent)}
-.spg__n{font:500 clamp(26px,2.3vw,36px)/1.05 var(--f-display)}
-.spg__n span{color:var(--accent)}
-.spg__l{font-size:16px;line-height:1.5;color:var(--ink-2)}
-.spg__go{display:inline-flex;align-items:center;gap:8px;margin-top:2px;font:600 14px/1 var(--f-body);font-style:normal;color:var(--accent)}
-.spg__go svg{width:14px;height:14px;transition:transform .25s var(--ease-out)}
-.spg__join{display:grid;align-content:space-between;gap:18px;min-height:100%;padding:clamp(22px,2.4vw,34px);border-radius:var(--r);border:1px dashed rgba(232,205,149,.5);background:radial-gradient(80% 60% at 50% 0%,rgba(201,169,110,.14),transparent 70%);text-decoration:none;color:var(--ink)}
-.spg__join b{font:500 clamp(28px,2.6vw,40px)/1.08 var(--f-display);font-weight:500}
-.spg__join span{font-size:16.5px;line-height:1.5;color:var(--ink-2);max-width:26ch}
-.spg__join i{display:inline-flex;align-items:center;gap:8px;font:600 14px/1 var(--f-body);font-style:normal;color:var(--accent)}
-.spg__join i svg{width:14px;height:14px}
-@media (hover:hover){.spg__c:hover .spg__ph img{transform:scale(1.04)}.spg__c:hover .spg__go svg{transform:translateX(3px)}.spg__join:hover{border-style:solid}}
-@media (max-width:980px){.spg{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:560px){.spg{gap:30px 14px}.spg__n{font-size:23px}.spg__l{font-size:14.5px;line-height:1.45}.spg__join span{font-size:15px}.spg__join b{font-size:25px}}
-.spkl{display:grid;gap:10px}
-.spkl__t{font:500 clamp(24px,2vw,30px)/1.1 var(--f-display);color:var(--ink)}
-.spkl__t span{color:var(--accent);font-variant-numeric:lining-nums}
-.spkl ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.spkl__b{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 6px;border-bottom:1px solid var(--line);transition:background-color .25s var(--ease-out)}
-.spkl__b:focus-visible{outline:1px solid var(--accent);outline-offset:2px}
-.spkl__ph{width:56px;height:56px;border-radius:50%;overflow:hidden;display:grid;place-items:center;border:1px solid rgba(232,205,149,.4);background:rgba(255,255,255,.04);font:500 20px/1 var(--f-display);color:var(--accent)}
-.spkl__ph img{width:100%;height:100%;object-fit:cover;object-position:50% 18%}
-.spkl__tx{display:grid;gap:4px;min-width:0}
-.spkl__tx b{font:500 clamp(21px,1.6vw,25px)/1.1 var(--f-display);color:var(--ink)}
-.spkl__tx b span{color:var(--accent)}
-.spkl__tx small{font-size:15px;line-height:1.45;color:var(--ink-2)}
-.spkl__go{display:inline-flex;align-items:center;gap:8px;font:600 13.5px/1 var(--f-body);font-style:normal;color:var(--accent);white-space:nowrap}
-.spkl__go svg{width:13px;height:13px;transition:transform .25s var(--ease-out)}
-@media (hover:hover){.spkl__b:hover{background:rgba(232,205,149,.05)}.spkl__b:hover .spkl__go svg{transform:translateX(3px)}}
-@media (max-width:560px){.spkl__b{grid-template-columns:48px minmax(0,1fr);gap:12px}.spkl__ph{width:48px;height:48px}.spkl__go{grid-column:2}}
-
+/* «Партнёры мероприятия» */
+.ptn-wrap{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(24px,4vw,64px);align-items:center}
+.ptn-wrap h2{font-size:clamp(36px,4vw,60px)}
+.ptn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:clamp(12px,1.4vw,18px)}
+.ptn{display:grid;justify-items:center;align-content:center;gap:10px;min-height:300px;padding:28px 22px;border-radius:var(--r);border:1px solid rgba(232,205,149,.3);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));text-align:center;text-decoration:none;color:var(--ink)}
+.ptn__lg{display:grid;place-items:center;width:100%;height:170px}
+.ptn__lg img{max-width:84%;max-height:170px;object-fit:contain}
+.ptn b{font:500 19px/1.2 var(--f-display);color:var(--ink)}
+.ptn small{font:600 11.5px/1.3 var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.ptn--join{border-style:dashed;border-color:rgba(232,205,149,.45)}
+.ptn--join i{width:46px;height:46px;border-radius:50%;border:1px dashed rgba(232,205,149,.6);display:grid;place-items:center;color:var(--accent);margin-bottom:6px}
+.ptn--join small{color:var(--ink-3)}
+@media (hover:hover){a.ptn:hover{border-color:var(--accent)}}
+@media (max-width:980px){.ptn-wrap{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.ptn-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ptn{min-height:180px;padding:16px 12px}.ptn__lg{height:92px}.ptn__lg img{max-height:92px}.ptn b{font-size:16px}}
+/* почётные гости и спикеры — карточки в едином стиле на обоих сайтах */
+.gg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,2vw,28px);margin-top:clamp(30px,3.6vw,52px)}
+.gc{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;min-width:0;border-radius:var(--r);overflow:hidden;border:1px solid rgba(232,205,149,.3);background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.015));color:var(--ink);transition:border-color .4s var(--ease-out),box-shadow .4s var(--ease-out)}
+.gc:focus-visible{outline:1px solid var(--accent);outline-offset:4px}
+.gc__ph{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;background:#04150F}
+.gc__ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 15%;filter:saturate(1.08) contrast(1.03);transition:transform .9s var(--ease-out)}
+.gc__ph::after{content:"";position:absolute;inset:auto 0 0;height:28%;background:linear-gradient(180deg,transparent,rgba(4,21,15,.38));pointer-events:none}
+.gc__ini{display:grid;place-items:center;height:100%;font:500 clamp(56px,6vw,96px)/1 var(--f-display);color:var(--accent)}
+.gc__b{display:flex;flex-direction:column;gap:10px;flex:1;padding:clamp(18px,1.8vw,26px)}
+.gc__n{font:500 clamp(28px,2.4vw,38px)/1.02 var(--f-display);letter-spacing:.005em}
+.gc__n span{display:block;color:var(--accent)}
+.gc__l{font-size:15.5px;line-height:1.5;color:var(--ink-2);margin-bottom:10px}
+.gc__btn{margin-top:auto;display:flex;align-items:center;justify-content:center;gap:10px;min-height:46px;border-radius:999px;border:1px solid rgba(232,205,149,.6);font:600 13.5px/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);transition:background-color .3s var(--ease-out),color .3s var(--ease-out)}
+.gc svg,.gc--more i svg{width:14px;height:14px;flex:none}
+.gc--more{cursor:pointer;display:grid;align-content:space-between;gap:18px;padding:clamp(22px,2.4vw,34px);grid-column:span var(--span,1);border-style:dashed;border-color:rgba(232,205,149,.5);background:radial-gradient(80% 60% at 50% 0%,rgba(201,169,110,.15),transparent 70%);text-decoration:none}
+.gc--more b{font:500 clamp(30px,2.6vw,42px)/1.06 var(--f-display)}
+.gc--num b{font-size:clamp(80px,8vw,128px);line-height:.9;color:var(--accent);font-variant-numeric:lining-nums}
+.gc--more span{font-size:17px;line-height:1.5;color:var(--ink-2);max-width:26ch}
+.gc--more i{display:inline-flex;align-items:center;gap:8px;font:600 14px/1 var(--f-body);font-style:normal;color:var(--accent)}
+.gc--wide{grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;align-content:center;column-gap:clamp(20px,2.4vw,40px)}
+.gc--wide b{grid-row:1/3;align-self:center}
+@media (hover:hover){.gc:hover{border-color:var(--accent);box-shadow:0 18px 50px -24px rgba(232,205,149,.35)}.gc:hover .gc__ph img{transform:scale(1.04)}.gc:hover .gc__btn{background:var(--accent);color:#0B1A14}.gc--more:hover{border-style:solid}}
+@media (max-width:980px){.gg{grid-template-columns:repeat(2,minmax(0,1fr))}.gc--more{grid-column:1/-1}.gc--more.gc--odd{grid-column:auto}.gc--wide{grid-template-columns:auto minmax(0,1fr)}.gc--odd.gc--wide{grid-template-columns:minmax(0,1fr)}.gc--odd.gc--wide b{grid-row:auto}}
+@media (max-width:560px){.gg{gap:14px}.gc__b{padding:14px 12px 14px;gap:8px}.gc__n{font-size:22px}.gc__l{font-size:13.5px;line-height:1.45;margin-bottom:6px}.gc__btn{min-height:40px;font-size:11.5px;letter-spacing:.06em;gap:6px}.gc--more{padding:18px}.gc--more b{font-size:24px}.gc--num b{font-size:64px}.gc--more span{font-size:14.5px}}
 .spkd__top{display:grid;grid-template-columns:clamp(110px,26%,170px) minmax(0,1fr);gap:clamp(16px,2.4vw,26px);align-items:end}
 .spkd__ph{display:grid;place-items:center;aspect-ratio:4/5;border-radius:calc(var(--r) - 4px);overflow:hidden;border:1px solid rgba(232,205,149,.4);background:rgba(255,255,255,.04);font:500 44px/1 var(--f-display);color:var(--accent)}
 .spkd__ph img{width:100%;height:100%;object-fit:cover;object-position:50% 15%}
@@ -852,7 +854,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
     <nav class="nav__links" aria-label="Разделы">
       <a href="#event">Событие</a>
       <a href="#authors">Авторы</a>
-      <a href="#ecosystem">Спикеры</a>
+      <a href="#guests">Почётные гости</a>
       <a href="#media">Медиа</a>
       <a href="#panels">Панели</a>
       <a href="#evening">Вечер</a>
@@ -880,7 +882,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 8h12M9 3l5 5-5 5"/></svg></a>
             <a class="btn" href="#packages" data-magnet><span>Форматы участия</span></a>
           </div>
-          <a class="hero__spk" id="heroSpk" href="#ecosystem" hidden></a>
+          <a class="hero__spk" id="heroSpk" href="#guests" hidden></a>
         </div>
       </div>
       <div class="facts">
@@ -907,6 +909,17 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
       <span>Генетика · <i>Микробиом</i> · Нутрициология · <i>Биохакинг</i> · Остеопатия · <i>Сон</i> · Психосоматика · <i>Нейротехнологии</i> · Регенеративная медицина · <i>Медиа</i> · Инвестиции ·&nbsp;</span>
     </div>
   </div>
+
+  <!-- ПОЧЁТНЫЕ ГОСТИ И СПИКЕРЫ -->
+  <section id="guests" data-shape="helix">
+    <div class="wrap">
+      <div class="head">
+        <h2 data-reveal>Почётные гости <em>и спикеры</em></h2>
+        <p class="lead" data-reveal>Здесь каждое имя — легенда. Люди, которые создали своё направление и ведут за собой индустрию, — <mark class="hl">на одной сцене с вашим выступлением и вашим брендом</mark>.</p>
+      </div>
+      <div class="gg" id="guestGrid"></div>
+    </div>
+  </section>
 
   <!-- О СОБЫТИИ -->
   <section id="event" data-shape="helix">
@@ -962,7 +975,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
         <article class="author" data-reveal>
           <div class="portrait" data-tilt>
             <svg class="orbit" viewBox="0 0 400 300" fill="none" aria-hidden="true"><ellipse cx="200" cy="150" rx="190" ry="120" stroke="currentColor" stroke-opacity=".25"/><ellipse cx="200" cy="150" rx="150" ry="140" stroke="currentColor" stroke-opacity=".12" transform="rotate(18 200 150)"/><circle class="orb" r="3" fill="currentColor"/></svg>
-            <div class="portrait__frame"><img src="assets/natalya.webp" alt="Наталья Баринова" width="401" height="591" loading="lazy" decoding="async"></div>
+            <div class="portrait__frame"><img src="assets/natalya-studio.webp" alt="Наталья Баринова" width="760" height="839" loading="lazy" decoding="async"></div>
           </div>
           <h3 class="author__name">Наталья <span>Баринова</span></h3>
           <ul class="regalia">
@@ -994,7 +1007,6 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
       <div class="head">
         <h2 data-reveal>Кто будет <em>рядом с вами</em></h2>
       </div>
-      <div class="speakers" id="speakers" hidden></div>
       <div class="eco">
         <div class="eco__count" data-reveal>
           <b data-count="100">100</b>
@@ -1047,6 +1059,17 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
       </div>
       <div class="media" id="mediaList" data-reveal></div>
       <p class="eco__note" id="mediaNote" data-reveal>Медиапартнёры объявляются по мере подтверждения.</p>
+    </div>
+  </section>
+
+  <!-- ПАРТНЁРЫ МЕРОПРИЯТИЯ -->
+  <section id="partners" data-shape="clusters">
+    <div class="wrap ptn-wrap">
+      <div data-reveal>
+        <h2>Партнёры <em>мероприятия</em></h2>
+        <p class="eco__note" style="margin-top:14px">Список партнёров пополняется.</p>
+      </div>
+      <div class="ptn-grid" id="partnersGrid" data-reveal></div>
     </div>
   </section>
 
@@ -1313,7 +1336,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
   <button class="vmodal__x" type="button" data-close aria-label="Закрыть видео"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
 </div>
 
-<script src="content.js?v=9cfd9a5ac1"></script>
+<script src="content.js?v=6936c469bf"></script>
 <script src="assets/gsap.min.js"></script>
 <script src="assets/ScrollTrigger.min.js"></script>
 <script src="assets/lenis.min.js"></script>
@@ -1411,17 +1434,23 @@ safe('content',()=>{
   const nm=s=>{ const p=String(s.name).split(' '); return esc(p[0])+(p.length>1?' <span>'+esc(p.slice(1).join(' '))+'</span>':''); };
   const ini=s=>esc(String(s.name).split(/\s+/).map(w=>w[0]||'').join('').slice(0,2));
   const arw='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5"/></svg>';
-  // крупные портреты: фото 4:5, имя, главная строка, «Регалии». На сайте участников эту роль играют «Легенды» (PAGE.spkList:false).
-  const box=$('#speakers'), PGx=window.PAGE||{};
-  if(box&&spk.length&&PGx.spkList!==false){
-    box.className='spg'; box.hidden=false;
-    box.innerHTML=spk.map((s,i)=>
-      '<button class="spg__c" type="button" data-spk="'+i+'" aria-haspopup="dialog" data-reveal>'+
-      '<span class="spg__ph">'+(s.photo?'<img src="'+esc(s.photo)+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async">':'<span class="spg__ini">'+ini(s)+'</span>')+'</span>'+
-      '<b class="spg__n">'+nm(s)+'</b>'+(s.legend||s.role?'<span class="spg__l">'+esc(s.legend||s.role)+'</span>':'')+
-      '<i class="spg__go">Регалии'+arw+'</i></button>').join('')+
-      (PGx.spkJoin===false?'':'<a class="spg__join" href="#contact" data-reveal><b>Станьте спикером «Континуума»</b><span>Расскажите о себе — подберём панель и формат выступления.</span><i>Подать заявку'+arw+'</i></a>');
-  } else if(box) box.hidden=true;
+  // почётные гости и спикеры: карточка — фото, имя, главная строка, кнопка «Подробнее» (панель с достижениями).
+  // Сетка #guestGrid — на обоих сайтах первым блоком после первого экрана. Последняя плитка — PAGE.guestExtra:
+  // 'hundred' (участники: «100 лидеров индустрии в зале») или по умолчанию «Станьте спикером» (партнёры).
+  const gg=$('#guestGrid'), PGx=window.PAGE||{};
+  if(gg&&spk.length){
+    const nm2=s=>{ const p=String(s.name).split(' '); return esc(p[0])+(p.length>1?'<span>'+esc(p.slice(1).join(' '))+'</span>':''); };
+    const extra=PGx.guestExtra==='hundred'
+      ? '<a class="gc gc--more gc--num" href="#ecosystem" data-reveal><b>100</b><span>лидеров индустрии — в зале вместе с вами</span><i>Кто будет рядом'+arw+'</i></a>'
+      : '<a class="gc gc--more" href="#contact" data-reveal><b>Станьте спикером «Континуума»</b><span>Расскажите о себе — подберём панель и формат выступления.</span><i>Подать заявку'+arw+'</i></a>';
+    gg.innerHTML=spk.map((s,i)=>
+      '<button class="gc" type="button" data-spk="'+i+'" aria-haspopup="dialog" data-reveal>'+
+      '<span class="gc__ph">'+(s.photo?'<img src="'+esc(s.photo)+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async">':'<span class="gc__ini">'+ini(s)+'</span>')+'</span>'+
+      '<span class="gc__b"><b class="gc__n">'+nm2(s)+'</b>'+(s.legend||s.role?'<span class="gc__l">'+esc(s.legend||s.role)+'</span>':'')+
+      '<span class="gc__btn">Подробнее'+arw+'</span></span></button>').join('')+extra;
+    const more=gg.querySelector('.gc--more'), n=spk.length, rest=3-(n%3);
+    more.style.setProperty('--span',rest); more.classList.toggle('gc--wide',rest>1); more.classList.toggle('gc--odd',n%2===1);
+  }
   const kd=$('#spkSheet'), kb=$('#spkBody'); let kOpener=null;
   if(kd&&spk.length){
     const PGs=window.PAGE||{}, CTA=PGs.spkCta||'Обсудить участие', TGT=PGs.spkTarget||'#contact';
@@ -1430,10 +1459,10 @@ safe('content',()=>{
       kb.innerHTML='<div class="spkd__top"><span class="spkd__ph">'+(s.photo?'<img src="'+esc(s.photo)+'" alt="'+esc(s.name)+'">':'<span>'+ini(s)+'</span>')+'</span>'+
         '<div><h3 id="spkTitle">'+nm(s)+'</h3>'+(s.legend?'<p class="spkd__legend">'+esc(s.legend)+'</p>':'')+'</div></div>'+
         (s.role?'<p class="sheet__lead">'+esc(s.role)+'</p>':'')+
-        ((s.facts||[]).length?'<p class="spkd__h">Регалии</p><ul class="spk__f">'+s.facts.map(f=>'<li>'+esc(f)+'</li>').join('')+'</ul>':'')+
+        ((s.facts||[]).length?'<p class="spkd__h">Достижения</p><ul class="spk__f">'+s.facts.map(f=>'<li>'+esc(f)+'</li>').join('')+'</ul>':'')+
         (s.quote&&!String(s.legend||'').includes(s.quote)?'<blockquote class="spk__q">'+esc(s.quote)+(s.quoteBy?'<cite>'+esc(s.quoteBy)+'</cite>':'')+'</blockquote>':'')+
         '<a class="btn btn--fill sheet__cta" href="'+esc(TGT)+'"><span>'+esc(CTA)+'</span>'+arw+'</a>'+
-        (spk.length>1?'<button class="spkd__next" type="button" data-spk="'+((i+1)%spk.length)+'"><span>Следующий спикер</span><b>'+esc(nx.name)+'</b>'+arw+'</button>':'');
+        (spk.length>1?'<button class="spkd__next" type="button" data-spk="'+((i+1)%spk.length)+'"><span>Следующий гость</span><b>'+esc(nx.name)+'</b>'+arw+'</button>':'');
       kb.parentElement.scrollTop=0;
       if(kd.hidden){ kd.hidden=false; document.documentElement.style.overflow='hidden'; if(lenis) lenis.stop(); requestAnimationFrame(()=>kd.classList.add('on')); }
       kd.querySelector('.sheet__x').focus(); };
@@ -1450,7 +1479,7 @@ safe('content',()=>{
     document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!kd.hidden) kClose(); });
   }
   if($('#heroSpk')&&spk.length){
-    $('#heroSpk').innerHTML='<span>Среди спикеров</span> '+spk.slice(0,3).map(s=>'<b>'+esc(s.name)+'</b>').join(', ')+' и&nbsp;другие'+
+    $('#heroSpk').innerHTML='<span>Среди почётных гостей</span> '+spk.slice(0,3).map(s=>'<b>'+esc(s.name)+'</b>').join(', ')+' и&nbsp;другие'+
       '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 8h12M9 3l5 5-5 5"/></svg>';
     $('#heroSpk').hidden=false;
   }
@@ -1463,7 +1492,7 @@ safe('content',()=>{
   }).join('');
   // логотипы
   // СМИ и ТВ показываются в блоке «Освещение», здесь только партнёры, клиники и бренды
-  const groups=[['partner','Партнёры'],['clinic','Клиники'],['brand','Бренды']];
+  const groups=[['clinic','Клиники'],['brand','Бренды']];
   const press=(C.logos||[]).filter(l=>l.group==='media'||l.group==='tv');
   if(!$('#mediaList')){}
   else if(press.length){
@@ -1476,7 +1505,15 @@ safe('content',()=>{
     const plus='<i aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor"><path d="M6 1v10M1 6h10"/></svg></i>';
     $('#mediaList').innerHTML=['Телеканал','Деловое издание','Журнал','Онлайн-медиа','Блогеры'].map(t=>'<div class="mslot">'+plus+'<span>'+t+'</span></div>').join('');
   }
-  const allLogos=C.logos||[];
+  const allLogos=(C.logos||[]).filter(l=>l.group!=='partner');
+  // «Партнёры мероприятия»: логотипы group:"partner"; на сайте партнёров — ещё плитка «Ваш бренд»
+  const pg=$('#partnersGrid');
+  if(pg){ const ps=(C.logos||[]).filter(l=>l.group==='partner'), PGp=window.PAGE||{};
+    const plusI='<i aria-hidden="true"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="currentColor"><path d="M6 1v10M1 6h10"/></svg></i>';
+    pg.innerHTML=ps.map(l=>{ const inner='<span class="ptn__lg"><img src="'+esc(l.logo)+'" alt="'+esc(l.name)+'" loading="lazy"></span><b>'+esc(l.name)+'</b>'+(l.role?'<small>'+esc(l.role)+'</small>':'');
+        return l.url?'<a class="ptn" href="'+esc(l.url)+'" target="_blank" rel="noopener">'+inner+'</a>':'<div class="ptn">'+inner+'</div>'; }).join('')+
+      (PGp.partnerJoin===false?'':'<a class="ptn ptn--join" href="#contact">'+plusI+'<b>Ваш бренд</b><small>Станьте партнёром «Континуума»</small></a>');
+    if(!ps.length&&PGp.partnerJoin===false) $('#partners').hidden=true; }
   // пока партнёров нет — короткий список, кого ждём, а не ряды пустых ячеек
   if(!$('#logos')){}
   else if(!allLogos.length) $('#logos').innerHTML='<div class="logos__row"><span>Ждём в партнёрах</span><ul class="logos__chips">'+groups.map(g=>'<li class="chip">'+g[1]+'</li>').join('')+'</ul></div>';
@@ -1567,7 +1604,7 @@ const PANELS=PG.panels||[
     ['Футурологи и визионеры','Будущее медицины, этика бессмертия, симбиоз человека и ИИ'],
     ['Инновационные клиники','Роботизированная хирургия, экзоскелеты, крионика, гипербарическая оксигенация']]},
   {n:'Блок 4',t:'Медиа, законы, инвестиции',s:'Панельная дискуссия',special:true,
-   lead:'Будущее индустрии долголетия. Некоммерческая дискуссия о том, по каким правилам будет расти рынок. На сцене люди, которые влияют на эти правила.',who:[
+   lead:'Будущее индустрии долголетия. Дискуссия о том, по каким правилам будет расти рынок. На сцене люди, которые влияют на эти правила.',who:[
     ['Главные редакторы СМИ','Профильные, деловые и федеральные издания'],
     ['Законодательная власть','Представители законодательной власти'],
     ['Медицинское право','Юристы по медицинскому праву'],
