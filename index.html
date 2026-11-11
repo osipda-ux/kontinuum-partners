@@ -1337,7 +1337,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
   <button class="vmodal__x" type="button" data-close aria-label="Закрыть видео"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
 </div>
 
-<script src="content.js?v=5d70f38577"></script>
+<script src="content.js?v=5a6e8a3939"></script>
 <script src="assets/gsap.min.js"></script>
 <script src="assets/ScrollTrigger.min.js"></script>
 <script src="assets/lenis.min.js"></script>
@@ -1461,15 +1461,16 @@ safe('content',()=>{
   const kd=$('#spkSheet'), kb=$('#spkBody'); let kOpener=null;
   if(kd&&spk.length){
     const PGs=window.PAGE||{}, CTA=PGs.spkCta||'Обсудить участие', TGT=PGs.spkTarget||'#contact';
-    const kOpen=i=>{ const s=spk[i]; if(!s) return; const nx=spk[(i+1)%spk.length];
+    const ART=C.artists||[];
+    const kOpen=(i,k)=>{ const L=k==='art'?ART:spk, at=k==='art'?'data-art':'data-spk', s=L[i]; if(!s) return; const nx=L[(i+1)%L.length];
       if(kd.hidden) kOpener=document.activeElement;
       kb.innerHTML='<div class="spkd__top"><span class="spkd__ph">'+(s.photo?'<img src="'+esc(s.photo)+'" alt="'+esc(s.name)+'">':'<span>'+ini(s)+'</span>')+'</span>'+
         '<div><h3 id="spkTitle">'+nm(s)+'</h3>'+(s.legend?'<p class="spkd__legend">'+esc(s.legend)+'</p>':'')+'</div></div>'+
-        (s.role?'<p class="sheet__lead">'+esc(s.role)+'</p>':'')+
+        ((k==='art'?s.about:s.role)?'<p class="sheet__lead">'+esc(k==='art'?s.about:s.role)+'</p>':'')+
         ((s.facts||[]).length?'<p class="spkd__h">Достижения</p><ul class="spk__f">'+s.facts.map(f=>'<li>'+esc(f)+'</li>').join('')+'</ul>':'')+
         (s.quote&&!String(s.legend||'').includes(s.quote)?'<blockquote class="spk__q">'+esc(s.quote)+(s.quoteBy?'<cite>'+esc(s.quoteBy)+'</cite>':'')+'</blockquote>':'')+
         '<a class="btn btn--fill sheet__cta" href="'+esc(TGT)+'"><span>'+esc(CTA)+'</span>'+arw+'</a>'+
-        (spk.length>1?'<button class="spkd__next" type="button" data-spk="'+((i+1)%spk.length)+'"><span>Следующий гость</span><b>'+esc(nx.name)+'</b>'+arw+'</button>':'');
+        (L.length>1?'<button class="spkd__next" type="button" '+at+'="'+((i+1)%L.length)+'"><span>'+(k==='art'?'Следующий артист':'Следующий гость')+'</span><b>'+esc(nx.name)+'</b>'+arw+'</button>':'');
       kb.parentElement.scrollTop=0;
       if(kd.hidden){ kd.hidden=false; document.documentElement.style.overflow='hidden'; if(lenis) lenis.stop(); requestAnimationFrame(()=>kd.classList.add('on')); }
       kd.querySelector('.sheet__x').focus(); };
@@ -1478,7 +1479,7 @@ safe('content',()=>{
       if(go){ const t=$(go); if(t) setTimeout(()=>lenis?lenis.scrollTo(t,{offset:-20,duration:1.4}):t.scrollIntoView({behavior:'smooth'}),60); }
       else if(kOpener) kOpener.focus({preventScroll:true}); };
     document.addEventListener('click',e=>{
-      const b=e.target.closest('[data-spk]'); if(b){ kOpen(+b.dataset.spk); return; }
+      const b=e.target.closest('[data-spk],[data-art]'); if(b){ b.dataset.art!=null?kOpen(+b.dataset.art,'art'):kOpen(+b.dataset.spk); return; }
       if(kd.hidden) return;
       if(e.target.closest('[data-kclose]')) kClose();
       else if(e.target.closest('#spkBody .sheet__cta')){ e.preventDefault(); kClose(TGT); }
@@ -1599,6 +1600,8 @@ const PANELS=PG.panels||[
     ['Эндокринологи и гинекологи','Гормональный баланс, щитовидная железа, женское здоровье, менопауза'],
     ['Неврологи и сомнологи','Здоровье мозга, нейропластичность, профилактика деменции, качество сна'],
     ['Клиники клеточного омоложения','NAD+, экзосомы, стволовые клетки, IV-терапия'],
+    ['Биомеханика, функциональное долголетие и умный фитнес','Как сохранить подвижность и мышечный тонус до 100 лет'],
+    ['Спортивная медицина и реабилитация','Восстановление после травм и нагрузок, возвращение к активной жизни'],
     ['Бренды и BioTech','БАДы, нутрицевтики, суперфуды, детокс, трекеры сна, криокамеры, гипербарические камеры']]},
   {n:'Блок 2',t:'Психика и сознание',s:'Энергия, подсознание, деньги',lead:'Связь души и тела: как мысли, травмы и энергия влияют на здоровье и деньги.',who:[
     ['Психотерапевты и психосоматологи','Психосоматика болезней, тревожность, хронический стресс'],
@@ -1609,7 +1612,8 @@ const PANELS=PG.panels||[
     ['Биотех-стартапы и лаборатории','Биопечать органов, генная терапия, редактирование генома (CRISPR)'],
     ['Нейротехнологии и IT-медицина','Нейроинтерфейсы, ИИ-диагностика, цифровые двойники'],
     ['Футурологи и визионеры','Будущее медицины, этика бессмертия, симбиоз человека и ИИ'],
-    ['Инновационные клиники','Роботизированная хирургия, экзоскелеты, крионика, гипербарическая оксигенация']]},
+    ['Инновационные клиники','Роботизированная хирургия, экзоскелеты, крионика, гипербарическая оксигенация'],
+    ['Спортивные BioTech-технологии','От трекеров VO2 max и умных тренажёров до криотерапии и гипербарической оксигенации для быстрого восстановления']]},
   {n:'Блок 4',t:'Медиа, законы, инвестиции',s:'Панельная дискуссия',special:true,
    lead:'Будущее индустрии долголетия. Дискуссия о том, по каким правилам будет расти рынок. На сцене люди, которые влияют на эти правила.',who:[
     ['Главные редакторы СМИ','Профильные, деловые и федеральные издания'],
