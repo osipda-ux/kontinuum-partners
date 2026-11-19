@@ -119,6 +119,7 @@
 @media(max-width:680px){.headliner-banner{padding:22px 18px;margin-bottom:24px;border-radius:18px}.headliner-banner__heading{margin-bottom:20px}.headliner-banner__brand{display:none}.headliner-banner h3{font-size:32px}.headliner-banner .headliner-banner__date{font-size:13px;letter-spacing:.06em}.headliner-banner .headliner-banner__names{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.headliner-banner .headliner-banner__person{aspect-ratio:4/5}.headliner-banner .headliner-banner__person>span{left:10px;right:7px;bottom:12px;font-size:22px}.headliner-banner__foot{flex-direction:column;align-items:stretch;gap:15px;margin-top:18px}.headliner-banner .headliner-banner__foot p{font-size:14px}.headliner-banner__foot .btn{width:100%}}
 @media(prefers-reduced-motion:reduce){.headliner-banner__person img{transition:none}.headliner-banner__person:hover img{transform:none}}
 </style>
+<style>.expert-list-title{font:400 clamp(28px,3vw,40px)/1.2 var(--f-display);color:var(--ink);margin:34px 0 0}</style>
 </head>
 <body>
 <style>
@@ -1075,7 +1076,8 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
         <p class="lead" data-reveal>Здесь каждое имя — легенда. Люди, которые создали своё направление и ведут за собой индустрию, — <mark class="hl">на одной сцене с вашим выступлением и вашим брендом</mark>.</p>
       </div>
       <aside class="headliner-banner" id="headliners" aria-labelledby="headliners-title"><div class="headliner-banner__heading"><div><p class="headliner-banner__date">5 декабря · Москва</p><h3 id="headliners-title">На сцене «Континуума»</h3></div><span class="headliner-banner__brand" aria-hidden="true">К О Н Т И Н У У М</span></div><div class="headliner-banner__names" id="headlinerNames"></div><div class="headliner-banner__foot"><p>Главные гости и спикеры. Нажмите на портрет, чтобы познакомиться ближе.</p><a class="btn btn--fill" href="#contact">Обсудить участие</a></div></aside>
-      <div class="expert-carousel expert-fan" id="expertCarousel" role="region" aria-roledescription="карусель" aria-label="Почётные гости и спикеры">
+      <h3 class="expert-list-title">Эксперты и спикеры</h3>
+<div class="expert-carousel expert-fan" id="expertCarousel" role="region" aria-roledescription="карусель" aria-label="Почётные гости и спикеры">
  <div class="expert-fan__stage"><div class="gg" id="guestGrid" tabindex="0" aria-label="Портреты экспертов"></div></div>
  <div class="expert-fan__toolbar"><p id="expertCount" class="expert-fan__count" aria-live="off"></p>
   <div class="expert-fan__controls" role="group" aria-label="Управление каруселью экспертов">
@@ -1769,12 +1771,12 @@ safe('content',()=>{
     const extra=PGx.guestExtra==='hundred'
       ? '<a class="gc gc--more gc--num" href="#ecosystem" data-reveal><b>100</b><span>лидеров индустрии — в зале вместе с вами</span><i>Кто будет рядом'+arw+'</i></a>'
       : '<a class="gc gc--more" href="#contact" data-reveal><b>Станьте спикером «Континуума»</b><span>Расскажите о себе — подберём панель и формат выступления.</span><i>Подать заявку'+arw+'</i></a>';
-    gg.innerHTML=spk.map((s,i)=>
-      '<button class="gc" type="button" data-spk="'+i+'" aria-haspopup="dialog" data-reveal>'+
+    gg.innerHTML=spk.slice(4).map((s,i)=>
+      '<button class="gc" type="button" data-spk="'+(i+4)+'" aria-haspopup="dialog" data-reveal>'+
       '<span class="gc__ph">'+(s.photo?'<img src="'+esc(s.photo)+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async" width="800" height="1000">':'<span class="gc__ini">'+ini(s)+'</span>')+'</span>'+
       '<span class="gc__b"><b class="gc__n">'+nm2(s)+'</b>'+(s.legend||s.role?'<span class="gc__l">'+esc(s.legend||s.role)+'</span>':'')+
       '<span class="gc__btn">Подробнее'+arw+'</span></span></button>').join('')+extra;
-    const more=gg.querySelector('.gc--more'), n=spk.length, rest=3-(n%3);
+    const more=gg.querySelector('.gc--more'), n=Math.max(0,spk.length-4), rest=3-(n%3);
     more.style.setProperty('--span',rest); more.classList.toggle('gc--wide',rest>1); more.classList.toggle('gc--odd',n%2===1);
   }
   // артисты вечера (оба сайта): крупные карточки + плитка «Ещё артистов объявим»
@@ -2256,16 +2258,16 @@ safe('form',()=>{
 })();
 </script>
 <script>
-/* A linear portrait fan: the three headliners open the sequence. */
+/* The four headliners live in the poster; this fan shows the other experts. */
 (()=>{
  const root=document.getElementById('expertCarousel'),track=document.getElementById('guestGrid');if(!root||!track)return;
  const extra=track.querySelector('.gc--more');if(extra)document.getElementById('expertMore').appendChild(extra);
- const cards=[...track.querySelectorAll('button[data-spk]')],speakers=window.CONTENT?.speakers||[];if(!cards.length){root.hidden=true;return}
+ const cards=[...track.querySelectorAll('button[data-spk]')],speakers=(window.CONTENT?.speakers||[]).slice(4),speakerIndices=cards.map(card=>Number(card.dataset.spk));if(!cards.length){root.hidden=true;return}
  const prev=document.getElementById('expertPrev'),next=document.getElementById('expertNext'),toggle=document.getElementById('expertToggle'),count=document.getElementById('expertCount'),more=document.getElementById('fanMore'),title=document.getElementById('fanTitle'),legend=document.getElementById('fanLegend'),facts=document.getElementById('fanFacts'),eyebrow=document.getElementById('fanEyebrow');
  const reduce=matchMedia('(prefers-reduced-motion:reduce)'),fine=matchMedia('(hover:hover) and (pointer:fine)');
  let active=Math.min(1,cards.length-1),playing=!reduce.matches,visible=false,hovered=false,focused=false,timer=0,direction=1,drag=null,blockedUntil=0,wheelAt=0,wheelSum=0;
- cards.forEach((card,i)=>{card.dataset.fanIndex=String(i);card.removeAttribute('data-spk');card.removeAttribute('aria-haspopup');if(i<4)card.setAttribute('data-headliner','')});
- function summary(){const s=speakers[active]||{};title.textContent=s.name||'';legend.textContent=s.legend||s.role||'';eyebrow.textContent=active<4?'Хедлайнер · На сцене «Континуума»':'На сцене «Континуума»';facts.replaceChildren();(s.facts||[]).slice(0,2).forEach(t=>{const li=document.createElement('li');li.textContent=t;facts.appendChild(li)});facts.hidden=!facts.childElementCount;more.dataset.spk=String(active)}
+ cards.forEach((card,i)=>{card.dataset.fanIndex=String(i);card.removeAttribute('data-spk');card.removeAttribute('aria-haspopup')});
+ function summary(){const s=speakers[active]||{};title.textContent=s.name||'';legend.textContent=s.legend||s.role||'';eyebrow.textContent='На сцене «Континуума»';facts.replaceChildren();(s.facts||[]).slice(0,2).forEach(t=>{const li=document.createElement('li');li.textContent=t;facts.appendChild(li)});facts.hidden=!facts.childElementCount;more.dataset.spk=String(speakerIndices[active])}
  function render(){const width=track.clientWidth,cardWidth=cards[0].offsetWidth;const spacing=(width<600?Math.min(cardWidth*.82,width*.37):cardWidth*.96);
   cards.forEach((card,i)=>{const d=i-active,a=Math.abs(d),shown=a<=2,scale=d===0?1:(a===1?.88:.76);card.dataset.fanScale=String(scale);card.style.setProperty('--fan-x',d*spacing+'px');card.style.setProperty('--fan-y',(a===0?0:a===1?31:76)+'px');card.style.setProperty('--fan-angle',Math.sign(d)*(a===1?7:14)+'deg');card.style.setProperty('--fan-scale',String(scale));card.style.setProperty('--fan-opacity',shown?(a===0?'1':a===1?'.96':'.68'):'0');card.style.setProperty('--fan-light',a===0?'1':a===1?'.88':'.76');card.style.zIndex=String(100-a*10);card.style.visibility=shown?'visible':'hidden';card.style.pointerEvents=shown?'auto':'none';card.style.willChange=shown?'transform':'auto';card.classList.toggle('is-active',i===active);card.setAttribute('aria-hidden',String(!shown));card.tabIndex=shown?0:-1;card.setAttribute('aria-label',(i===active?'Открыть биографию: ':'Показать эксперта: ')+(speakers[i]?.name||''));});
   prev.disabled=active===0;next.disabled=active===cards.length-1;count.textContent=String(active+1).padStart(2,'0')+' / '+cards.length;toggle.classList.toggle('is-paused',!playing);toggle.setAttribute('aria-label',playing?'Приостановить автопрокрутку':'Включить автопрокрутку')
