@@ -143,6 +143,10 @@
 .expert-fan #guestGrid .gc__n{font-size:28px}
 @media(max-width:680px){.headliner-banner .headliner-banner__names{grid-template-columns:minmax(0,1fr);gap:18px}.headliner-banner .headliner-banner__person{aspect-ratio:4/5}.headliner-banner__status{top:8px;bottom:auto;left:0;font-size:12px;padding:7px 14px}.headliner-banner .headliner-banner__person>span{font-size:32px;left:18px;bottom:20px}.expert-fan{--fan-width:clamp(208px,57vw,238px)}.expert-fan #guestGrid .gc__n{font-size:26px}}
 </style>
+<style>
+.expert-fan #guestGrid>.gc,.expert-fan #guestGrid .gc__ph,.expert-fan #guestGrid .gc__ph img{touch-action:pan-y pinch-zoom}
+.expert-fan #guestGrid img{-webkit-user-drag:none;user-select:none;-webkit-user-select:none}
+</style>
 </head>
 <body>
 <style>
@@ -2318,7 +2322,7 @@ safe('form',()=>{
  root.addEventListener('pointerdown',e=>{if(e.button!==0||e.isPrimary===false||drag)return;const control=e.target.closest('a,button,input,textarea,select');if(control&&!control.matches('[data-fan-index]'))return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,dx:0,moved:false,started:performance.now()};clearTimeout(timer)});
  root.addEventListener('pointermove',e=>{if(!drag||e.pointerId!==drag.id)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(!drag.moved){if(Math.abs(dy)>12&&Math.abs(dy)>Math.abs(dx)*1.15){drag=null;schedule();return}if(Math.abs(dx)>9&&Math.abs(dx)>Math.abs(dy)*1.2){drag.moved=true;playing=false;track.classList.add('is-dragging');root.setPointerCapture(e.pointerId);render()}}if(drag&&drag.moved){if(e.cancelable)e.preventDefault();drag.dx=dx;track.style.setProperty('--fan-drag',Math.max(-130,Math.min(130,dx*.55))+'px')}},{passive:false});
  function release(e){if(!drag||drag.id!==e.pointerId)return;const d=drag;drag=null;track.classList.remove('is-dragging');track.style.removeProperty('--fan-drag');if(root.hasPointerCapture(e.pointerId))root.releasePointerCapture(e.pointerId);if(d.moved){blockedUntil=performance.now()+450;const distance=Math.abs(d.dx),speed=distance/Math.max(1,performance.now()-d.started);if(e.type==='pointerup'&&(distance>34||(distance>16&&speed>.35)))select(active+(d.dx<0?1:-1));else render()}schedule()}
- root.addEventListener('pointerup',release);root.addEventListener('pointercancel',release);root.addEventListener('lostpointercapture',release);track.addEventListener('dragstart',e=>e.preventDefault());
+ root.addEventListener('pointerup',release);root.addEventListener('pointercancel',release);/* Ignore the child's implicit touch capture loss when capture moves to the carousel. */root.addEventListener('lostpointercapture',e=>{if(e.target===root)release(e)});track.addEventListener('dragstart',e=>e.preventDefault());
  track.addEventListener('wheel',e=>{if(Math.abs(e.deltaX)<Math.abs(e.deltaY)*1.4||Math.abs(e.deltaX)<2)return;e.preventDefault();if(performance.now()-wheelAt<650)return;wheelSum+=e.deltaX;if(Math.abs(wheelSum)>35){select(active+(wheelSum>0?1:-1));wheelSum=0;wheelAt=performance.now()}},{passive:false});
  new IntersectionObserver(es=>{visible=es[0].isIntersecting;schedule()},{threshold:.3}).observe(track);new ResizeObserver(render).observe(track);
  const sheet=document.getElementById('spkSheet');if(sheet)new MutationObserver(schedule).observe(sheet,{attributes:true,attributeFilter:['hidden']});document.addEventListener('visibilitychange',schedule);reduce.addEventListener('change',()=>{if(reduce.matches)playing=false;render();schedule()});
