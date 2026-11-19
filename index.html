@@ -125,6 +125,12 @@
 .headliner-banner h3{font-size:clamp(30px,3vw,42px)}
 @media(max-width:680px){.headliner-banner__status{font-size:11px;top:auto;bottom:70px;left:7px;max-width:calc(100% - 14px);padding:6px 8px}.headliner-banner h3{font-size:31px}.expert-list-title{font-size:30px}}
 </style>
+<style>
+.expert-fan{touch-action:pan-y pinch-zoom}
+.expert-fan__stage{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.expert-fan__hint{margin:0 0 12px;color:var(--ink-3);font:400 14px/1.5 var(--f-body);text-align:center;display:none}
+@media(hover:none),(max-width:680px){.expert-fan__hint{display:block}}
+</style>
 </head>
 <body>
 <style>
@@ -1083,6 +1089,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
       <aside class="headliner-banner" id="headliners" aria-labelledby="headliners-title"><div class="headliner-banner__heading"><div><p class="headliner-banner__date">5 декабря · Москва</p><h3 id="headliners-title">Почётный гость и хедлайнеры</h3></div><span class="headliner-banner__brand" aria-hidden="true">К О Н Т И Н У У М</span></div><div class="headliner-banner__names" id="headlinerNames"></div><div class="headliner-banner__foot"><p>Нажмите на портрет, чтобы открыть полную биографию.</p><a class="btn btn--fill" href="#contact">Обсудить участие</a></div></aside>
       <h3 class="expert-list-title">Почётные гости и топ-спикеры</h3>
 <div class="expert-carousel expert-fan" id="expertCarousel" role="region" aria-roledescription="карусель" aria-label="Почётные гости и топ-спикеры">
+ <p class="expert-fan__hint">Листайте портреты влево и вправо</p>
  <div class="expert-fan__stage"><div class="gg" id="guestGrid" tabindex="0" aria-label="Портреты экспертов"></div></div>
  <div class="expert-fan__toolbar"><p id="expertCount" class="expert-fan__count" aria-live="off"></p>
   <div class="expert-fan__controls" role="group" aria-label="Управление каруселью экспертов">
@@ -2295,10 +2302,11 @@ safe('form',()=>{
  track.addEventListener('click',e=>{const card=e.target.closest('button[data-fan-index]');if(!card)return;e.preventDefault();e.stopPropagation();if(performance.now()<blockedUntil)return;const i=Number(card.dataset.fanIndex);if(i===active){playing=false;render();schedule();more.click()}else select(i)});
  track.addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey)return;if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();select(active+(e.key==='ArrowRight'?1:-1))}else if(e.key==='Home'||e.key==='End'){e.preventDefault();select(e.key==='Home'?0:cards.length-1)}});
  root.addEventListener('mouseenter',()=>{if(fine.matches){hovered=true;schedule()}});root.addEventListener('mouseleave',()=>{hovered=false;schedule()});root.addEventListener('focusin',e=>{focused=e.target!==toggle;schedule()});root.addEventListener('focusout',()=>requestAnimationFrame(()=>{focused=root.contains(document.activeElement)&&document.activeElement!==toggle;schedule()}));
- track.addEventListener('pointerdown',e=>{if(e.button!==0)return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,dx:0,moved:false};clearTimeout(timer)});
- track.addEventListener('pointermove',e=>{if(!drag||e.pointerId!==drag.id)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(!drag.moved&&Math.abs(dx)>9&&Math.abs(dx)>Math.abs(dy)*1.2){drag.moved=true;playing=false;track.classList.add('is-dragging');track.setPointerCapture(e.pointerId);render()}if(drag.moved){e.preventDefault();drag.dx=dx;track.style.setProperty('--fan-drag',Math.max(-110,Math.min(110,dx*.45))+'px')}});
- function release(e){if(!drag||drag.id!==e.pointerId)return;const d=drag;drag=null;track.classList.remove('is-dragging');track.style.removeProperty('--fan-drag');if(d.moved){blockedUntil=performance.now()+450;if(Math.abs(d.dx)>40)select(active+(d.dx<0?1:-1));else render()}schedule()}
- track.addEventListener('pointerup',release);track.addEventListener('pointercancel',release);track.addEventListener('lostpointercapture',release);track.addEventListener('dragstart',e=>e.preventDefault());
+ // Horizontal swipes work over portraits and descriptive text; vertical pans remain native.
+ root.addEventListener('pointerdown',e=>{if(e.button!==0||e.isPrimary===false||drag)return;const control=e.target.closest('a,button,input,textarea,select');if(control&&!control.matches('[data-fan-index]'))return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,dx:0,moved:false,started:performance.now()};clearTimeout(timer)});
+ root.addEventListener('pointermove',e=>{if(!drag||e.pointerId!==drag.id)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(!drag.moved){if(Math.abs(dy)>12&&Math.abs(dy)>Math.abs(dx)*1.15){drag=null;schedule();return}if(Math.abs(dx)>9&&Math.abs(dx)>Math.abs(dy)*1.2){drag.moved=true;playing=false;track.classList.add('is-dragging');root.setPointerCapture(e.pointerId);render()}}if(drag&&drag.moved){if(e.cancelable)e.preventDefault();drag.dx=dx;track.style.setProperty('--fan-drag',Math.max(-130,Math.min(130,dx*.55))+'px')}},{passive:false});
+ function release(e){if(!drag||drag.id!==e.pointerId)return;const d=drag;drag=null;track.classList.remove('is-dragging');track.style.removeProperty('--fan-drag');if(root.hasPointerCapture(e.pointerId))root.releasePointerCapture(e.pointerId);if(d.moved){blockedUntil=performance.now()+450;const distance=Math.abs(d.dx),speed=distance/Math.max(1,performance.now()-d.started);if(e.type==='pointerup'&&(distance>34||(distance>16&&speed>.35)))select(active+(d.dx<0?1:-1));else render()}schedule()}
+ root.addEventListener('pointerup',release);root.addEventListener('pointercancel',release);root.addEventListener('lostpointercapture',release);track.addEventListener('dragstart',e=>e.preventDefault());
  track.addEventListener('wheel',e=>{if(Math.abs(e.deltaX)<Math.abs(e.deltaY)*1.4||Math.abs(e.deltaX)<2)return;e.preventDefault();if(performance.now()-wheelAt<650)return;wheelSum+=e.deltaX;if(Math.abs(wheelSum)>35){select(active+(wheelSum>0?1:-1));wheelSum=0;wheelAt=performance.now()}},{passive:false});
  new IntersectionObserver(es=>{visible=es[0].isIntersecting;schedule()},{threshold:.3}).observe(track);new ResizeObserver(render).observe(track);
  const sheet=document.getElementById('spkSheet');if(sheet)new MutationObserver(schedule).observe(sheet,{attributes:true,attributeFilter:['hidden']});document.addEventListener('visibilitychange',schedule);reduce.addEventListener('change',()=>{if(reduce.matches)playing=false;render();schedule()});
