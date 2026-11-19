@@ -147,6 +147,23 @@
 .expert-fan #guestGrid>.gc,.expert-fan #guestGrid .gc__ph,.expert-fan #guestGrid .gc__ph img{touch-action:pan-y pinch-zoom}
 .expert-fan #guestGrid img{-webkit-user-drag:none;user-select:none;-webkit-user-select:none}
 </style>
+<style>
+.spkd__exact{margin:24px 0 30px}.spkd__exact .sheet__lead{margin:0 0 20px}
+.spkd__credential{margin:28px 0;display:grid;grid-template-columns:140px minmax(0,1fr);gap:20px;align-items:center;padding:18px;border:1px solid rgba(232,205,149,.35);border-radius:16px;background:rgba(232,205,149,.045)}
+.spkd__credential img{display:block;width:140px;aspect-ratio:960/690;object-fit:contain;border-radius:8px;background:#ead1a8}
+.spkd__credential h4{font:400 26px/1.15 var(--f-display);color:var(--accent);margin:0 0 8px}
+.spkd__credential p{font:400 14px/1.5 var(--f-body);color:var(--ink-2);margin:0 0 14px}
+.credential-open{min-height:44px;padding:0 16px;border:1px solid rgba(232,205,149,.45);border-radius:999px;color:var(--ink);background:transparent;font:500 14px/1.3 var(--f-body);cursor:pointer}
+.credential-open:hover,.credential-open:focus-visible{border-color:var(--accent);background:rgba(232,205,149,.1)}
+.credential-viewer{width:min(1100px,calc(100vw - 32px));max-width:1100px;max-height:calc(100svh - 32px);margin:auto;border:1px solid rgba(232,205,149,.55);border-radius:20px;padding:24px;background:#071d14;color:var(--ink);overflow:auto;box-shadow:0 24px 100px #0009}
+.credential-viewer::backdrop{background:rgba(0,9,6,.88)}
+.credential-viewer__head{display:flex;gap:20px;align-items:start;justify-content:space-between;margin-bottom:20px}
+.credential-viewer h3{font:400 clamp(26px,3vw,38px)/1.15 var(--f-display);margin:0 0 9px;color:var(--accent)}
+.credential-viewer p{margin:0;color:var(--ink-2);font:400 15px/1.5 var(--f-body)}
+.credential-viewer form{flex:none;margin:0}.credential-viewer__image{display:block;width:auto;max-width:100%;max-height:calc(100svh - 190px);height:auto;margin-inline:auto;background:#ead1a8;border-radius:10px}
+.credential-inline{--h:46px;font-size:14px}
+@media(max-width:600px){.spkd__credential{grid-template-columns:minmax(0,1fr);gap:16px}.spkd__credential img{width:100%;max-width:280px}.credential-viewer{padding:18px;width:calc(100vw - 20px);max-height:calc(100svh - 20px);border-radius:14px}.credential-viewer__head{display:block}.credential-viewer form{margin-top:16px}.credential-open{min-height:46px}}
+</style>
 </head>
 <body>
 <style>
@@ -1114,7 +1131,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
    <button class="expert-fan__control" id="expertNext" type="button" aria-label="Следующий эксперт" aria-controls="guestGrid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button>
   </div>
  </div>
- <div class="expert-fan__summary" id="fanSummary" aria-live="off"><div><p class="expert-fan__eyebrow" id="fanEyebrow">На сцене «Континуума»</p><h3 id="fanTitle"></h3><p id="fanLegend"></p></div><div class="expert-fan__about"><ul id="fanFacts"></ul><button class="btn" id="fanMore" type="button" aria-haspopup="dialog"><span>Биография и достижения</span></button></div></div>
+ <div class="expert-fan__summary" id="fanSummary" aria-live="off"><div><p class="expert-fan__eyebrow" id="fanEyebrow">На сцене «Континуума»</p><h3 id="fanTitle"></h3><p id="fanLegend"></p></div><div class="expert-fan__about"><ul id="fanFacts"></ul><button class="btn" id="fanMore" type="button" aria-haspopup="dialog"><span>Биография и достижения</span></button><button class="btn credential-inline" id="fanCredential" type="button" aria-haspopup="dialog" hidden>Удостоверение</button></div></div>
  <div class="expert-carousel__more" id="expertMore"></div>
 </div>
     </div>
@@ -1713,6 +1730,10 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
  c.speakers.forEach((s,i)=>{s.eventStatus=i<3?'Хедлайнер':i===3?'':'Почётный спикер'});
 })();
 </script>
+<script>
+/* Exact approved biography and the document supplied for Baykovsky. */
+(()=>{const c=window.CONTENT;if(!c)return;const imram=c.speakers.find(s=>s.name==='Имрам Крийя');if(imram)imram.exactBio=["Имрам – Мастер Крийя-йоги, музыкант и композитор, автор образовательных программ по саморазвитию.", "Более 30 лет Имрам изучает духовное наследие разных культур. Передаёт знания и техники Крийя. Сотрудничает с Мастерами Китая, Индии и других стран.", "20 лет Имрам обучает практикам осознанности и внутренней трансформации, объединяя традиционные знания и современный научный подход.", "▶️ Более 200 семинаров, лекций и ретритов в России, Европе и Азии.", "▶️ Более 100 000 участников образовательных программ по всему миру.", "▶️ Международный и крупнейший русскоязычный проект о Крийя-йоге «Имрам Крийя» с аудиторией более 4 млн подписчиков.", "Проект «Имрам Крийя» помогает людям раскрывать внутренний потенциал, находить баланс между духовным развитием, профессиональной реализацией и семейной жизнью."];const bay=c.speakers.find(s=>s.name==='Василий Байковский');if(bay)bay.credential={"image": "/kontinuum/media-baykovsky-credential.svg", "title": "Удостоверение Василия Байковского", "description": "Региональный представитель Научно-экспертного совета"}})();
+</script>
 <script src="assets/lenis.min.js"></script>
 <script src="assets/gsap.min.js"></script>
 <script src="assets/ScrollTrigger.min.js"></script>
@@ -1836,14 +1857,16 @@ safe('content',()=>{
     const kOpen=(i,k)=>{ const L=k==='art'?ART:spk, at=k==='art'?'data-art':'data-spk', s=L[i]; if(!s) return; const nx=L[(i+1)%L.length];
       if(kd.hidden) kOpener=document.activeElement;
       kb.innerHTML='<div class="spkd__top"><span class="spkd__ph">'+(s.photo?'<img style="'+(s.photoFit==='contain'?'object-fit:contain;background:#fff':'')+'" src="'+esc(s.photo)+'" alt="'+esc(s.name)+'">':'<span>'+ini(s)+'</span>')+'</span>'+
-        '<div><h3 id="spkTitle">'+nm(s)+'</h3>'+(s.legend?'<p class="spkd__legend">'+esc(s.legend)+'</p>':'')+'</div></div>'+
-        ((k==='art'?s.about:s.role)?'<p class="sheet__lead">'+esc(k==='art'?s.about:s.role)+'</p>':'')+
-        ((s.bioIntro||[]).map(p=>'<p class="sheet__lead">'+esc(p)+'</p>').join(''))+
-        ((s.facts||[]).length?'<p class="spkd__h">Достижения</p><ul class="spk__f">'+s.facts.map(f=>'<li>'+esc(f)+'</li>').join('')+'</ul>':'')+
-        ((s.bioOutro||[]).map(p=>'<p class="sheet__lead">'+esc(p)+'</p>').join(''))+
+        '<div><h3 id="spkTitle">'+nm(s)+'</h3>'+(s.legend&&!s.exactBio?'<p class="spkd__legend">'+esc(s.legend)+'</p>':'')+'</div></div>'+
+        (s.exactBio?'<div class="spkd__exact">'+s.exactBio.map(p=>'<p class="sheet__lead">'+esc(p)+'</p>').join('')+'</div>':
+          ((k==='art'?s.about:s.role)?'<p class="sheet__lead">'+esc(k==='art'?s.about:s.role)+'</p>':'')+
+          ((s.bioIntro||[]).map(p=>'<p class="sheet__lead">'+esc(p)+'</p>').join(''))+
+          ((s.facts||[]).length?'<p class="spkd__h">Достижения</p><ul class="spk__f">'+s.facts.map(f=>'<li>'+esc(f)+'</li>').join('')+'</ul>':'')+
+          ((s.bioOutro||[]).map(p=>'<p class="sheet__lead">'+esc(p)+'</p>').join('')))+
         (s.joint&&s.joint.length?'<div class="spkd__joint"><p class="spkd__h">Совместная деятельность</p>'+s.joint.map(p=>'<p class="sheet__lead">'+esc(p)+'</p>').join('')+'</div>':'')+
         ((s.links||[]).length?'<p class="spkd__h">Соцсети</p><p class="spkd__links">'+s.links.map(l=>'<a href="'+esc(l.url)+'" target="_blank" rel="noopener">'+esc(l.label)+'</a>').join('')+'</p>':'')+
         (s.quote&&!String(s.legend||'').includes(s.quote)?'<blockquote class="spk__q">'+esc(s.quote)+(s.quoteBy?'<cite>'+esc(s.quoteBy)+'</cite>':'')+'</blockquote>':'')+
+        (s.credential?'<section class="spkd__credential" aria-label="Удостоверение"><img src="'+esc(s.credential.image)+'" alt="Превью удостоверения Василия Байковского" loading="lazy" width="140" height="101"><div><h4>Удостоверение</h4><p>'+esc(s.credential.description)+'</p><button class="credential-open" type="button" data-credential-index="'+i+'" aria-haspopup="dialog">Посмотреть документ</button></div></section>':'')+
         '<a class="btn btn--fill sheet__cta" href="'+esc(TGT)+'"><span>'+esc(CTA)+'</span>'+arw+'</a>'+
         (L.length>1?'<button class="spkd__next" type="button" '+at+'="'+((i+1)%L.length)+'"><span>'+(k==='art'?'Следующий артист':'Следующий гость')+'</span><b>'+esc(nx.name)+'</b>'+arw+'</button>':'');
       kb.parentElement.scrollTop=0;
@@ -1859,7 +1882,7 @@ safe('content',()=>{
       if(e.target.closest('[data-kclose]')) kClose();
       else if(e.target.closest('#spkBody .sheet__cta')){ e.preventDefault(); kClose(TGT); }
     });
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!kd.hidden) kClose(); });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!kd.hidden&&!document.querySelector('#credentialViewer[open]')) kClose(); });
   }
   if($('#heroSpk')&&spk.length){
     $('#heroSpk').innerHTML='<span>Среди почётных гостей</span> '+spk.slice(0,3).map(s=>'<b>'+esc(s.name)+'</b>').join(', ')+' и&nbsp;другие'+
@@ -2307,12 +2330,12 @@ safe('form',()=>{
  const reduce=matchMedia('(prefers-reduced-motion:reduce)'),fine=matchMedia('(hover:hover) and (pointer:fine)');
  let active=0,playing=!reduce.matches,visible=false,hovered=false,focused=false,timer=0,direction=1,drag=null,blockedUntil=0,wheelAt=0,wheelSum=0;
  cards.forEach((card,i)=>{card.dataset.fanIndex=String(i);card.removeAttribute('data-spk');card.removeAttribute('aria-haspopup')});
- function summary(){const s=speakers[active]||{};title.textContent=s.name||'';legend.textContent=s.legend||s.role||'';eyebrow.textContent=s.eventStatus||'Почётные спикеры';facts.replaceChildren();(s.facts||[]).slice(0,2).forEach(t=>{const li=document.createElement('li');li.textContent=t;facts.appendChild(li)});facts.hidden=!facts.childElementCount;more.dataset.spk=String(speakerIndices[active])}
+ function summary(){const s=speakers[active]||{};title.textContent=s.name||'';legend.textContent=s.legend||s.role||'';eyebrow.textContent=s.eventStatus||'Почётные спикеры';facts.replaceChildren();(s.facts||[]).slice(0,2).forEach(t=>{const li=document.createElement('li');li.textContent=t;facts.appendChild(li)});facts.hidden=!facts.childElementCount;more.dataset.spk=String(speakerIndices[active]);const proof=document.getElementById('fanCredential');if(proof){proof.hidden=!s.credential;if(s.credential)proof.dataset.credentialIndex=String(speakerIndices[active])}}
  function render(){const width=track.clientWidth,cardWidth=cards[0].offsetWidth;const spacing=(width<600?Math.min(cardWidth*.82,width*.37):cardWidth*.96);
   cards.forEach((card,i)=>{const d=i-active,a=Math.abs(d),shown=a<=2,scale=d===0?1:(a===1?.88:.76);card.dataset.fanScale=String(scale);card.style.setProperty('--fan-x',d*spacing+'px');card.style.setProperty('--fan-y',(a===0?0:a===1?31:76)+'px');card.style.setProperty('--fan-angle',Math.sign(d)*(a===1?7:14)+'deg');card.style.setProperty('--fan-scale',String(scale));card.style.setProperty('--fan-opacity',shown?(a===0?'1':a===1?'.96':'.68'):'0');card.style.setProperty('--fan-light',a===0?'1':a===1?'.88':'.76');card.style.zIndex=String(100-a*10);card.style.visibility=shown?'visible':'hidden';card.style.pointerEvents=shown?'auto':'none';card.style.willChange=shown?'transform':'auto';card.classList.toggle('is-active',i===active);card.setAttribute('aria-hidden',String(!shown));card.tabIndex=shown?0:-1;card.setAttribute('aria-label',(i===active?'Открыть биографию: ':'Показать эксперта: ')+(speakers[i]?.name||''));});
   prev.disabled=active===0;next.disabled=active===cards.length-1;count.textContent=String(active+1).padStart(2,'0')+' / '+cards.length;toggle.classList.toggle('is-paused',!playing);toggle.setAttribute('aria-label',playing?'Приостановить автопрокрутку':'Включить автопрокрутку')
  }
- function schedule(){clearTimeout(timer);if(!playing||!visible||hovered||focused||document.hidden||drag)return;const sheet=document.getElementById('spkSheet');if(sheet&&!sheet.hidden)return;timer=setTimeout(()=>{if(active===cards.length-1)direction=-1;else if(active===0)direction=1;select(active+direction,false)},9000)}
+ function schedule(){clearTimeout(timer);if(!playing||!visible||hovered||focused||document.hidden||drag||document.getElementById('credentialViewer')?.open)return;const sheet=document.getElementById('spkSheet');if(sheet&&!sheet.hidden)return;timer=setTimeout(()=>{if(active===cards.length-1)direction=-1;else if(active===0)direction=1;select(active+direction,false)},9000)}
  function select(i,manual=true){const n=Math.max(0,Math.min(cards.length-1,i));if(manual)playing=false;const changed=n!==active;active=n;render();if(changed)summary();schedule()}
  prev.addEventListener('click',()=>select(active-1));next.addEventListener('click',()=>select(active+1));toggle.addEventListener('click',()=>{playing=!playing;render();schedule()});
  track.addEventListener('click',e=>{const card=e.target.closest('button[data-fan-index]');if(!card)return;e.preventDefault();e.stopPropagation();if(performance.now()<blockedUntil)return;const i=Number(card.dataset.fanIndex);if(i===active){playing=false;render();schedule();more.click()}else select(i)});
@@ -2329,5 +2352,13 @@ safe('form',()=>{
  render();summary();schedule();
 })();
 </script>
+<dialog class="credential-viewer" id="credentialViewer" aria-labelledby="credentialTitle"><div class="credential-viewer__head"><div><h3 id="credentialTitle">Удостоверение Василия Байковского</h3><p id="credentialDescription"></p></div><form method="dialog"><button class="credential-open" type="submit">Закрыть удостоверение</button></form></div><img class="credential-viewer__image" id="credentialImage" alt="Удостоверение Василия Байковского" width="960" height="690"></dialog>
+<script>
+(()=>{const viewer=document.getElementById('credentialViewer'),image=document.getElementById('credentialImage'),description=document.getElementById('credentialDescription');if(!viewer)return;
+document.addEventListener('click',e=>{const button=e.target.closest('[data-credential-index]');if(!button)return;const doc=window.CONTENT?.speakers?.[Number(button.dataset.credentialIndex)]?.credential;if(!doc)return;e.preventDefault();description.textContent=doc.description;image.src=doc.image;image.alt=doc.title;viewer.showModal()});
+viewer.addEventListener('click',e=>{if(e.target===viewer)viewer.close()});viewer.addEventListener('keydown',e=>{if(e.key==='Escape')e.stopPropagation()});
+})();
+</script>
+
 </body>
 </html>
