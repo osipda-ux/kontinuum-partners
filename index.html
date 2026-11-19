@@ -21,7 +21,7 @@
 <meta name="twitter:image" content="https://osipda-ux.github.io/kontinuum-partners/og.jpg">
 <link rel="preload" href="assets/CormorantGaramond-300-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts.css">
-<link rel="preload" href="content.js?v=655b0fa0a2" as="script">
+<link rel="preload" href="content.js?v=20261119" as="script">
 <link rel="preload" href="assets/gsap.min.js" as="script">
 <link rel="preload" href="assets/ScrollTrigger.min.js" as="script">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
@@ -29,8 +29,30 @@
 <style>
 /* Fast first view and native scrolling. */
 .cur{transition:transform 80ms linear}
-@media(max-width:980px),(hover:none){#gl{display:none}.spot{display:none}.marquee__t{animation:none}}
+@media(max-width:980px),(hover:none){.spot{display:none}}
 @media(prefers-reduced-motion:reduce){.marquee__t{animation:none}}
+</style>
+<style>
+/* Брендовые движения работают и на телефоне; ниже — только новые блоки. */
+.headliner-banner{margin:0 0 32px;padding:clamp(22px,3vw,40px);border:1px solid var(--accent);border-radius:var(--r);background:radial-gradient(ellipse at 100% 0%,rgba(201,169,110,.15),transparent 65%),rgba(255,255,255,.025)}
+.headliner-banner>p{font:500 13px/1.5 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 16px}
+.headliner-banner__names{display:flex;flex-wrap:wrap;gap:12px 30px}
+.headliner-banner button{font:400 clamp(24px,2.2vw,38px)/1.2 var(--f-display);background:none;color:var(--ink);border:0;padding:0;text-align:left;cursor:pointer}
+.headliner-banner button:hover,.headliner-banner button:focus-visible{color:var(--accent);text-decoration:underline;text-underline-offset:6px}
+.promo{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:14px 28px;padding:clamp(20px,2.5vw,32px);border:1px solid var(--line-2);border-radius:var(--r);margin:24px 0;background:rgba(255,255,255,.025)}
+.promo__copy label{font:500 24px/1.2 var(--f-body);color:var(--ink)}
+.promo__copy p{font-size:15px;line-height:1.5;margin:9px 0 0;color:var(--ink-2);max-width:45ch}
+.promo__controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;max-width:100%}
+.promo input{min-width:0;width:210px;max-width:100%;background:transparent;border:1px solid var(--line-2);border-radius:9px;padding:16px;color:var(--ink);font:500 16px/1.3 var(--f-body);text-transform:uppercase}
+.promo input:focus{outline:2px solid var(--accent);outline-offset:2px}
+.promo input[aria-invalid=true]{border-color:#edb9b9}
+.promo__clear{border:0;background:none;color:var(--ink-2);font:400 14px/1.4 var(--f-body);text-decoration:underline;cursor:pointer;padding:12px 0}
+.promo__message{grid-column:1/-1;font-size:15px;line-height:1.5;color:var(--accent);margin:0;min-height:0}
+.promo__message:empty{display:none}
+#promoTickets{justify-self:start}
+[hidden]{display:none!important}
+.tix__price del{display:block;color:var(--ink-3);font:400 17px/1.5 var(--f-body);margin-top:7px}
+@media(max-width:820px){.promo{grid-template-columns:minmax(0,1fr)}.promo__controls{display:grid;grid-template-columns:minmax(0,1fr) auto}.promo input{width:100%}.promo__controls .btn{padding-inline:18px}.promo__clear{grid-column:1/-1;justify-self:start}.headliner-banner__names{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -987,6 +1009,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
         <h2 data-reveal>Почётные гости <em>и спикеры</em></h2>
         <p class="lead" data-reveal>Здесь каждое имя — легенда. Люди, которые создали своё направление и ведут за собой индустрию, — <mark class="hl">на одной сцене с вашим выступлением и вашим брендом</mark>.</p>
       </div>
+      <aside class="headliner-banner" aria-label="Хедлайнеры на «Континууме»" data-reveal><p>5 декабря · Москва · На сцене «Континуума»</p><div class="headliner-banner__names" id="headlinerNames"></div></aside>
       <div class="gg" id="guestGrid"></div>
     </div>
   </section>
@@ -1029,7 +1052,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
       <div class="authors">
         <article class="author" data-reveal>
           <div class="portrait" data-tilt>
-            <div class="portrait__frame"><svg class="orbit" viewBox="0 0 400 300" fill="none" aria-hidden="true"><ellipse cx="200" cy="150" rx="190" ry="120" stroke="currentColor" stroke-opacity=".25"/><ellipse cx="200" cy="150" rx="150" ry="140" stroke="currentColor" stroke-opacity=".12" transform="rotate(-18 200 150)"/><circle class="orb" r="3" fill="currentColor"/></svg><img src="assets/gulnara.webp" alt="Гульнара Мишкина в белом костюме" width="470" height="574" loading="lazy" decoding="async"></div>
+            <div class="portrait__frame"><svg class="orbit" viewBox="0 0 400 300" fill="none" aria-hidden="true"><ellipse cx="200" cy="150" rx="190" ry="120" stroke="currentColor" stroke-opacity=".25"/><ellipse cx="200" cy="150" rx="150" ry="140" stroke="currentColor" stroke-opacity=".12" transform="rotate(-18 200 150)"/><circle class="orb" r="3" fill="currentColor"/></svg><img src="assets/gulnara.webp" alt="Гульнара Мишкина в белом костюме" width="470" height="574" loading="lazy" decoding="async" width="800" height="1000"></div>
           </div>
           <h3 class="author__name">Гульнара <span>Мишкина</span></h3>
           <ul class="regalia">
@@ -1043,7 +1066,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
         </article>
         <article class="author" data-reveal>
           <div class="portrait" data-tilt>
-            <div class="portrait__frame"><svg class="orbit" viewBox="0 0 400 300" fill="none" aria-hidden="true"><ellipse cx="200" cy="150" rx="190" ry="120" stroke="currentColor" stroke-opacity=".25"/><ellipse cx="200" cy="150" rx="150" ry="140" stroke="currentColor" stroke-opacity=".12" transform="rotate(18 200 150)"/><circle class="orb" r="3" fill="currentColor"/></svg><img src="assets/natalya-studio.webp" alt="Наталья Баринова" width="760" height="839" loading="lazy" decoding="async"></div>
+            <div class="portrait__frame"><svg class="orbit" viewBox="0 0 400 300" fill="none" aria-hidden="true"><ellipse cx="200" cy="150" rx="190" ry="120" stroke="currentColor" stroke-opacity=".25"/><ellipse cx="200" cy="150" rx="150" ry="140" stroke="currentColor" stroke-opacity=".12" transform="rotate(18 200 150)"/><circle class="orb" r="3" fill="currentColor"/></svg><img src="assets/natalya-studio.webp" alt="Наталья Баринова" width="760" height="839" loading="lazy" decoding="async" width="800" height="1000"></div>
           </div>
           <h3 class="author__name">Наталья <span>Баринова</span></h3>
           <ul class="regalia">
@@ -1054,7 +1077,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
           <p class="author__role">Чувствует тело глубже, чем сам человек, и возвращает в него. Бережно находит ключ там, где копится напряжение, и помогает снова почувствовать себя живым.</p>
         </article>
         <figure class="stage" data-reveal>
-          <img src="assets/gulnara-forum.webp" alt="Гульнара Мишкина на сцене международного форума" width="720" height="900" loading="lazy" decoding="async">
+          <img src="assets/gulnara-forum.webp" alt="Гульнара Мишкина на сцене международного форума" width="720" height="900" loading="lazy" decoding="async" width="800" height="1000">
           <figcaption>
             <span class="mono" style="color:var(--accent)">На сцене</span>
             <b>Гульнара Мишкина среди спикеров международного форума о здоровье и благополучии человека</b>
@@ -1159,7 +1182,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
         <figure class="ix__figure">
           <figcaption>Стойка «Мысль» с 3D-картой фитнес-клуба.</figcaption>
           <div class="ix__visual">
-            <img class="ix__photo" src="/kontinuum/media-interekran.svg" width="630" height="1120" alt="Сенсорная стойка «Мысль»: на экране открыта трёхмерная карта фитнес-клуба" loading="lazy" decoding="async">
+            <img class="ix__photo" src="/kontinuum/media-interekran.svg" width="630" height="1120" alt="Сенсорная стойка «Мысль»: на экране открыта трёхмерная карта фитнес-клуба" loading="lazy" decoding="async" width="800" height="1000">
             <video hidden tabindex="-1" playsinline preload="none" aria-label="Демонстрация Интерэкрана"></video>
           </div>
           <button class="btn btn--fill ix__play" type="button">Смотреть демонстрацию</button>
@@ -1389,7 +1412,13 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
           </div>
         </div>
       </div>
-      <div class="custom" data-reveal>
+      <form class="promo" id="promoForm" novalidate data-reveal>
+ <div class="promo__copy"><label for="promoCode">Есть промокод?</label><p>Введите код от партнёра, чтобы применить скидку на билет.</p></div>
+ <div class="promo__controls"><input id="promoCode" name="promo" placeholder="Ваш промокод" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="40" aria-describedby="promoMessage"><button class="btn btn--fill" type="submit"><span>Применить</span></button><button class="promo__clear" id="promoClear" type="button" hidden>Убрать скидку</button></div>
+ <p class="promo__message" id="promoMessage" role="status" aria-live="polite"></p>
+ <a class="btn btn--fill" id="promoTickets" href="https://osipda-ux.github.io/kontinuum/#tickets" hidden><span>Выбрать билет со скидкой</span></a>
+</form>
+<div class="custom" data-reveal>
         <h3>Не нашли своё <em>направление?</em></h3>
         <p>Индустрия долголетия шире трёх направлений. Если ваша экспертиза, продукт или технология на стыке направлений, мы соберём формат под вас: от отдельной тематической сессии до коллаборации с проектом «Жизнь 300+».</p>
         <a class="btn" href="#contact" data-magnet><span>Предложить формат</span></a>
@@ -1473,7 +1502,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
   <button class="vmodal__x" type="button" data-close aria-label="Закрыть видео"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
 </div>
 
-<script src="content.js?v=655b0fa0a2"></script>
+<script src="content.js?v=20261119"></script>
 <script>
 /* Новые карточки «Континуума» и их изображения. */
 (() => {
@@ -1554,6 +1583,21 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
   );
 })();
 </script>
+<script>
+/* Подтверждённые участники и промокоды — 19 ноября 2026. */
+(()=>{
+ const c=window.CONTENT;if(!c)return;
+ const newcomers=[{"name": "Имрам Крийя", "photo": "/kontinuum/media-imram.svg", "legend": "Мастер Крийя-йоги, музыкант и композитор. Основатель проекта «Имрам Крийя»", "role": "Более 30 лет передаёт знания и техники Крийя, полученные через собственные практики. Объединяет древнюю традицию и современный подход к развитию человека.", "facts": ["Основатель крупнейшего русскоязычного проекта «Имрам Крийя»", "Более 200 семинаров, лекций и ретритов в России, Европе и Азии", "Более 100 000 участников образовательных программ по всему миру", "Международный проект «Имрам Крийя» с аудиторией более 3 млн подписчиков"]}, {"name": "Александр Петрищев", "photo": "/kontinuum/media-petrischev.svg", "legend": "Предприниматель, инвестор, эксперт по системному развитию личности и трансформации мышления", "role": "Эксперт по работе с бессознательным. Дипломированный педагог и психолог.", "facts": ["Еженедельно проводит демо-занятия на 100 человек и тренинги", "Обучает с 2005 года: свыше 50 000 выпускников и более 300 корпоративных клиентов", "Дважды номинант премии «Предприниматель года» по версии EY", "Преподавал MBA в Плехановской школе бизнеса «Integral», проводил занятия в МГИМО, РУДН, МГТУ им. Баумана и Финансовой академии при Правительстве РФ", "Спикер профильных конференций, форумов и бизнес-клубов; участник десятков передач федеральных каналов, постоянный эксперт РЕН-ТВ", "Выступал вместе с Джоном Кехо, автором книги «Подсознание может всё»", "Собственник Центра Деловых Коммуникаций (igrox.ru) и event-агентства (igroks.ru)", "Среди корпоративных клиентов — крупные российские и международные компании", "Ex-CEO клуба предпринимателей, ex-резидент клуба 500", "Основатель SPEAKER CLUB — клуба спикеров и переговорщиков", "«Ораторский Спецназ»: публичные выступления, уверенность, красноречие, харизма", "«Масштаб Личности»: конфликтология, взаимоотношения, эмоциональный интеллект, лидерство, повышение доходов и стратегия достижения целей", "«Игры Разума»: трансформация мышления и восприятия, антивыгорание, состояние потока, работа с энергией", "Для компаний: «ДНК Продаж и переговоров», «ДНК эффективной команды и лидерства»"], "links": [{"label": "Сайт", "url": "https://apetrischev.ru/"}, {"label": "Telegram", "url": "https://t.me/igrox"}, {"label": "Отзывы", "url": "https://apetrischev.ru/video_otziv"}, {"label": "Портфолио", "url": "https://t.me/petrischev_portfolio"}, {"label": "Фрагмент тренинга 1", "url": "https://vk.com/video-179902_456239776"}, {"label": "Фрагмент тренинга 2", "url": "https://vk.com/video-179902_456239202"}, {"label": "Фрагмент тренинга 3", "url": "https://vk.com/video-179902_456239579"}]}, {"name": "Татьяна-Мария Светлова", "photo": "/kontinuum/media-svetlova.svg", "legend": "Основатель Академии Мужчины & Женщины. Визионер духовно-нравственного интимного образования", "role": "Новатор, эксперт в области репродуктивного, интимного и сексуального здоровья.", "facts": ["Автор духовного метода «Спиральная целость»", "Создательница науки оргазмология", "Более 25 лет исследований и практики", "Более 100 000 учеников по всему миру", "Ментор предпринимателей «единорогов»"]}];
+ const after=(name,s)=>{if(c.speakers.some(x=>x.name===s.name))return;const i=c.speakers.findIndex(x=>x.name===name);c.speakers.splice(i<0?c.speakers.length:i+1,0,s)};
+ after('Максим Темченко',newcomers[0]);
+ after('Тиана Лямова',newcomers[1]);
+ after('Андрей Захаревич',newcomers[2]);
+ const p=c.tickets.packs.find(x=>x.id==='absolut');
+ if(p){p.link="https://payform.ru/ofd4kQn/";p.items.push(['Консультация','40 минут со спикером мероприятия'])}
+ window.KONTINUUM_PROMOS=[{"name": "Импульс", "code": "KONTINUUM5", "rate": 5, "price": 6400, "total": 6080, "url": "https://payform.ru/dsd4kKJ/"}, {"name": "Импульс", "code": "KONTINUUM10", "rate": 10, "price": 6400, "total": 5760, "url": "https://payform.ru/kad4kOa/"}, {"name": "Импульс + Бизнес-бранч", "code": "KONTINUUM5", "rate": 5, "price": 7400, "total": 7030, "url": "https://payform.ru/kdd4kOd/"}, {"name": "Импульс + Бизнес-бранч", "code": "KONTINUUM10", "rate": 10, "price": 7400, "total": 6660, "url": "https://payform.ru/lad4kOH/"}, {"name": "Импульс + Обед", "code": "KONTINUUM5", "rate": 5, "price": 8500, "total": 8075, "url": "https://payform.ru/lcd4kOJ/"}, {"name": "Импульс + Обед", "code": "KONTINUUM10", "rate": 10, "price": 8500, "total": 7650, "url": "https://payform.ru/lfd4kOM/"}, {"name": "Резонанс", "code": "KONTINUUM5", "rate": 5, "price": 18000, "total": 17100, "url": "https://payform.ru/mvd4kPz/"}, {"name": "Резонанс", "code": "KONTINUUM10", "rate": 10, "price": 18000, "total": 16200, "url": "https://payform.ru/n3d4kPE/"}, {"name": "Абсолют", "code": "KONTINUUM5", "rate": 5, "price": 50000, "total": 47500, "url": "https://payform.ru/n4d4kPF/"}, {"name": "Абсолют", "code": "KONTINUUM10", "rate": 10, "price": 50000, "total": 45000, "url": "https://payform.ru/n6d4kPH/"}];
+})();
+</script>
+<script src="assets/lenis.min.js"></script>
 <script src="assets/gsap.min.js"></script>
 <script src="assets/ScrollTrigger.min.js"></script>
 <script>
@@ -1600,6 +1644,12 @@ safe('marks',()=>{ $$('svg.mark').forEach((s,i)=>marks.push(mountMark(s,{id:'mg'
 
 /* ── Буквы заголовка ── */
 safe('split',()=>{ $$('.split').forEach(el=>{ const t=el.textContent; el.innerHTML=[...t].map(ch=>'<span class="m"><span class="ch">'+esc(ch)+'</span></span>').join(''); }); });
+/* Прежнее появление первого экрана — сразу, без ожидания заставки. */
+safe('heroIn',()=>{
+ if(!hasG||RM)return;
+ gsap.from('.hero h1 .ch',{yPercent:110,duration:1.4,ease:'expo.out',stagger:.055,delay:.1});
+ gsap.from($$('.hero__top,.hero__sub,.hero__date,.hero__side,.facts'),{y:30,opacity:0,duration:1.2,ease:'expo.out',stagger:.1,delay:.25});
+});
 
 /* ── Полноэкранный плеер: тур по площадке (вертикальный) и трейлер шоу (горизонтальный) ── */
 const player=(()=>{
@@ -1636,6 +1686,7 @@ safe('content',()=>{
   // почётные гости и спикеры: карточка — фото, имя, главная строка, кнопка «Подробнее» (панель с достижениями).
   // Сетка #guestGrid — на обоих сайтах первым блоком после первого экрана. Последняя плитка — PAGE.guestExtra:
   // 'hundred' (участники: «100 лидеров индустрии в зале») или по умолчанию «Станьте спикером» (партнёры).
+  const banner=$('#headlinerNames');if(banner)banner.innerHTML=spk.slice(0,3).map((s,i)=>'<button type="button" data-spk="'+i+'" aria-haspopup="dialog">'+esc(s.name)+'</button>').join('');
   const gg=$('#guestGrid'), PGx=window.PAGE||{};
   if(gg&&spk.length){
     const nm2=s=>{ const p=String(s.name).split(' '); return esc(p[0])+(p.length>1?'<span>'+esc(p.slice(1).join(' '))+'</span>':''); };
@@ -1644,7 +1695,7 @@ safe('content',()=>{
       : '<a class="gc gc--more" href="#contact" data-reveal><b>Станьте спикером «Континуума»</b><span>Расскажите о себе — подберём панель и формат выступления.</span><i>Подать заявку'+arw+'</i></a>';
     gg.innerHTML=spk.map((s,i)=>
       '<button class="gc" type="button" data-spk="'+i+'" aria-haspopup="dialog" data-reveal>'+
-      '<span class="gc__ph">'+(s.photo?'<img src="'+esc(s.photo)+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async">':'<span class="gc__ini">'+ini(s)+'</span>')+'</span>'+
+      '<span class="gc__ph">'+(s.photo?'<img src="'+esc(s.photo)+'" alt="'+esc(s.name)+'" loading="lazy" decoding="async" width="800" height="1000">':'<span class="gc__ini">'+ini(s)+'</span>')+'</span>'+
       '<span class="gc__b"><b class="gc__n">'+nm2(s)+'</b>'+(s.legend||s.role?'<span class="gc__l">'+esc(s.legend||s.role)+'</span>':'')+
       '<span class="gc__btn">Подробнее'+arw+'</span></span></button>').join('')+extra;
     const more=gg.querySelector('.gc--more'), n=spk.length, rest=3-(n%3);
@@ -1894,6 +1945,12 @@ let lenis=null;
 safe('scroll',()=>{
   if(!hasG) return;
   gsap.registerPlugin(ScrollTrigger);
+  if(!RM&&!LITE&&typeof Lenis!=='undefined'){
+    lenis=new Lenis({lerp:.09,smoothWheel:true});
+    lenis.on('scroll',ScrollTrigger.update);
+    gsap.ticker.add(t=>lenis.raf(t*1000)); gsap.ticker.lagSmoothing(0);
+    $$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const id=a.getAttribute('href'); const t=id==='#top'?0:$(id); if(t!==null){e.preventDefault(); lenis.scrollTo(t,{offset:id==='#top'?0:-20,duration:1.6})}}));
+  }
   // палитра и заставка «закат»
   if(RM){ ScrollTrigger.create({trigger:'#sunset',start:'top 80%',end:'bottom 20%',scrub:true,onUpdate:s=>applyPalette(s.progress)}); return; }
   const sun=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:'#sunset',start:'top top',end:LITE?'+=90%':'+=130%',pin:true,scrub:.6,anticipatePin:1,
@@ -1916,9 +1973,9 @@ safe('scroll',()=>{
   // шкала панели
   gsap.to('#bar .fill',{scaleX:1,duration:1.2,ease:'expo.inOut',stagger:.25,scrollTrigger:{trigger:'#bar',start:'top 80%',once:true}});
   // параллакс портретов
-  if(!LITE) $$('.portrait img').forEach((im,i)=>gsap.fromTo(im,{yPercent:3},{yPercent:-3,ease:'none',scrollTrigger:{trigger:im.closest('.portrait'),start:'top bottom',end:'bottom top',scrub:true}}));
+  $$('.portrait img').forEach((im,i)=>gsap.fromTo(im,{yPercent:3},{yPercent:-3,ease:'none',scrollTrigger:{trigger:im.closest('.portrait'),start:'top bottom',end:'bottom top',scrub:true}}));
   // орбиты
-  if(!LITE) $$('.orbit .orb').forEach((c,i)=>{ const o={t:i*Math.PI}; gsap.to(o,{t:o.t+Math.PI*2,duration:14+i*4,repeat:-1,ease:'none',onUpdate:()=>{c.setAttribute('cx',200+190*Math.cos(o.t)); c.setAttribute('cy',150+120*Math.sin(o.t))}}); });
+  $$('.orbit .orb').forEach((c,i)=>{const o={t:i*Math.PI};const tw=gsap.to(o,{t:o.t+Math.PI*2,duration:14+i*4,repeat:-1,ease:'none',paused:true,onUpdate:()=>{c.setAttribute('cx',200+190*Math.cos(o.t));c.setAttribute('cy',150+120*Math.sin(o.t))}});new IntersectionObserver(es=>es.forEach(e=>tw.paused(!e.isIntersecting))).observe(c.closest('.orbit'));});
   // портреты раскрываются снизу вверх, фото слегка «приближается»
   $$('.portrait__frame').forEach(fr=>{ const im=fr.querySelector('img');
     gsap.fromTo(fr,{clipPath:'inset(22% 0% 0% 0% round 32px)'},{clipPath:'inset(0% 0% 0% 0% round 32px)',duration:1.6,ease:'expo.out',scrollTrigger:{trigger:fr,start:'top 85%',once:true}});
@@ -1953,11 +2010,11 @@ safe('glow',()=>{
 });
 /* ── Анимация знака в меню и подвале ── */
 safe('markLoop',()=>{
-  if(RM||LITE) return;
+  if(RM) return;
   const visible=new Set(), nodes=$$('svg.mark');
   const io=new IntersectionObserver(entries=>entries.forEach(e=>{const i=nodes.indexOf(e.target);e.isIntersecting?visible.add(i):visible.delete(i)}));
   nodes.forEach(n=>io.observe(n)); let last=0;
-  (function loop(now){requestAnimationFrame(loop);if(document.hidden||now-last<1000/12) return;last=now;visible.forEach(i=>marks[i](now/1000))})(performance.now());
+  (function loop(now){requestAnimationFrame(loop);if(document.hidden||now-last<1000/(LITE?24:30)) return;last=now;visible.forEach(i=>marks[i](now/1000))})(performance.now());
 });
 
 /* ── Частицы (Three.js) ── */
@@ -1966,9 +2023,9 @@ function initParticles(){ safe('gl',()=>{
   const canvas=$('#gl');
   let renderer; try{ renderer=new THREE.WebGLRenderer({canvas,antialias:false,alpha:true,powerPreference:'low-power'}); }catch(e){ canvas.remove(); return; }
   canvas.addEventListener('webglcontextlost',e=>{e.preventDefault(); canvas.style.display='none';});
-  const DPR=Math.min(devicePixelRatio||1,1.5); renderer.setPixelRatio(DPR);
+  const DPR=Math.min(devicePixelRatio||1,LITE?1:1.5); renderer.setPixelRatio(DPR);
   const scene=new THREE.Scene(), cam=new THREE.PerspectiveCamera(45,1,.1,100); cam.position.z=8.5;
-  const N=2400;
+  const N=LITE?2600:7000;
   const pos=new Float32Array(N*3), size=new Float32Array(N), rnd=new Float32Array(N);
   for(let i=0;i<N;i++){ size[i]=.35+Math.random()*1.3; rnd[i]=Math.random(); pos[i*3]=(Math.random()-.5)*14; pos[i*3+1]=(Math.random()-.5)*9; pos[i*3+2]=(Math.random()-.5)*6; }
   const S={};
@@ -2002,21 +2059,28 @@ function initParticles(){ safe('gl',()=>{
     fragmentShader:'uniform vec3 uC1,uC2;uniform float uAlpha;varying float vR;void main(){float d=length(gl_PointCoord-.5);float a=smoothstep(.5,.0,d);a*=a;gl_FragColor=vec4(mix(uC1,uC2,vR),a*uAlpha*(.35+.65*vR));}'});
   const pts=new THREE.Points(geo,mat), grp=new THREE.Group(); grp.add(pts); scene.add(grp);
   const ALPHA={ribbonSoft:LITE?.12:.2,ribbon:LITE?.26:.8,helix:LITE?.1:.22,clusters:LITE?.07:.12,spot:LITE?.3:.45};
-  let target=S.ribbon, cur='ribbon', aTarget=ALPHA.ribbon;
-  function setShape(n){ if(!S[n]||n===cur) return; cur=n; target=S[n]; aTarget=ALPHA[n]; }
+  let target=S.ribbon, cur='ribbon', aTarget=ALPHA.ribbon, morphing=true;
+  function setShape(n){ if(!S[n]||n===cur) return; cur=n; target=S[n]; aTarget=ALPHA[n]; morphing=true; }
   const isRib=()=>cur==='ribbon'||cur==='ribbonSoft';
   if(hasG){ $$('[data-shape]').filter(sec=>!sec.hidden).forEach(sec=>ScrollTrigger.create({trigger:sec,start:'top 55%',end:'bottom 55%',onEnter:()=>setShape(sec.dataset.shape),onEnterBack:()=>setShape(sec.dataset.shape)})); }
   function resize(){ const w=innerWidth,h=innerHeight; renderer.setSize(w,h,false); cam.aspect=w/h; cam.updateProjectionMatrix(); const s=Math.min(1,w/1200); grp.scale.setScalar(LITE?Math.max(.52,s*.95):Math.max(.7,s)); }
   resize(); addEventListener('resize',resize);
   let mx=0,my=0; addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5; my=e.clientY/innerHeight-.5},{passive:true});
   const c1=new THREE.Color(), c2=new THREE.Color(), d1=new THREE.Color(DAY.p1), d2=new THREE.Color(DAY.p2), n1=new THREE.Color(NIGHT.p1), n2=new THREE.Color(NIGHT.p2);
-  let vis=true; document.addEventListener('visibilitychange',()=>{vis=!document.hidden});
+  let vis=!document.hidden, animationFrame=0;
+  document.addEventListener('visibilitychange',()=>{vis=!document.hidden;if(!vis){cancelAnimationFrame(animationFrame);animationFrame=0}else if(!animationFrame){lastFrame=0;animationFrame=requestAnimationFrame(frame)}});
   const k=RM?1:.035;
   let lastFrame=0;
   function frame(now){
-    requestAnimationFrame(frame); if(!vis||now-lastFrame<1000/24) return; lastFrame=now;
+    animationFrame=0;if(!vis)return;animationFrame=requestAnimationFrame(frame);
+    if(now-lastFrame<1000/(LITE?30:60)-1)return;
+    const elapsed=lastFrame?Math.min(64,now-lastFrame):16.667;lastFrame=now;
+    const morph=1-Math.pow(1-k,elapsed/16.667);
     const t=now/1000; uni.uTime.value=RM?0:t;
-    const p=geo.attributes.position.array; for(let i=0;i<p.length;i++) p[i]+=(target[i]-p[i])*k; geo.attributes.position.needsUpdate=true;
+    if(morphing){const p=geo.attributes.position.array;let remaining=0;
+      for(let i=0;i<p.length;i++){const delta=target[i]-p[i];p[i]+=delta*morph;remaining=Math.max(remaining,Math.abs(delta))}
+      geo.attributes.position.needsUpdate=true;morphing=remaining>.001;
+    }
     uni.uAlpha.value+=(aTarget-uni.uAlpha.value)*.04;
     c1.copy(d1).lerp(n1,nightK); c2.copy(d2).lerp(n2,nightK); uni.uC1.value.copy(c1); uni.uC2.value.copy(c2);
     // спираль вращается вокруг своей оси справа от текста
@@ -2025,9 +2089,9 @@ function initParticles(){ safe('gl',()=>{
     else { grp.rotation.x=.3; }
     renderer.render(scene,cam);
   }
-  requestAnimationFrame(frame);
+  animationFrame=requestAnimationFrame(frame);
 }); }
-if(!LITE&&!RM&&!navigator.connection?.saveData){
+if(!RM){
   const loadParticles=()=>{
     const script=document.createElement('script');
     script.src='assets/three.min.js'; script.async=true; script.onload=initParticles;
@@ -2075,6 +2139,44 @@ safe('form',()=>{
  const targets=document.querySelectorAll('[data-bg],[data-lazy-poster]');
  if('IntersectionObserver' in window){const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){apply(e.target);io.unobserve(e.target)}}),{rootMargin:'400px'});targets.forEach(el=>io.observe(el))}
  else targets.forEach(apply);
+})();
+</script>
+<script>
+(()=>{
+ const form=document.getElementById('promoForm');if(!form)return;
+ const input=document.getElementById('promoCode'),msg=document.getElementById('promoMessage'),clear=document.getElementById('promoClear'),go=document.getElementById('promoTickets');
+ const promos=window.KONTINUUM_PROMOS||[],variants=(window.CONTENT?.tickets?.packs||[]).flatMap(p=>p.options||[p]);
+ const original=new Map(variants.map(v=>[v.name,{price:v.price,link:v.link}]));
+ const money=n=>new Intl.NumberFormat('ru-RU').format(n)+' ₽';let active='';
+ function apply(code,showError){
+  const normalized=String(code||'').trim().toUpperCase(),matches=promos.filter(p=>p.code===normalized);
+  if(normalized&&!matches.length){if(showError){msg.textContent='Такой промокод не найден. Проверьте написание.';input.setAttribute('aria-invalid','true')}return false}
+  active=normalized;input.value=active;input.removeAttribute('aria-invalid');clear.hidden=!active;
+  document.querySelectorAll('#tix a[href]').forEach(a=>{
+   const name=a.dataset.format,v=original.get(name);if(!v)return;
+   const d=matches.find(x=>x.name===name),price=d?money(d.total):v.price;
+   a.href=d?d.url:v.link;a.dataset.sum=String(d?d.total:Number(v.price.replace(/\D/g,'')));
+   if(d){a.dataset.promo=active}else{delete a.dataset.promo}
+   const option=a.querySelector('.tix__op');if(option){const icon=option.querySelector('svg');option.textContent=price;if(icon)option.appendChild(icon);a.setAttribute('aria-label','Купить «'+name+'» за '+price+(d?' по промокоду '+active:''))}
+  });
+  document.querySelectorAll('#tix .tix__c').forEach((card,i)=>{
+   const p=window.CONTENT.tickets.packs[i],v=(p.options||[p])[0],d=matches.find(x=>x.name===v.name),head=card.querySelector('.tix__price');
+   head.replaceChildren();if(p.options){const sm=document.createElement('small');sm.textContent='от ';head.appendChild(sm)}
+   head.append(document.createTextNode(d?money(d.total):(p.from||p.price)));
+   if(d){const old=document.createElement('del');old.textContent=p.from||p.price;head.appendChild(old)}
+  });
+  document.querySelectorAll('.tpick__o').forEach((a,i)=>{const p=window.CONTENT.tickets.packs[i],v=(p.options||[p])[0],d=matches.find(x=>x.name===v.name);a.querySelector('.tpick__p').textContent=(p.options?'от ':'')+(d?money(d.total):(p.from||p.price))});
+  const first=matches.find(x=>x.name==='Импульс');const hero=document.getElementById('heroTicketFrom');if(hero)hero.textContent='Билеты от '+(first?money(first.total):variants[0].price);document.querySelectorAll('.tband__from').forEach(el=>el.textContent='от '+(first?money(first.total):variants[0].price));
+  msg.textContent=active?'Промокод '+active+' применён. Скидка '+matches[0].rate+'% на все варианты билетов.':'Скидка убрана. Показаны обычные цены.';
+  if(go){go.hidden=!active;const url=new URL('https://osipda-ux.github.io/kontinuum/');if(active)url.searchParams.set('promo',active);if(window.KREF)url.searchParams.set('ref',window.KREF);url.hash='tickets';go.href=url.toString()}
+  const url=new URL(location.href);if(active)url.searchParams.set('promo',active);else url.searchParams.delete('promo');history.replaceState(null,'',url);
+  try{if(active)sessionStorage.setItem('kontinuum_promo',active);else sessionStorage.removeItem('kontinuum_promo')}catch(_){}
+  if(window.ScrollTrigger)ScrollTrigger.refresh();return true;
+ }
+ form.addEventListener('submit',e=>{e.preventDefault();if(!input.value.trim()){msg.textContent='Введите промокод.';input.setAttribute('aria-invalid','true');return}apply(input.value,true)});
+ clear.addEventListener('click',()=>{apply('',false);input.focus()});
+ input.addEventListener('input',()=>{input.removeAttribute('aria-invalid');if(active&&input.value.trim().toUpperCase()!==active){const pending=input.value;apply('',false);input.value=pending;msg.textContent='Введите новый промокод и нажмите «Применить».'}});
+ let initial=new URLSearchParams(location.search).get('promo')||'';try{initial=initial||sessionStorage.getItem('kontinuum_promo')||''}catch(_){}if(initial)apply(initial,true);
 })();
 </script>
 </body>
