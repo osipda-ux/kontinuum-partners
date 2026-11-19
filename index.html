@@ -2242,10 +2242,11 @@ safe('form',()=>{
  const step=()=>cards[0].getBoundingClientRect().width+(parseFloat(getComputedStyle(track).gap)||0);
  const shown=()=>Math.max(1,Math.floor((track.clientWidth+(parseFloat(getComputedStyle(track).gap)||0)+2)/step()));
  const current=()=>Math.min(cards.length-1,Math.max(0,Math.round(track.scrollLeft/step())));
- function update(){frame=0;const first=current(),last=Math.min(cards.length,first+shown());count.textContent=(first+1===last?String(last):(first+1)+'–'+last)+' / '+cards.length;prev.disabled=track.scrollLeft<4;next.disabled=track.scrollLeft>=max()-4;progress.style.width=(max()?track.scrollLeft/max()*100:100)+'%';toggle.classList.toggle('is-paused',!playing);toggle.setAttribute('aria-label',playing?'Приостановить автопрокрутку':'Включить автопрокрутку')}
+ const atEnd=()=>current()+shown()>=cards.length||track.scrollLeft>=max()-4;
+ function update(){frame=0;const first=current(),last=Math.min(cards.length,first+shown());count.textContent=(first+1===last?String(last):(first+1)+'–'+last)+' / '+cards.length;prev.disabled=track.scrollLeft<4;next.disabled=atEnd();progress.style.width=(atEnd()?100:(max()?track.scrollLeft/max()*100:100))+'%';toggle.classList.toggle('is-paused',!playing);toggle.setAttribute('aria-label',playing?'Приостановить автопрокрутку':'Включить автопрокрутку')}
  function schedule(){clearTimeout(timer);if(!playing||!visible||hovered||focused||document.hidden||drag)return;
   const sheet=document.getElementById('spkSheet');if(sheet&&!sheet.hidden)return;
-  timer=setTimeout(()=>{if(track.scrollLeft>=max()-4)direction=-1;else if(track.scrollLeft<4)direction=1;move(direction,false);schedule()},6500)
+  timer=setTimeout(()=>{if(atEnd())direction=-1;else if(track.scrollLeft<4)direction=1;move(direction,false);schedule()},6500)
  }
  function move(dir,manual=true){if(manual){playing=false;clearTimeout(timer)}const n=manual?shown():1;const target=Math.min(max(),Math.max(0,track.scrollLeft+dir*step()*n));track.scrollTo({left:target,behavior:reduce.matches?'instant':'smooth'});update()}
  prev.addEventListener('click',()=>move(-1));next.addEventListener('click',()=>move(1));
