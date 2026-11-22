@@ -186,7 +186,6 @@ window.CONTENT = {
         options: [
           { name: "Импульс", note: "Общий кофе-брейк", price: "6 400 ₽", link: "https://payform.ru/pfcZsyY/" },
           { name: "Импульс + Бизнес-бранч", note: "Кофе-брейк и бизнес-бранч", price: "7 400 ₽", link: "https://payform.ru/qmcZszC/" },
-          { name: "Импульс + Обед", note: "Кофе-брейк и обед «шведский стол»", price: "8 500 ₽", link: "https://payform.ru/rncZsAa/" },
         ] },
       { id: "rezonans", name: "Резонанс", price: "18 000 ₽", link: "https://payform.ru/slcZsAF/",
         lead: "Для тех, кто хочет не просто слушать, а настроиться на одну волну с экспертами и оказаться в центре нетворкинга.",
