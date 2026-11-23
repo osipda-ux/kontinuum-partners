@@ -1997,7 +1997,7 @@ safe('content',()=>{
     if(film){ const f=$('#venueFilm'), btn=f.querySelector('.film__btn');
       f.dataset.bg=film.cover; $('#filmLen').textContent=film.duration||'';
       btn.addEventListener('click',()=>{const iframe=document.createElement('iframe');
-        iframe.src=film.embed+(film.embed.includes('?')?'&':'?')+'autoplay=1';iframe.title='Официальный видеообзор ИскраХолла';
+        iframe.src=film.embed+(film.embed.includes('?')?'&':'?')+'autoplay=true&autostartmute=true';iframe.title='Официальный видеообзор ИскраХолла';
         iframe.allow='autoplay; fullscreen; picture-in-picture';iframe.allowFullscreen=true;
         f.replaceChildren(iframe);f.classList.add('film--playing');});
       f.hidden=false; }
