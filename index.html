@@ -181,6 +181,7 @@
 @media(max-width:600px){.info-partner{grid-template-columns:minmax(0,1fr);gap:24px}.info-partner__logo{width:126px;padding:14px}.info-partner img{aspect-ratio:269/278;object-fit:contain}.day-schedule{padding:22px 18px}.day-schedule li{grid-template-columns:94px minmax(0,1fr);gap:10px}.day-schedule__head>p{font-size:16px}}
 </style>
 <style id="iskrahall-venue">#venueFilm{aspect-ratio:16/9;min-height:0}#venueFilm iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:inherit;background:#071510}.space img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}.space:nth-child(2) img{object-fit:contain;background:#f5f3ec}#venueLead a{text-decoration:underline;text-underline-offset:4px}</style>
+<style id="venue-address-visible">.venue__address{grid-column:1/-1;min-width:0}.venue__address .addr{aspect-ratio:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(210px,280px);align-items:center;gap:24px}.venue__address .addr p{font-size:20px;line-height:1.5}.foot__address{font-size:16px;line-height:1.5;color:var(--gold);text-decoration:underline;text-underline-offset:4px}.foot__in{flex-wrap:wrap}.foot__address:focus-visible{outline:2px solid currentColor;outline-offset:6px}@media(max-width:640px){.venue__address .addr{grid-template-columns:minmax(0,1fr);gap:20px}.venue__address .addr p{font-size:18px}.venue__address .addr__btns{width:100%}.foot__address{width:100%;font-size:15px}}</style>
 </head>
 <body>
 <style>
@@ -1498,6 +1499,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
           </button>
         </figure>
         <div class="spaces" id="venueSpaces"></div>
+        <div class="venue__address" id="venueAddress"></div>
       </div>
     </div>
   </section>
@@ -1600,6 +1602,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
   <div class="wrap foot__in">
     <a class="brand" href="#top" aria-label="Континуум — наверх"><svg class="mark" viewBox="-1.25 -.62 2.5 1.24" aria-hidden="true"></svg><b>Континуум</b></a>
     <p id="footWhen">5 декабря 2026 · Москва · Проект «Жизнь 300+»</p>
+    <a class="foot__address" href="https://yandex.ru/maps/?text=Москва%2C%20Петровско-Разумовский%20проезд%2C%2028" target="_blank" rel="noopener">ИскраХолл · Петровско-Разумовский проезд, 28</a>
   </div>
 </footer>
 
@@ -1964,7 +1967,8 @@ safe('content',()=>{
   }
   if(spaces.length||film){
     // карточки пространств: беззвучные петли, играют только пока видны
-    $('#venueSpaces').innerHTML=spaces.map(s=>'<figure class="space" data-bg="'+esc(s.poster)+'"><img src="'+esc(s.poster)+'" alt="'+esc(s.title)+'" loading="lazy" decoding="async" width="960" height="640"><figcaption><span>'+esc(s.label)+'</span><b>'+esc(s.title)+'</b>'+(s.text?'<p>'+esc(s.text)+'</p>':'')+'</figcaption></figure>').join('')+
+    $('#venueSpaces').innerHTML=spaces.map(s=>'<figure class="space" data-bg="'+esc(s.poster)+'"><img src="'+esc(s.poster)+'" alt="'+esc(s.title)+'" loading="lazy" decoding="async" width="960" height="640"><figcaption><span>'+esc(s.label)+'</span><b>'+esc(s.title)+'</b>'+(s.text?'<p>'+esc(s.text)+'</p>':'')+'</figcaption></figure>').join('');
+    $('#venueAddress').innerHTML=
       (ev.venueAddress?'<div class="addr"><div><span class="mono" style="color:var(--gold)">Адрес</span><b style="margin-top:14px">'+esc(ev.city||'Москва')+'</b><p>'+esc(ev.venueAddress)+'</p></div><div class="addr__btns">'+
         (ev.mapUrl?'<a class="btn btn--fill" href="'+esc(ev.mapUrl)+'" target="_blank" rel="noopener"><span>Открыть на карте</span></a>':'')+
         '<button class="btn" type="button" id="copyAddr"><span>Скопировать адрес</span></button></div></div>':'');
@@ -1993,7 +1997,7 @@ safe('content',()=>{
     if(film){ const f=$('#venueFilm'), btn=f.querySelector('.film__btn');
       f.dataset.bg=film.cover; $('#filmLen').textContent=film.duration||'';
       btn.addEventListener('click',()=>{const iframe=document.createElement('iframe');
-        iframe.src=film.embed;iframe.title='Официальный видеообзор ИскраХолла';
+        iframe.src=film.embed+(film.embed.includes('?')?'&':'?')+'autoplay=1';iframe.title='Официальный видеообзор ИскраХолла';
         iframe.allow='autoplay; fullscreen; picture-in-picture';iframe.allowFullscreen=true;
         f.replaceChildren(iframe);f.classList.add('film--playing');});
       f.hidden=false; }
