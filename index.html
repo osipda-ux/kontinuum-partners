@@ -21,7 +21,7 @@
 <meta name="twitter:image" content="https://osipda-ux.github.io/kontinuum-partners/og.jpg">
 <link rel="preload" href="assets/CormorantGaramond-300-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts.css">
-<link rel="preload" href="content.js?v=20261123-two-packs" as="script">
+<link rel="preload" href="content.js?v=20261123-native-venue" as="script">
 <link rel="preload" href="assets/gsap.min.js" as="script">
 <link rel="preload" href="assets/ScrollTrigger.min.js" as="script">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
@@ -180,7 +180,7 @@
 @media(max-width:760px){.day-schedule__head{align-items:start;flex-direction:column;gap:18px}.day-schedule__groups{grid-template-columns:minmax(0,1fr);gap:26px}.day-schedule li{grid-template-columns:96px minmax(0,1fr);gap:12px}}
 @media(max-width:600px){.info-partner{grid-template-columns:minmax(0,1fr);gap:24px}.info-partner__logo{width:126px;padding:14px}.info-partner img{aspect-ratio:269/278;object-fit:contain}.day-schedule{padding:22px 18px}.day-schedule li{grid-template-columns:94px minmax(0,1fr);gap:10px}.day-schedule__head>p{font-size:16px}}
 </style>
-<style id="iskrahall-venue">#venueFilm{aspect-ratio:16/9;min-height:0}#venueFilm iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:inherit;background:#071510}.space img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}.space:nth-child(2) img{object-fit:contain;background:#f5f3ec}#venueLead a{text-decoration:underline;text-underline-offset:4px}</style>
+<style id="iskrahall-venue">#venueFilm{aspect-ratio:16/9;min-height:0}.venue-clip .film__btn{position:absolute;inset:0;width:100%;height:100%;border:0;text-align:left;cursor:pointer;background:linear-gradient(180deg,transparent 20%,rgba(0,0,0,.8));color:#fff}.venue-clip .film__btn svg{width:64px;height:64px;flex-shrink:0}.venue-clip img{object-fit:cover!important}.space:nth-child(3) img{object-fit:contain;background:#f5f3ec}.space img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}#venueLead a{text-decoration:underline;text-underline-offset:4px}</style>
 <style id="venue-address-visible">.venue__address{grid-column:1/-1;min-width:0}.venue__address .addr{aspect-ratio:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(210px,280px);align-items:center;gap:24px}.venue__address .addr p{font-size:20px;line-height:1.5}.foot__address{font-size:16px;line-height:1.5;color:var(--gold);text-decoration:underline;text-underline-offset:4px}.foot__in{flex-wrap:wrap}.foot__address:focus-visible{outline:2px solid currentColor;outline-offset:6px}@media(max-width:640px){.venue__address .addr{grid-template-columns:minmax(0,1fr);gap:20px}.venue__address .addr p{font-size:18px}.venue__address .addr__btns{width:100%}.foot__address{width:100%;font-size:15px}}</style>
 </head>
 <body>
@@ -1634,7 +1634,7 @@ mark.hl{text-shadow:0 0 14px var(--bg),0 0 3px var(--bg)}
   <button class="vmodal__x" type="button" data-close aria-label="Закрыть видео"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
 </div>
 
-<script src="content.js?v=20261123-two-packs"></script>
+<script src="content.js?v=20261123-native-venue"></script>
 <script>
 /* Новые карточки «Континуума» и их изображения. */
 (() => {
@@ -1991,14 +1991,18 @@ safe('content',()=>{
     // трейлер шоу — в горизонтальном плеере
     const tb=$('#trailerBtn'); if(tb) tb.addEventListener('click',()=>player.open('assets/show-trailer.mp4','assets/show-trailer.jpg',true,tb));
     document.querySelectorAll('[data-film]').forEach(b=>b.addEventListener('click',()=>player.open(b.dataset.film,b.dataset.poster,b.dataset.wide==='1',b)));
-    // Официальный обзор ИскраХолла: iframe создаётся только после нажатия.
+    // Native players: no external embed, media loads only after a deliberate tap.
     if(film){ const f=$('#venueFilm'), btn=f.querySelector('.film__btn');
       f.dataset.bg=film.cover; $('#filmLen').textContent=film.duration||'';
-      btn.addEventListener('click',()=>{const iframe=document.createElement('iframe');
-        iframe.src=film.embed+(film.embed.includes('?')?'&':'?')+'autoplay=true&autostartmute=true';iframe.title='Официальный видеообзор ИскраХолла';
-        iframe.allow='autoplay; fullscreen; picture-in-picture';iframe.allowFullscreen=true;
-        f.replaceChildren(iframe);f.classList.add('film--playing');});
-      f.hidden=false; }
+      btn.addEventListener('click',()=>player.open(film.src,film.poster,true,btn));
+      f.hidden=false;
+    }
+    if(C.venueClip){const clip=C.venueClip, f=document.createElement('figure');
+      f.className='space venue-clip';
+      f.innerHTML='<img src="'+esc(clip.poster)+'" alt="Зал ИскраХолла со сценой" loading="lazy" decoding="async" width="360" height="480"><button type="button" class="film__btn" aria-label="Смотреть видео зала ИскраХолла"><svg viewBox="0 0 80 80" fill="none" aria-hidden="true"><circle cx="40" cy="40" r="38" stroke="currentColor"/><path d="M32 24L57 40L32 56Z" fill="currentColor"/></svg><span><b>Зал со сценой</b><small>'+esc(clip.duration)+'</small></span></button>';
+      const btn=f.querySelector('button');btn.addEventListener('click',()=>player.open(clip.src,clip.poster,false,btn));
+      $('#venueSpaces').prepend(f);
+    }
     $('#venue').hidden=false;
   }
 });
